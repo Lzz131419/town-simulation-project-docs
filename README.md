@@ -47,6 +47,8 @@
 ## 项目规划文档
 
 - [context.md](context.md)：项目背景、目标、角色、领域对象与约束。
+- [spec/mvp1-scope.md](spec/mvp1-scope.md)：MVP1 端到端范围与模块责任。
+- [spec/README.md](spec/README.md)：MVP1 模块规格索引。
 - [spec/SRS.md](spec/SRS.md)：第一阶段软件需求规格。
 - [plans/phase-1.md](plans/phase-1.md)：第一阶段计划、演示与验收要点。
 - [plans/week-07.md](plans/week-07.md)：第 7 周 MVP1 范围、模块规格、冷启动与六人分工计划。
