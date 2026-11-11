@@ -55,6 +55,7 @@
 - [adr/0001-prototype-technology.md](adr/0001-prototype-technology.md)：原型技术选择记录。
 - [agent-rules.md](agent-rules.md)：协作与 AI 使用约定。
 - [docs/team-guide.md](docs/team-guide.md)：团队协作和文档流程。
+- [docs/week-07/雾河镇第七周课堂展示讲稿与文件展示指引.docx](docs/week-07/雾河镇第七周课堂展示讲稿与文件展示指引.docx)：5 分钟课堂讲稿、展示顺序和备用问答。
 
 ## 技术实现
 
