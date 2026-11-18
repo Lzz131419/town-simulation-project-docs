@@ -52,3 +52,7 @@ src/ / tests/                    正式开发占位说明
 
 ## 提交与线上流程
 本轮文档已完成本地重建、冷启动与检查，现按用户授权提交GitHub。[发布清单](docs/github-delivery.md)说明真实Issue/Projects/PR的建立与回读方法。占位分支编号和本地状态不代表线上已创建；不把人工评审或课程流程写成已通过。
+
+## 首次阅读路径
+
+先读[项目上下文](context.md)，再看[MVP1范围](spec/mvp1-scope.md)、[系统架构](docs/architecture.md)与[任务计划](plans/mvp1-plan.md)，最后用[交付检查表](docs/delivery-checklist.md)核对课程要求。
