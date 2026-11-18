@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>雾河镇 · 数字居民观察站</title><link rel="stylesheet" href="./ui/style.css"><script type="module" src="./ui/main.mjs"></script>
+</head>
+<body>
+<header><a class="brand" href="./index.html"><span class="brand-icon">雾</span><span>雾河镇<small>MIST RIVER · 观察站</small></span></a><div class="header-note">一个小镇，三十天，一次共同选择。</div><span id="runtime" class="pill">尚未创建</span></header>
+<main>
+<section class="intro"><div><span class="eyebrow">数字居民 / MVP 01</span><h1>看见生活如何发生。</h1><p>生产、消费与交往留下可追溯的记录。选择由规则产生，每一步都可以复现。</p></div><div class="day"><span id="day">—</span><span>模拟日 / 30日演示</span></div></section>
+<section class="toolbar panel" aria-label="运行控制"><div><button id="create" class="primary">创建小镇</button><button id="step" disabled>推进一天</button><button id="run" disabled>自动运行</button><button id="pause" disabled>暂停</button></div><div><button id="export" disabled>导出快照</button><label class="file-button" for="snapshot-file">恢复快照<input id="snapshot-file" type="file" accept=".json,application/json"></label></div></section>
+<div id="feedback" role="status" aria-live="polite">点击“创建小镇”，从固定场景开始。</div>
+<section class="metrics" aria-label="小镇总览"><article><span>常住居民</span><strong id="population">—</strong><small>30名生成居民 + 最多1名数字人物</small></article><article><span>粮食库存</span><strong id="food">—</strong><small>农田生产 · 集市购买</small></article><article><span>清水库存</span><strong id="water">—</strong><small>水井生产 · 免费取用</small></article><article><span>公共资金</span><strong id="treasury">—</strong><small>镇币 · 工资与消费流转</small></article><article><span>社区信任</span><strong id="trust">—</strong><small>0—100 · 维修成功后提升</small></article></section>
+<div class="layout"><div class="main-column">
+<section class="panel"><div class="section-title"><div><span class="eyebrow">01 / TOWN</span><h2>一日生活的五个去处</h2></div><span class="muted">固定场景 · 规则模拟</span></div><div class="town-grid"><article class="facility farm"><span>01 / 生产</span><h3>农田</h3><p>10名农夫，精力足够时每人产粮4份。</p><div class="field-art" aria-hidden="true">≋ ≋ ≋<br>≋ ≋ ≋</div></article><article class="facility well"><span>02 / 生产</span><h3>老水井</h3><p>10名取水工。维修议案通过后，可增加30份清水。</p><div class="well-art" aria-hidden="true">◉</div></article><article class="facility market"><span>03 / 交易</span><h3>集市</h3><p>一份粮食2镇币，收入回到公库。</p></article><article class="facility plaza"><span>04 / 交往</span><h3>广场</h3><p>按稳定编号配对，每日最多10人参与。</p></article><article class="facility homes"><span>05 / 休息</span><h3>住宅</h3><p>为所有居民保留住所。精力不足时休息。</p></article></div><div class="section-foot"><span>一次受控冲击：粮食库存减少20%，向下取整。</span><button id="shortage" disabled>触发粮食短缺</button></div></section>
+<section class="panel"><div class="section-title"><div><span class="eyebrow">02 / PEOPLE</span><h2>居民与他们的关系</h2></div><label>观察对象 <select id="agent-select" disabled><option>请先创建小镇</option></select></label></div><div id="agent-detail" class="empty">创建后可查看居民的职业、需求、余额与行为。</div><details><summary>查看关系与最近10条相关事件</summary><div id="agent-history" class="detail-content">暂无行为记录</div></details></section>
+<section class="panel"><div class="section-title"><div><span class="eyebrow">03 / JOURNAL</span><h2>小镇事件簿</h2></div><span id="event-count" class="muted">0条记录</span></div><div class="filters"><label>居民 <select id="event-agent"><option value="">全部居民</option></select></label><label>类型 <select id="event-type"><option value="">全部类型</option></select></label></div><ol id="timeline" class="timeline"><li class="empty">暂无行为记录</li></ol><button id="more-events" hidden>再显示50条</button></section>
+</div><aside>
+<section class="panel decision"><span class="eyebrow">04 / COLLECTIVE CHOICE</span><h2>修好那口老水井</h2><p>用120镇币维修。成功后清水 +30，社区信任 +5（上限100）。</p><span id="proposal-status" class="pill">等待创建</span><p class="muted">每名在册居民一票，支持严格多于反对才通过。第7日可尝试表决。</p><div class="stack"><button id="vote" disabled>关闭投票，生成结果</button><button id="execute" class="primary" disabled>执行维修</button></div><p id="vote-result" class="muted"></p><details><summary>查看立场与评分依据</summary><p class="formula">评分 = 0.5 × 缺水需求 + 0.3 × 社区信任 + 0.2 × 对提案者亲近度；≥50支持。</p><div id="ballots" class="ballot-list"></div></details></section>
+<section class="panel"><span class="eyebrow">05 / DIGITAL RESIDENT</span><h2>让一位人物加入</h2><p>导入已授权的本地JSON。资料只在本页内存中使用，不上传。人物必须在投票关闭前加入。</p><label for="profile-text">人物档案（UTF-8 JSON，≤16KiB）</label><textarea id="profile-text" spellcheck="false" rows="7">{"profileVersion":1,"displayName":"林溪（虚构）","authorizationConfirmed":true,"bioSummary":"用于课程演示的虚构人物，不对应真实个人。"}</textarea><div class="stack"><button id="profile-import" disabled>导入文本中的人物</button><label class="file-button" for="profile-file">从文件导入人物<input id="profile-file" type="file" accept=".json,application/json"></label></div><p class="muted">撤回人物请重置小镇；已下载的快照需自行删除。</p></section>
+<section class="note"><strong>把进度带走</strong><p>本页不自动存档。关闭或刷新前，请暂停并导出快照。恢复后可以从同一天继续。</p><a href="../docs/test/demo-acceptance.md">查看30日演示步骤 ↗</a></section>
+</aside></div>
+<footer>雾河镇 · 透明规则，可复现的小镇实验 <span>模拟用于教学，不预测真实社会。</span></footer>
+</main>
+</body></html>
