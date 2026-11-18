@@ -1,191 +1,70 @@
-# M5 事件审计、快照与复现
+# 模块Spec：M5 审计、快照与复现
 
-- 文档版本：1.1
-- 状态：待评审
-- 模块编号：M5
-- 主责角色：数据与测试负责人
-- 复核角色：人物与隐私负责人
-- 上游范围：[mvp1-scope.md](mvp1-scope.md)
+> 版本2.0；2026-11-18；负责人：姚富恩；状态：本地重建，待团队评审。
 
-## 1. 摘要
+## 摘要
+记录成功提交的世界事实，导出和恢复完整快照，验证同输入同结果。运行错误诊断不属于世界事件；导出和恢复本身不能使快照内容发生额外变化。
 
-本模块保存“发生了什么、为什么发生、影响了谁”的证据，并提供包含完整版本信息的 JSON 快照。用户可以导出、恢复和重复运行同一场景，以便证明结果不是页面偶然展示。
+## 用户故事
+- **M5-US-1：查明因果**。作为观察者，我想按事件定位状态差额，以便解释结果。
+- **M5-US-2：恢复与继续运行**。作为创建者，我想导出并恢复完整状态，以便延续同一次实验。
+- **M5-US-3：拒绝损坏输入**。作为创建者，我想在错误快照下保留原世界，以便避免丢失进度。
+- **M5-US-4：验证可复现性**。作为验收人员，我想比较连续与恢复后运行，以便判断是否遗漏随机状态。
 
-## 2. 用户故事
+## 验收标准（Given/When/Then）
 
-### US-1：追踪一次状态变化
-
-作为观察者，我想查看一条事件的主体、原因和结果，以便理解库存或余额为何变化。
-
-### US-2：导出并恢复模拟快照
-
-作为创建者，我想导出当前快照并在之后恢复，以便在不同时间继续同一个模拟。
-
-### US-3：拒绝损坏或不受支持的快照
-
-作为创建者，我想在导入失败时保留当前状态，以便不会因错误文件丢失已有进度。
-
-### US-4：复现相同结果
-
-作为验收人员，我想用同一配置、种子和规则版本重复运行，以便判断关键结果是否一致。
-
-## 3. 验收标准
-
-### US-1
-
-**AC-01（正常）**
-
-Given 一名居民完成工作、消费、社交或投票，When 写入事件，Then 该事件包含唯一 `eventId`、天数、顺序号、事件类型、行动者 ID、受影响对象、规则版本、变化摘要和触发原因。
-
-**AC-02（边界）**
-
-Given 两个状态变化发生在同一天，When 读取事件时间线，Then 两条事件按 `eventSequence` 严格递增排列，不依赖创建时间字符串排序。
-
-### US-2
-
-**AC-03（正常）**
-
-Given 模拟运行到第 30 天，When 创建者导出快照，Then 文件包含模式版本、规则版本、场景版本、随机种子、随机数状态、世界状态和全部保留事件。
-
-**AC-04（正常）**
-
-Given 导入由同一 MVP1 版本导出的合法快照，When 创建者恢复快照，Then 天数、居民、库存、余额、关系、议案状态和事件时间线与导出时一致。
-
-### US-3
-
-**AC-05（异常）**
-
-Given 文件不是有效 JSON，When 创建者导入，Then 当前世界业务状态保持不变，返回 `SNAPSHOT_INVALID`，并追加一条 `SNAPSHOT_IMPORT_FAILED` 失败事件。
-
-**AC-06（异常）**
-
-Given 快照缺失 `seed` 或 `ruleVersion`，When 创建者导入，Then 系统拒绝恢复，返回 `SNAPSHOT_VERSION_MISMATCH`，并追加一条 `SNAPSHOT_IMPORT_FAILED` 失败事件。
-
-**AC-07（边界）**
-
-Given 快照的模式版本高于当前支持版本，When 创建者导入，Then 当前世界业务状态保持不变，返回 `SNAPSHOT_VERSION_UNSUPPORTED`，并追加一条 `SNAPSHOT_IMPORT_FAILED` 失败事件。
-
-**AC-08（边界）**
-
-Given 快照的模式版本低于当前版本但仍在支持范围内，When 导入，Then 系统完成声明的迁移，保留迁移记录，并产生 `SNAPSHOT_MIGRATED` 系统事件。
-
-### US-4
-
-**AC-09（正常）**
-
-Given 两次运行使用相同场景版本、规则版本、随机种子和相同操作序列，When 推进 30 天，Then 两次运行的关键状态摘要完全一致。
-
-**AC-10（边界）**
-
-Given 两次运行只改变随机种子，When 推进 30 天，Then 系统允许结果不同，并在比较报告中显示种子差异，不把差异判定为代码错误。
-
-## 4. 功能需求
-
-### FR-01 事件字段
-
-每条事件至少包含：
-
-```text
-eventId
-eventSequence
-day
-type
-actorIds[]
-targetIds[]
-ruleVersion
-causedBy?
-effects
-message
-isError
-errorCode?
+### M5-AC-01：事件完整与同日排序（M5-US-1）
+```gherkin
+Given 一次成功命令产生多个业务事件；含日内消费失败事实
+When 提交并查询events
+Then eventId=event-000001等唯一序号；sequence从1连续递增，含day/type/actorIds/targetIds/ruleVersion/reason/effects/causedBy。effects记录before/after；同日按sequence排序。读操作和被拒绝命令不追加世界事件；日内FOOD_OUT_OF_STOCK等属于已提交tick的事实可存在。
 ```
 
-事件记录只追加，不因界面分页或筛选而删除。
-
-### FR-02 事件来源
-
-- `causedBy` 可指向上一事件或操作 ID。
-- 用户操作、系统结算和异常拒绝都必须产生事件。
-- 说明文本可以省略，但 `type`、主体、结果和版本不能省略。
-- 模型生成的理由不能作为事实字段；MVP1 不调用模型。
-
-### FR-03 快照结构
-
-快照顶层至少包含：
-
-```text
-schemaVersion
-ruleVersion
-scenarioVersion
-seed
-rngState
-state
-events
-createdAt
-checksum
+### M5-AC-02：导出恢复等值（M5-US-2）
+```gherkin
+Given day=15暂停且不busy，已有完整世界、rngState和事件
+When exportSnapshot得到JSON，再importSnapshot恢复
+Then 文件顶层schemaVersion/ruleVersion/scenarioVersion均为1，含seed/rngState/state/events；恢复后世界与文件语义等值，paused=true，busy=false，runtimeRevision仅在当前会话加1。不向导入events追加“导入成功”记录，重新导出内容与前一文件规范化后完全相同。
 ```
 
-`state` 必须包含小镇、居民、设施、资源、关系和议案状态。`events` 必须包含用于 30 天复盘的完整事件窗口。
+### M5-AC-03：损坏、版本与边界拒绝（M5-US-3）
+```gherkin
+Given 文件含无效JSON、超过5MiB、版本非1、缺rngState、负库存、重复eventSequence或不存在的居民引用之一
+When importSnapshot
+Then 按FR-03分别返回SNAPSHOT_INVALID、SNAPSHOT_TOO_LARGE、SNAPSHOT_VERSION_UNSUPPORTED、SNAPSHOT_FIELD_MISSING、SNAPSHOT_VALUE_INVALID、EVENT_SEQUENCE_INVALID或SNAPSHOT_REFERENCE_INVALID；world/events/rngState和runtimeRevision不变，运行诊断可追加；5MiB恰好可进入后续校验，未来或旧版本一律不迁移。
+```
 
-### FR-04 导入校验
+### M5-AC-04：30天和中途恢复复现（M5-US-4）
+```gherkin
+Given 相同配置/种子/版本与操作顺序；A连续运行30天，B运行15天后导出恢复再运行15天
+When 对两次最终世界排序键并按稳定ID/sequence比较
+Then state、events、rngState逐字段相同，day=30；不比较会话runtimeRevision、paused、diagnostics和JSON缩进。只改种子允许结果不同但不保证不同，不得以“结果必须不同”验收随机性。
+```
 
-导入按以下顺序进行：
+## 功能需求
+- **M5-FR-01（US-1）**：事件ID由序号格式化，不用真实时钟或随机数。causedBy是本次命令的规范标识（如tick:15、proposal:repair-well-01:execute），不含会话revision。事件append只发生于整个命令成功提交时。
+- **M5-FR-02（US-2）**：JSON只含可序列化原始值，顶层固定 `{schemaVersion,ruleVersion,scenarioVersion,seed,rngState,state,events}`；state保存day、agents、facilities、resources、communityTrust、proposal、shortageApplied、externalSpent、nextEventSequence。不使用checksum或createdAt等未实现机制；语义校验不等于防篡改认证。
+- **M5-FR-03（US-3）**：校验顺序：≤5242880字节 → UTF-8/JSON对象 → 必填字段/白名单 → 三版本均1 → 安全整数、范围、人数30或31、固定设施/职业/种子非零 → ID与关系/选票引用 → 事件序号唯一连续与nextEventSequence → 完整状态一致性。字段缺失优先于版本判断；未知额外字段或非对象顶层返回SNAPSHOT_INVALID。越界输入不能通过clamp偷偷修复。
+- **M5-FR-04（US-3）**：恢复在候选对象上验证全部字段；不读取输入中的原型属性，不接受__proto__/constructor/prototype等扩展字段；只有完全成功才原子替换。所有错误都使用空events数组，不污染当前世界时间线。
+- **M5-FR-05（US-4）**：PRNG采用xorshift32：无符号32位state，依次x ^= x<<13；x ^= x>>>17；x ^= x<<5；存x>>>0。seed非零；每天只抽取一次以决定居民结算起点。恢复必须使用rngState而不是重新初始化seed。
+- **M5-FR-06（US-2/4）**：world不持久化localStorage；用户通过JSON保存。关闭页面会丢失未导出进度，页面提示这一点。MVP1仅支持版本1，不承诺旧版自动迁移。
 
-1. 读取并解析 JSON。
-2. 校验顶层字段和模式版本。
-3. 校验引用完整性。
-4. 校验数值范围和非负约束。
-5. 在临时状态中完成迁移。
-6. 全部通过后原子替换当前状态。
+## 非功能需求
+导出文件≤5MiB覆盖31人30日场景（实现阶段验证，超限报告不截断事件）；恢复目标P95≤1秒，记录设备和样本。全部快照字段可检查；不将SHA/签名或真实审计认证作为本版承诺。
 
-任一步失败都不得影响当前世界业务状态。系统只追加一条 `SNAPSHOT_IMPORT_FAILED` 失败事件，不创建部分恢复状态。
+## 边界与异常
+| 场景 | 预期行为 | 对应AC |
+| --- | --- | --- |
+| 同日多事件 | 唯一ID、连续序号 | M5-AC-01 |
+| 恢复/再次导出 | 语义等值，不追加恢复世界事件 | M5-AC-02 |
+| 损坏/过大/缺字段/未知版本 | 按AC-03错误表拒绝 | M5-AC-03 |
+| 负数/重复序号/悬空引用 | 按AC-03错误表拒绝，不修补 | M5-AC-03 |
+| 中途恢复/改seed | 恢复继续等值；改seed不要求一定不同 | M5-AC-04 |
 
-### FR-05 复现摘要
+## Non-Goals
+不做云同步、加密签名、任意历史版本迁移、自动存档、任意时点倒带或多标签共享状态。
 
-系统至少生成以下复现摘要：
-
-- 最终天数。
-- 居民数量。
-- 粮食、木材、清水和公库余额。
-- 社区信任。
-- 议案状态和支持/反对票数。
-- 事件数量和末事件序号。
-- 种子、场景版本和规则版本。
-
-### FR-06 页面和文件
-
-- 事件时间线可以按事件类型和居民筛选。
-- 用户可以从界面请求导出，并由浏览器下载 JSON 文件。
-- 用户选择导入时显示文件名、模式版本和校验结果。
-- 导入成功后刷新所有依赖状态，不保留旧界面缓存。
-
-## 5. 非功能需求
-
-- **原子性**：导入失败不得留下部分恢复状态；只允许追加一条失败审计事件。
-- **完整性**：快照必须包含复现所需的全部输入。
-- **可读性**：JSON 使用稳定字段名和可序列化原始值。
-- **隐私**：事件和快照不包含授权白名单之外的个人资料。
-- **兼容性**：未知版本明确拒绝，不尝试猜测字段。
-- **稳定性**：31 名居民、30 天事件记录可在普通桌面浏览器中正常导入导出。
-
-## 6. 边界与异常
-
-| 场景 | 预期行为 | 错误标识或结果 | 对应 AC |
-| --- | --- | --- | --- |
-| 无效 JSON | 当前状态不变 | `SNAPSHOT_INVALID` | AC-05 |
-| 缺种子或版本 | 拒绝恢复 | `SNAPSHOT_VERSION_MISMATCH` | AC-06 |
-| 版本过高 | 拒绝恢复 | `SNAPSHOT_VERSION_UNSUPPORTED` | AC-07 |
-| 版本可迁移 | 原子迁移并记录事件 | `SNAPSHOT_MIGRATED` | AC-08 |
-| 引用居民不存在 | 拒绝恢复 | `SNAPSHOT_REFERENCE_INVALID` | AC-06 |
-| 库存或余额为负 | 拒绝恢复 | `SNAPSHOT_VALUE_INVALID` | AC-07 |
-| 事件序号重复 | 拒绝恢复 | `EVENT_SEQUENCE_INVALID` | AC-02 |
-| 校验和不匹配 | 拒绝恢复 | `SNAPSHOT_CHECKSUM_MISMATCH` | AC-05 |
-| 同名事件同日发生 | 使用独立 ID 与序号保留两条 | 成功 | AC-02 |
-
-## 7. Non-Goals
-
-- 不提供数据库、云同步或跨设备自动共享。
-- 不实现区块链、防篡改签名或真实审计认证。
-- 不实现任意时点回滚的完整版本控制系统。
-- 不保证未来版本能读取所有历史快照，只支持显式声明的迁移路径。
-- 不把事件说明作为真实世界事实或法律证据。
+## 变更记录
+| 日期 | 变更 | 原因 |
+| --- | --- | --- |
+| 2026-11-18 | 统一为2.0；正常/边界/异常均给可观察结果 | 对齐课程模板，修正旧版歧义 |

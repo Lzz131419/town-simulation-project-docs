@@ -1,172 +1,76 @@
-# M4 公共议题与决策
+# 模块Spec：M4 公共议题与决策
 
-- 文档版本：1.1
-- 状态：冷启动通过，待小组评审
-- 模块编号：M4
-- 主责角色：政治系统负责人
-- 复核角色：居民系统负责人
-- 上游范围：[mvp1-scope.md](mvp1-scope.md)
+> 版本2.1；2026-11-18；负责人：钱俊昊；状态：本地重建，待团队评审。
 
-## 1. 摘要
+## 摘要
+只实现固定议案repair-well-01（维修老水井）：查看立场、关闭投票、执行一次资源效果。创建者不能直接改票。成功状态转换写入世界事件；拒绝操作只返回错误并写会话diagnostics，world（含events）不变。此规则为自包含契约，不依赖其他文档才能解释失败副作用。
 
-本模块实现 MVP1 唯一的公共议题“维修老水井”。居民根据当前口渴程度、社区信任和对提案者的关系形成支持或反对立场；系统计票、执行通过的议案，并把扣款、资源变化和信任变化写入事件链。
+## 用户故事
+- **M4-US-1：理解公共选择**。作为观察者，我想查看居民立场与票数，以便知道为何通过或被否决。
+- **M4-US-2：执行并检查资金边界**。作为创建者，我想执行已通过维修并获得失败原因，以便避免重复或部分扣款。
 
-MVP1 不模拟自由提案、竞选活动或多轮辩论。
+## 验收标准（Given/When/Then）
 
-## 2. 用户故事
-
-### US-1：查看并理解居民立场
-
-作为观察者，我想看到每位居民对维修水井的立场和形成依据，以便判断决策是否来自当前社会状态。
-
-### US-2：完成一次公共决策
-
-作为创建者，我想对维修水井进行表决并执行通过的议案，以便形成政治决策到资源后果的完整闭环。
-
-### US-3：安全处理资金不足和重复执行
-
-作为创建者，我想在公库不足或议案已执行时得到明确拒绝，以便避免重复扣款或负余额。
-
-## 3. 验收标准
-
-### US-1
-
-**AC-01（正常）**
-
-Given 一位居民的口渴值为 80、社区信任为 50、与提案者关系值为 50，When 系统计算其对 `repair-well-01` 的立场，Then 立场分数为 55，结果为“支持”，并记录三个输入值和规则版本。
-
-**AC-02（边界）**
-
-Given 一位居民的立场分数恰好为 50，When 系统生成立场，Then 按支持处理，不得因比较符号错误判为反对。
-
-**AC-03（异常）**
-
-Given 居民处于非活跃状态或引用的居民 ID 不存在，When 计算投票名单，Then 该居民不进入有效票，并记录 `INELIGIBLE_VOTER_SKIPPED`。
-
-### US-2
-
-**AC-04（正常）**
-
-Given 有效支持票多于反对票，且镇公库不少于议案成本，When 创建者执行议案，Then 议案状态变为 `EXECUTED`，公库扣减议案成本，清水库存增加配置数量，社区信任增加配置值，并只生成一条执行事件。
-
-**AC-05（边界）**
-
-Given 有效支持票和反对票数量相等，When 创建者关闭投票，Then 议案状态变为 `REJECTED`，公库、资源和信任均不变化。
-
-**AC-06（正常）**
-
-Given 支持票少于反对票，When 创建者关闭投票，Then 议案状态变为 `REJECTED`，界面显示完整票数，不执行资源变化。
-
-### US-3
-
-**AC-07（异常）**
-
-Given 议案已通过但镇公库只有 119 镇币，而成本为 120 镇币，When 创建者执行议案，Then 公库、清水和信任保持不变，议案保持 `APPROVED`，返回 `INSUFFICIENT_TREASURY`，并追加一条 `PROPOSAL_EXECUTION_FAILED` 失败事件。
-
-**AC-08（异常）**
-
-Given 议案已经处于 `EXECUTED`，When 创建者再次执行，Then 系统返回 `PROPOSAL_ALREADY_EXECUTED`，不得再次扣款或增加资源，并追加一条 `PROPOSAL_EXECUTION_FAILED` 失败事件。
-
-**AC-09（边界）**
-
-Given 镇公库恰好有 120 镇币，When 执行成本为 120 的已通过议案，Then 公库变为 0，执行成功。
-
-## 4. 功能需求
-
-### FR-01 议案数据
-
-固定议案至少包含：
-
-```text
-proposalId: repair-well-01
-title: 维修老水井
-cost: 正整数
-resourceEffect: water + N
-trustEffect: communityTrust + M
-status: OPEN | APPROVED | REJECTED | EXECUTED
-proposerAgentId: 稳定居民 ID
-ruleVersion
+### M4-AC-01：立场与正常计票（M4-US-1）
+```gherkin
+Given 议案OPEN、30或31名居民，所有在册居民有一票；一名居民waterNeed=50、communityTrust=50、对提案者affinity=50
+When 调用closeVote
+Then 每位居民计算整数score10=5*waterNeed+3*communityTrust+2*affinity，≥500支持，故该居民恰好500支持；所有人按agentId唯一计票且保存三个输入、score10、ruleVersion。支持严格多于反对则APPROVED，否则REJECTED，记录PROPOSAL_VOTED；不扣款、不加水。
 ```
 
-议案参数由场景配置提供。默认演示中成本为 120 镇币，清水增加 30，社区信任增加 5。
-
-### FR-02 投票资格
-
-- 所有 `status=active` 的居民具有一票。
-- 数字人物在成功导入后具有同等投票资格。
-- 同一居民对同一议案只能投一次。
-- MVP1 不设置人口年龄、财产或社会地位门槛。
-
-### FR-03 立场计算
-
-每位居民的立场分数为：
-
-```text
-stanceScore =
-  0.5 × waterNeed
-  + 0.3 × trust
-  + 0.2 × relationshipToProposer
+### M4-AC-02：平票、空名单与关闭保护（M4-US-1）
+```gherkin
+Given OPEN且支持15反对15；另设无人名单与已关闭议案
+When 关闭投票
+Then 平票成功结算为REJECTED（不是接口错误），零资源变化；名单为空返回NO_ELIGIBLE_VOTERS且仍OPEN；重复关闭返回VOTE_ALREADY_CLOSED且保留原票数/状态/events；proposalId不存在时返回PROPOSAL_NOT_FOUND且世界不变。只存在整批规则表决入口，不提供人工逐票或重复投票接口。
 ```
 
-所有输入值均在 0—100，其中 `relationshipToProposer` 取 M2 关系中的 `affinity`。`stanceScore >= 50` 表示支持，否则表示反对。系统必须保存计算输入、分数和规则版本。
+### M4-AC-03：执行成功与资金边界（M4-US-2）
+```gherkin
+Given APPROVED，成本120，清水W，communityTrust=C，externalSpent=E；分别设置公库120和119
+When 执行议案
+Then 公库120时成功变0，清水W+30、信任min(100,C+5)、externalSpent=E+120、状态EXECUTED，只追加一条PROPOSAL_EXECUTED。公库119时返回INSUFFICIENT_TREASURY，message说明缺1；仍APPROVED，公库119、清水W、信任C、externalSpent E、rngState与events全部不变，不追加失败世界事件；允许独立diagnostics追加错误码。
+```
 
-### FR-04 计票
+### M4-AC-04：重复执行、无效状态与原子失败（M4-US-2）
+```gherkin
+Given 分别为EXECUTED、OPEN/REJECTED、不存在的proposalId、参数版本非1，或提交前注入失败
+When 执行议案
+Then 依次返回PROPOSAL_ALREADY_EXECUTED、PROPOSAL_NOT_APPROVED、PROPOSAL_NOT_FOUND、PROPOSAL_VERSION_MISMATCH或PROPOSAL_EXECUTION_FAILED；都不扣款、不加水、不改信任/议案/rngState/events。两个相同expectedRevision的执行只有第一个可提交，第二个STATE_CONFLICT；更新revision后再执行则PROPOSAL_ALREADY_EXECUTED。
+```
 
-- 有效票数等于支持票与反对票之和。
-- 支持票严格多于反对票时，议案变为 `APPROVED`。
-- 平票或反对票更多时，议案变为 `REJECTED`。
-- 投票关闭后不能继续追加或修改票。
+## 功能需求
+- **M4-FR-01（US-1）**：初始化唯一议案：proposalId=repair-well-01，version=1，status=OPEN，cost=120，waterEffect=30，trustEffect=5，proposerAgentId=resident-001。议案无需故障事件触发。
+- **M4-FR-02（US-1）**：所有在册居民有一票，休息/饥饿不影响资格。提案者自己的affinity固定50；其他居民读取对提案者关系，缺省值50。采用整数score10防浮点阈值歧义；展示score=score10/10。
+- **M4-FR-03（US-1）**：关闭投票时一次性快照输入、计算全体选票、冻结票数。OPEN → APPROVED或REJECTED；关闭后不得追加人物或重新投票。查看立场预览不修改状态；关闭票数才是正式结果。
+- **M4-FR-04（US-2）**：执行校验顺序：M1 busy/revision/暂停校验（忙为STEP_IN_PROGRESS、过期为STATE_CONFLICT、运行中为SIMULATION_RUNNING；均无世界副作用） → ID → 参数版本 → EXECUTED检查 → APPROVED检查 → 公库≥120 → 副本中扣120、清水+30、信任+5截断100、externalSpent+120 → 状态EXECUTED → 一条成功事件 → 原子替换。
+- **M4-FR-05（US-2）**：Result成功 `{ok:true,data:{proposalId,status,treasury,water,communityTrust,externalSpent},events:[event]}`；失败 `{ok:false,error:{code,message},events:[]}`。无HTTP状态码，因为MVP1是本地函数接口。失败diagnostics与世界事件分离，不进入快照，不参与复现摘要。
+- **M4-FR-06（US-2）**：示例：119镇币执行120成本是拒绝，缺口1，议案保持APPROVED；下一次补足公库后允许重试（MVP1资金来自正常交易，不提供手工改余额按钮）。执行后不能撤回或再次执行。
 
-### FR-05 执行
 
-只有 `APPROVED` 状态的议案允许执行。
+### 资金不足时的完整返回示例
+资金不足时必须返回完整Result对象，包括 `ok:false`、`error.code`、含缺口的 `error.message` 及空 `events` 数组。调用方先检查ok字段；仅错误码或自然语言字符串不能替代Result对象。
+```json
+{"ok":false,"error":{"code":"INSUFFICIENT_TREASURY","message":"公库119镇币，维修需120镇币，还差1镇币"},"events":[]}
+```
+此返回不改变世界；独立diagnostics的错误记录不在该events数组中。该示例补充M4-FR-05，不改变业务规则或schemaVersion。
 
-执行顺序固定为：
+## 非功能需求
+确定性计票、原子结算、最多一次成功执行。每张票可解释到输入与整数阈值；不以规则立场推断真实人物政治立场。失败不得产生部分资源变化。
 
-1. 重新读取当前镇公库和议案版本。
-2. 校验公库是否足够。
-3. 扣减公库。
-4. 增加清水。
-5. 修改社区信任。
-6. 将状态设为 `EXECUTED`。
-7. 写入包含计票摘要和状态变化的执行事件。
+## 边界与异常
+| 场景 | 预期行为 | 对应AC |
+| --- | --- | --- |
+| score10=499/500 | 499反对，500支持 | M4-AC-01 |
+| 平票/无人/重复关闭 | REJECTED / NO_ELIGIBLE_VOTERS / VOTE_ALREADY_CLOSED | M4-AC-02 |
+| 公库119/120、信任98 | 拒绝缺1 / 执行公库0 / 信任截断100 | M4-AC-03 |
+| 已执行/未通过/ID不存在/版本不符/提交失败 | 对应明确错误且world/events不变 | M4-AC-04 |
 
-任何一步失败时，公库、清水、社区信任和议案状态必须保持不变。系统返回对应错误，并追加一条 `PROPOSAL_EXECUTION_FAILED` 失败事件；该事件不得记为成功执行事件，也不得触发任何资源效果。
+## Non-Goals
+不自由提案、不多议案、不多轮对话、不手工改票、不加权投票、不借贷、不模拟现实政治结论。
 
-### FR-06 界面
-
-- 界面显示议案标题、成本、状态、支持票、反对票、有效票总数。
-- 居民立场可以按居民 ID 查看，并显示支持、反对及分数依据。
-- 资金不足时显示具体差额和 `INSUFFICIENT_TREASURY`。
-- 已执行议案显示明确的不可重复操作状态。
-
-## 5. 非功能需求
-
-- **确定性**：相同世界状态和相同议案版本必须产生相同立场及票数。
-- **可解释性**：每张票保存输入、分数和规则版本，执行事件保存计票结果。
-- **原子性**：执行失败不得部分扣款或部分增加资源。
-- **权限边界**：创建者只能执行已通过议案，不能直接修改票数。
-- **一致性**：界面显示票数必须来自同一计票结果，不得单独重算后覆盖。
-
-## 6. 边界与异常
-
-| 场景 | 预期行为 | 错误标识或结果 | 对应 AC |
-| --- | --- | --- | --- |
-| 立场分数为 50 | 判为支持 | 成功 | AC-02 |
-| 平票 | 议案拒绝 | `PROPOSAL_REJECTED_ON_TIE` | AC-05 |
-| 公库 119、成本 120 | 不执行、不扣款，追加失败事件 | `INSUFFICIENT_TREASURY` | AC-07 |
-| 公库恰好等于成本 | 执行成功，公库为 0 | 成功 | AC-09 |
-| 重复执行 | 状态不变 | `PROPOSAL_ALREADY_EXECUTED` | AC-08 |
-| 对未通过议案执行 | 状态不变 | `PROPOSAL_NOT_APPROVED` | AC-04 |
-| 无效居民进入投票 | 不计票，记录跳过原因 | `INELIGIBLE_VOTER_SKIPPED` | AC-03 |
-| 同一居民重复投票 | 只有第一次有效 | `DUPLICATE_VOTE_REJECTED` | AC-01 |
-| 议案 ID 不存在 | 不改变状态 | `PROPOSAL_NOT_FOUND` | AC-08 |
-| 议案参数与实际配置版本不匹配 | 拒绝执行 | `PROPOSAL_VERSION_MISMATCH` | AC-04 |
-
-## 7. Non-Goals
-
-- 不实现自由创建议题、自动提案或多议题竞争。
-- 不实现多轮辩论、竞选、派系组织或政治宣传。
-- 不实现按财产、身份或代表制加权的复杂投票制度。
-- 不实现税收自动调整、借款或财政赤字。
-- 不以投票结果预测真实政治行为。
+## 变更记录
+| 日期 | 变更 | 原因 |
+| --- | --- | --- |
+| 2026-11-18 | 统一为2.0；正常/边界/异常均给可观察结果 | 对齐课程模板，修正旧版歧义 |
+| 2026-11-18 | 2.1：补充资金不足的完整Result示例 | 独立冷启动回答遗漏ok:false字段；强化接口可核对性 |

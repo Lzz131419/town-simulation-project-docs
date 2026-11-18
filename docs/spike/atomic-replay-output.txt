@@ -1,0 +1,13 @@
+✔ failure discards candidate state, RNG and events (1.307583ms)
+✔ same expected revision cannot commit twice (0.085917ms)
+✔ 15 plus restored 15 matches uninterrupted 30 (2.021083ms)
+✔ restore does not append a world event (0.088958ms)
+✔ resetting to seed instead of saved RNG breaks continuation (0.184666ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 55.2495

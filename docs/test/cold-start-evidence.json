@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-18",
+  "environment": "Codex independent sub-agent; fork_turns=none",
+  "rounds": [
+    {
+      "round": 1,
+      "agent": "/root/m4_cold_start",
+      "specVersion": "2.0",
+      "specSha256": "aba579a07addbdfedc8e8294be2badc513c0ff1923f34aefbfe549ca887958e1",
+      "input": "cold-start-round-01-input.txt",
+      "answer": "cold-start-round-01-answer.md",
+      "inputSha256": "2e6a0c805c87a7a59184fffc4788d21d6ce6d709c0f4da2dea9ae91cb50c4e2c",
+      "answerSha256": "94127bf075e07c6f1a02e0890fbc0d9c9da73cdfccb2378dc808c9108a9b1b93",
+      "result": "业务理解正确；未逐字输出ok:false，补强完整返回示例后复测"
+    },
+    {
+      "round": 2,
+      "agent": "/root/m4_cold_start_retest",
+      "specVersion": "2.1",
+      "specSha256": "f03dd8de4a1e35c22710486a3a2ebab88fd32d794b59dcc4368c75057ddae9e3",
+      "input": "cold-start-round-02-input.txt",
+      "answer": "cold-start-round-02-answer.md",
+      "inputSha256": "cc47dd70e86b6046d2ba9ce3cc404fdb9fa7c535bd41f963beda516b649173fb",
+      "answerSha256": "e5aa6660b875405b1286725dbfe34099a6eac7f45f2143a29e4bb52aa5ea6700",
+      "result": "通过：完整Result和资金不足场景的业务副作用均符合规格"
+    }
+  ],
+  "limitations": "仅验证该问题的规格理解；不证明整个模块正确、实现通过或人工评审完成。系统级通用指令仍适用；不继承主会话消息。哈希指向归档UTF-8文件。"
+}
