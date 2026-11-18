@@ -3,6 +3,12 @@
 ## 当前状态
 本轮文档已完成重建、独立冷启动和静态检查，用户于2026-11-18授权提交GitHub。保留旧Git历史，以本次文档变更更新主分支。12份MVP1开发工单仍是待发布正文，线上Projects、开发任务Issue与非作者人工评审不因文档提交而自动完成。
 
+## 本轮提交追踪
+- 文档重建Issue：[#5](https://github.com/Lzz131419/town-simulation-project-docs/issues/5)。
+- 文档分支：`docs/issue-5-rebuild-weeks-06-09`。
+- 关联PR和最终main提交以该Issue的GitHub链接与合并记录为准。
+- 本次文档提交不等同于12项开发工单已录入Projects或非作者评审完成。
+
 ## 1. 提交前检查
 - 重新fetch并核对远程main是否仍是本次基线f62d04b，若有其他人更新，先合并核对，不强推覆盖。
 - 运行文档校验与探针，保留结果；按本轮交付索引逐项复核。
