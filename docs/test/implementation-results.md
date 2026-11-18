@@ -1,0 +1,33 @@
+# MVP1 实现验收记录
+
+2026-11-18，按用户授权进入工程实现。所有数据使用虚构人物；人工Reviewer尚未签字，任务不能因此标记Done。
+
+## 本次结果
+- Node.js 22.23.3，macOS arm64，Apple M4；34项自动化测试通过，覆盖20条模块AC与DEMO-01。
+- 真实浏览器Chrome 157内核：每项预热10次后采样100次，单步P95 6.9ms（目标100ms）、快照恢复10.7ms（1000ms）、16KiB人物导入0.7ms（500ms）、含命令/DOM/两帧等待的UI更新35.2ms（500ms）。不外推其他设备或Edge独立兼容性。
+- 31名居民，第7日短缺粮食264→211；表决31票支持、0票反对；维修后公库898、清水357、信任65、externalSpent120。
+- 第30日粮食407、清水625、公库900；3040条事件；快照1,180,854字节，小于5MiB。
+- 第15日保存并恢复后续跑，与连续30日的state/events/rngState逐字段一致；损坏快照拒绝且世界/事件/随机状态/revision保持不变。
+- 浏览器通过Enter触发创建、导入、单步、短缺、投票与维修；未观察到控制台error/warn。真实DOM验证标签文字不产生HTML元素；文件恢复与31人day30展示通过。
+
+## 可复跑命令
+```sh
+npm test
+python3 docs/tools/validate_docs.py
+TOWN_SAVE_EVIDENCE=1 node --test tests/e2e.test.mjs
+npm start
+```
+产品入口为本地服务的`/src/index.html`；浏览器性能与DOM验证入口为`/docs/test/browser-verification.html`。点击“运行验证”；此测试页与产品界面分开。
+
+## 原始证据
+- [Node演示记录](evidence/node-demo.json)
+- [浏览器100次原始样本](evidence/browser-performance.json)
+- [第15日真实快照](evidence/day15.json)、[第30日真实快照](evidence/day30.json)
+- [桌面截图](evidence/desktop.png)
+
+## 限制与待评审项
+- 当前结果是自动化与浏览器验证，不代替非作者人工Review、ADR接受或课程老师验收。
+- 无服务端、AI模型、自动存档；这些是明确的MVP1范围边界。
+- 快照是语义校验，不是密码学认证；当前仅版本1。
+- 单步和恢复性能覆盖31人、30日演示规模；不承诺无限期运行的性能。
+- PR按依赖堆叠；合并前逐项检查测试和接口。快照与性能样本都来自真实运行，不从历史HTML探针推导。

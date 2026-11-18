@@ -305,7 +305,12 @@
       "src/app/",
       "src/index.html",
       "tests/e2e.test.mjs",
-      "docs/test/implementation-results.md"
+      "docs/test/implementation-results.md",
+      "src/ui/",
+      "docs/test/evidence/",
+      "docs/test/browser-verification.html",
+      "docs/test/browser-verification.mjs",
+      "docs/test/narrow-verification.html"
     ],
     "acceptance": "按演示脚本跑全链路，提供实际环境、30日结果、恢复对照、性能样本与缺陷清单；不以探针代替。",
     "issueNumber": 18,
