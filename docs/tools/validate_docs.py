@@ -93,8 +93,10 @@ for row in plan_rows:
     check(t.get('owner','') in row and all(ref in row for ref in t.get('refs',[])), 'Plan task mismatch '+tid)
 check(sum(t['estimateDays'] for t in tasks)==27,'estimate total changed; update plan')
 check(critical and finish[critical]==15,'critical duration changed; update plan')
-for folder in ['src','tests']:
-    check(all(p.name=='README.md' for p in (ROOT/folder).rglob('*') if p.is_file()),'production code appeared in '+folder)
+for t in tasks:
+    if t.get('issueUrl'):
+        check(t['issueUrl'].endswith('/'+str(t.get('issueNumber'))), 'Issue number mismatch '+t['id'])
+        check(t.get('branch')==t['branchTemplate'].replace('{number}',str(t['issueNumber'])), 'resolved branch mismatch '+t['id'])
 fixture=json.loads((ROOT/'docs/fixtures/scenario-v1.json').read_text())
 check(sum(fixture['jobs'].values())==fixture['generatedResidents']==30,'fixture population')
 check(fixture['resources']['treasury']+30*fixture['agentDefaults']['cash']==1600,'fixture initial money')
@@ -109,5 +111,5 @@ print(f'PASS: {len(mds)} Markdown files; {link_count} local links resolve')
 print(f'PASS: {len(modules)} modules; {len(all_acs)} unique GWT ACs; every story and boundary linked')
 print(f'PASS: {len(tasks)} tasks; all ACs covered; owners/reviewers/Issue bodies/branch templates valid')
 print('PASS: DAG acyclic; '+ ' -> '.join(paths[critical])+f" = {finish[critical]} working days; 27 person-days")
-print('PASS: fixtures match population and money; no production code in src/ or tests/')
+print('PASS: fixtures match population and money; published task numbers and resolved branches consistent')
 print('LIMIT: checks structure and references only, not semantic correctness, implementation, human review or GitHub status')

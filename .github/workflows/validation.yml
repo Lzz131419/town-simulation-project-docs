@@ -1,0 +1,18 @@
+name: Validation
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python3 docs/tools/validate_docs.py
+      - run: node --test docs/spike/atomic-replay-probe.mjs
+      - run: if ls tests/*.test.mjs >/dev/null 2>&1; then npm test; fi

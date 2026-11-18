@@ -12,13 +12,15 @@
     ],
     "branchTemplate": "feature/issue-{number}-schema",
     "status": "This Week",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/7",
     "branchCreated": false,
     "files": [
       "src/shared/",
       "tests/shared.test.mjs"
     ],
-    "acceptance": "固定字段/种子/版本及30人初始夹具，资金总额1600；无DOM和网络依赖。"
+    "acceptance": "固定字段/种子/版本及30人初始夹具，资金总额1600；无DOM和网络依赖。",
+    "issueNumber": 7,
+    "branch": "feature/issue-7-schema"
   },
   {
     "id": "T02",
@@ -38,13 +40,15 @@
     ],
     "branchTemplate": "feature/issue-{number}-world-control",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/8",
     "branchCreated": false,
     "files": [
       "src/app/",
       "tests/world-control.test.mjs"
     ],
-    "acceptance": "day=0起步；暂停可手动单步；忙/过期/异常全世界不变；参数错误不覆盖现有世界。"
+    "acceptance": "day=0起步；暂停可手动单步；忙/过期/异常全世界不变；参数错误不覆盖现有世界。",
+    "issueNumber": 8,
+    "branch": "feature/issue-8-world-control"
   },
   {
     "id": "T03",
@@ -67,14 +71,16 @@
     ],
     "branchTemplate": "feature/issue-{number}-observer-ui",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/9",
     "branchCreated": false,
     "files": [
       "src/ui/",
       "src/index.html",
       "tests/observer-ui.test.mjs"
     ],
-    "acceptance": "展示五个区域并消费应用结果；未知居民明确错误；短缺取floor(F*0.8)，重复拒绝；不在UI计算业务规则。"
+    "acceptance": "展示五个区域并消费应用结果；未知居民明确错误；短缺取floor(F*0.8)，重复拒绝；不在UI计算业务规则。",
+    "issueNumber": 9,
+    "branch": "feature/issue-9-observer-ui"
   },
   {
     "id": "T04",
@@ -91,13 +97,15 @@
     ],
     "branchTemplate": "feature/issue-{number}-livelihood",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/10",
     "branchCreated": false,
     "files": [
       "src/domain/life.mjs",
       "tests/livelihood.test.mjs"
     ],
-    "acceptance": "工作20/19精力、工资不足、饥饿49/50、余额1/2、零粮水边界可核对。"
+    "acceptance": "工作20/19精力、工资不足、饥饿49/50、余额1/2、零粮水边界可核对。",
+    "issueNumber": 10,
+    "branch": "feature/issue-10-livelihood"
   },
   {
     "id": "T05",
@@ -114,13 +122,15 @@
     ],
     "branchTemplate": "feature/issue-{number}-social-invariants",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/11",
     "branchCreated": false,
     "files": [
       "src/domain/life.mjs",
       "tests/social-invariants.test.mjs"
     ],
-    "acceptance": "两人配对/容量10/关闭/上限100；固定输入30天稳定且资金守恒。"
+    "acceptance": "两人配对/容量10/关闭/上限100；固定输入30天稳定且资金守恒。",
+    "issueNumber": 11,
+    "branch": "feature/issue-11-social-invariants"
   },
   {
     "id": "T06",
@@ -137,13 +147,15 @@
     ],
     "branchTemplate": "feature/issue-{number}-profile-import",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/12",
     "branchCreated": false,
     "files": [
       "src/domain/profile.mjs",
       "tests/profile-import.test.mjs"
     ],
-    "acceptance": "默认resident、cash0、人口31；上限及投票关闭拒绝；同名依靠ID区分。"
+    "acceptance": "默认resident、cash0、人口31；上限及投票关闭拒绝；同名依靠ID区分。",
+    "issueNumber": 12,
+    "branch": "feature/issue-12-profile-import"
   },
   {
     "id": "T07",
@@ -160,14 +172,16 @@
     ],
     "branchTemplate": "feature/issue-{number}-profile-validation",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/13",
     "branchCreated": false,
     "files": [
       "src/domain/profile.mjs",
       "src/ui/profile-view.mjs",
       "tests/profile-validation.test.mjs"
     ],
-    "acceptance": "16KiB、授权boolean、字段白名单、20码点与住宅校验；HTML文本不执行、不联网。"
+    "acceptance": "16KiB、授权boolean、字段白名单、20码点与住宅校验；HTML文本不执行、不联网。",
+    "issueNumber": 13,
+    "branch": "feature/issue-13-profile-validation"
   },
   {
     "id": "T08",
@@ -184,13 +198,15 @@
     ],
     "branchTemplate": "feature/issue-{number}-proposal-vote",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/14",
     "branchCreated": false,
     "files": [
       "src/domain/decision.mjs",
       "tests/proposal-vote.test.mjs"
     ],
-    "acceptance": "score10=499/500、平票、空名单、关闭重复等结果准确；每人恰好一票。"
+    "acceptance": "score10=499/500、平票、空名单、关闭重复等结果准确；每人恰好一票。",
+    "issueNumber": 14,
+    "branch": "feature/issue-14-proposal-vote"
   },
   {
     "id": "T09",
@@ -207,13 +223,15 @@
     ],
     "branchTemplate": "feature/issue-{number}-proposal-execution",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/15",
     "branchCreated": false,
     "files": [
       "src/domain/decision.mjs",
       "tests/proposal-execution.test.mjs"
     ],
-    "acceptance": "119拒绝且events不变，120成功公库0；信任截断、外部支出列账；重复/故障无部分效果。"
+    "acceptance": "119拒绝且events不变，120成功公库0；信任截断、外部支出列账；重复/故障无部分效果。",
+    "issueNumber": 15,
+    "branch": "feature/issue-15-proposal-execution"
   },
   {
     "id": "T10",
@@ -230,13 +248,15 @@
     ],
     "branchTemplate": "feature/issue-{number}-snapshot-core",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/16",
     "branchCreated": false,
     "files": [
       "src/evidence/",
       "tests/snapshot-core.test.mjs"
     ],
-    "acceptance": "连续事件序号、完整字段；导出恢复不新增世界事件；schema/rule/scenario版本均1。"
+    "acceptance": "连续事件序号、完整字段；导出恢复不新增世界事件；schema/rule/scenario版本均1。",
+    "issueNumber": 16,
+    "branch": "feature/issue-16-snapshot-core"
   },
   {
     "id": "T11",
@@ -255,13 +275,15 @@
     ],
     "branchTemplate": "test/issue-{number}-snapshot-validation",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/17",
     "branchCreated": false,
     "files": [
       "src/evidence/",
       "tests/snapshot-validation.test.mjs"
     ],
-    "acceptance": "坏JSON、5MiB、缺字段、版本、负数、序号、引用分别拒绝；15+恢复+15等于30。"
+    "acceptance": "坏JSON、5MiB、缺字段、版本、负数、序号、引用分别拒绝；15+恢复+15等于30。",
+    "issueNumber": 17,
+    "branch": "test/issue-17-snapshot-validation"
   },
   {
     "id": "T12",
@@ -277,7 +299,7 @@
     ],
     "branchTemplate": "test/issue-{number}-integration-demo",
     "status": "Backlog",
-    "issueUrl": null,
+    "issueUrl": "https://github.com/Lzz131419/town-simulation-project-docs/issues/18",
     "branchCreated": false,
     "files": [
       "src/app/",
@@ -285,6 +307,8 @@
       "tests/e2e.test.mjs",
       "docs/test/implementation-results.md"
     ],
-    "acceptance": "按演示脚本跑全链路，提供实际环境、30日结果、恢复对照、性能样本与缺陷清单；不以探针代替。"
+    "acceptance": "按演示脚本跑全链路，提供实际环境、30日结果、恢复对照、性能样本与缺陷清单；不以探针代替。",
+    "issueNumber": 18,
+    "branch": "test/issue-18-integration-demo"
   }
 ]
