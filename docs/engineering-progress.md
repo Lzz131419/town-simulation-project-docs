@@ -26,7 +26,7 @@
 | T03 | `feature/issue-9-observer-ui` | `feature/issue-8-world-control` | [#31](https://github.com/Lzz131419/town-simulation-project-docs/pull/31) |
 | T12 | `test/issue-18-integration-demo` | `feature/issue-9-observer-ui` | [#32](https://github.com/Lzz131419/town-simulation-project-docs/pull/32) |
 
-中文前端重构跟踪[Issue #33](https://github.com/Lzz131419/town-simulation-project-docs/issues/33)，基于T12分支，包含最新桌面UI、格式整理与文档/证据同步。
+中文前端重构跟踪[Issue #33](https://github.com/Lzz131419/town-simulation-project-docs/issues/33)，已发布[PR #36](https://github.com/Lzz131419/town-simulation-project-docs/pull/36)，分支`feature/issue-33-chinese-town-view`基于T12，包含最新桌面UI、相关源码格式整理与文档/证据同步。
 
 ## 尚未完成的人工流程
 至少一名非作者Review、ADR-001/002接受、PR合并与任务Done均等待真实人工操作。负责人是计划分工，成果按小组共同交付，不编造个人贡献。第6周README-only演练已创建PR #35，人工评审待办独立跟踪于[GitHub交付](github-delivery.md)。
