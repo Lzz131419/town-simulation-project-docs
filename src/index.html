@@ -17,13 +17,6 @@
         ><span class="town-logo" aria-hidden="true"><i></i><i></i><i></i></span
         ><span>雾河镇<small>数字居民的小小世界</small></span></a
       >
-      <nav aria-label="主导航">
-        <button class="nav-button active" id="nav-town">小镇观察</button
-        ><button class="nav-button" id="nav-residents">居民档案</button
-        ><button class="nav-button" id="nav-events">
-          事件簿 <span id="total-events">0</span>
-        </button>
-      </nav>
       <div class="header-actions">
         <button id="open-profile" class="quiet">＋ 添加居民</button
         ><span class="divider"></span
@@ -38,13 +31,37 @@
         </button>
       </div>
     </header>
+    <aside class="workspace-nav" aria-label="工作区导航">
+      <span class="workspace-caption">小镇工作区</span>
+      <nav aria-label="主导航">
+        <button class="nav-button active" id="nav-town" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">▦</span>小镇观察
+        </button>
+        <button class="nav-button" id="nav-residents">
+          <span class="nav-icon" aria-hidden="true">♙</span>居民档案
+        </button>
+        <button class="nav-button" id="nav-affairs">
+          <span class="nav-icon" aria-hidden="true">◇</span>公共事务
+        </button>
+        <button class="nav-button" id="nav-events">
+          <span class="nav-icon" aria-hidden="true">≡</span>事件簿
+          <span id="total-events" class="nav-count">0</span>
+        </button>
+      </nav>
+      <div class="workspace-note">
+        <span>生活 · 连接 · 共建</span
+        ><strong>每个居民，<br />都有故事。</strong>
+        <p>观察一座小镇，<br />理解每一次共同选择。</p>
+        <div class="local-badge"><i></i> 本地模拟空间</div>
+      </div>
+    </aside>
     <main class="workbench">
       <div class="map-column">
         <section class="world-heading">
           <div class="world-title">
             <span class="live-dot"></span>
-            <h1>雾河镇</h1>
-            <span class="muted">河流旁的共同生活</span>
+            <h1>小镇观察室</h1>
+            <span class="muted">雾河镇 · 河流旁的共同生活</span>
           </div>
           <div class="town-stats" aria-label="小镇总览">
             <div>

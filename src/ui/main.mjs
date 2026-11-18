@@ -101,6 +101,9 @@ function options(select, items, emptyLabel) {
   if (items.some(([id]) => id === previous)) select.value = previous;
 }
 function selectPanel(name) {
+  if (name === "decision") setNavigation("nav-affairs");
+  else if ($("nav-affairs").classList.contains("active"))
+    setNavigation("nav-town");
   for (const value of ["resident", "decision"]) {
     $(`tab-${value}`).setAttribute("aria-selected", String(value === name));
     $(`${value}-panel`).hidden = value !== name;
@@ -522,11 +525,27 @@ for (const [id, mode] of [
     $("show-relations").classList.toggle("active", mode === "relations");
     renderAgent();
   });
+function setNavigation(id) {
+  for (const button of document.querySelectorAll(
+    ".workspace-nav .nav-button",
+  )) {
+    const active = button.id === id;
+    button.classList.toggle("active", active);
+    if (active) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+  }
+}
+$("nav-affairs").addEventListener("click", () => {
+  setNavigation("nav-affairs");
+  selectPanel("decision");
+});
 $("nav-town").addEventListener("click", () => {
+  setNavigation("nav-town");
   map.reset();
   selectPanel("resident");
 });
 $("nav-residents").addEventListener("click", () => {
+  setNavigation("nav-residents");
   selectPanel("resident");
   $("resident-search").focus();
 });
