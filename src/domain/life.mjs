@@ -34,3 +34,23 @@ export function settleLivelihood(world) {
  for(const agent of order) events.push(...consume(world,agent));
  return events;
 }
+export function socialize(world) {
+ const plaza=world.state.facilities.find(f=>f.facilityId==='plaza-01');
+ if(!plaza.open || plaza.capacity===0) return [draft('FACILITY_UNAVAILABLE',[],['plaza-01'],'plaza_closed_or_zero_capacity')];
+ const agents=sortedAgents(world).filter(a=>a.energy>=5&&a.hunger<80).slice(0,plaza.capacity);
+ if(agents.length<2) return [draft('SOCIAL_SKIPPED',[],['plaza-01'],'fewer_than_two')];
+ const events=[];
+ for(let i=0;i+1<agents.length;i+=2) {
+  const [a,b]=[agents[i],agents[i+1]],effects=[change(a.agentId,a,'energy',a.energy-5),change(b.agentId,b,'energy',b.energy-5)];
+  for(const [x,y] of [[a,b],[b,a]]) for(const [field,delta] of [['trust',1],['affinity',2]]) {
+   const before=x.relationships[y.agentId][field],after=clamp(before+delta);x.relationships[y.agentId][field]=after;
+   effects.push({entityId:x.agentId,field:`relationships.${y.agentId}.${field}`,before,after});
+  }
+  events.push(draft('SOCIAL_INTERACTION',[a.agentId,b.agentId],['plaza-01'],'paired_by_stable_id',effects));
+ }
+ return events;
+}
+export function settleDay(world) {
+ const events=settleLivelihood(world);events.push(...socialize(world),draft('DAY_SUMMARY',[],['town'],'daily_settlement_complete'));
+ assertInvariants(world);return events.map(e=>({...e,causedBy:`tick:${world.state.day}`}));
+}
