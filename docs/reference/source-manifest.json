@@ -1,0 +1,74 @@
+{
+  "reviewDate": "2026-11-18",
+  "sources": [
+    {
+      "name": "06 AI原生项目管理与上下文构建.pdf",
+      "pages": 25,
+      "sha256": "aa98f8f361e690724df1a35e0814db8da54937befff7b16e6ea9bd26ebc3d1a9"
+    },
+    {
+      "name": "07 Spec：给AI的人机契约.pdf",
+      "pages": 25,
+      "sha256": "6d0b409bb8662b76375816253ec8d3ee2d59cfaf94168a90c12534716145cd3f"
+    },
+    {
+      "name": "08 从 Spec 到架构.pdf",
+      "pages": 26,
+      "sha256": "63715cac352020f0955e4d1a1edc4c65f959ca2b9fded516e7423634240c88a5"
+    },
+    {
+      "name": "09 把架构拆成可评审的任务.pdf",
+      "pages": 24,
+      "sha256": "88f5d6c1dbfa9430faec08d949773db70ceb7a157b82fa3f10e31b029149d546"
+    },
+    {
+      "name": "town_simulation_project_idea.pdf",
+      "pages": 8,
+      "sha256": "c3fc1ebd3b8b0e18aea9a7fc85227e0b1ec1fadc4d491797cf68aec8ec97f62b"
+    },
+    {
+      "name": "07.1. mvp1-scope.md",
+      "sha256": "55e84cfa4213c01a5324d66f64af0e2979b81108f7e2fced9b75c1efabb798c6"
+    },
+    {
+      "name": "07.2. module-01-borrow.md",
+      "sha256": "40b844b9f456fb3bbd81e9744cadf06dc2c7d57d99290ed02915ef433ad720e7"
+    },
+    {
+      "name": "07.3. cold-start-01.md",
+      "sha256": "0597556f07d6655493693d90fa642c453bd16bb78e9e211e48003e23160e9c06"
+    },
+    {
+      "name": "08.1. ADR-001-borrow-concurrency.md",
+      "sha256": "7fb3294e6987f798919fd71eacee0c5789ee961402ec16a2ca96d6261af60218"
+    },
+    {
+      "name": "08.2. architecture.md",
+      "sha256": "4a944ac3e8d7c09d9a1ed9a38b6843578794706fe46fcd6e250751c044c9311f"
+    },
+    {
+      "name": "08.3. dependency.md",
+      "sha256": "751208016f51d11cd429c06fd9779b76040147d696681f7fd3fc9d5dc966228b"
+    },
+    {
+      "name": "08.4. plan.md",
+      "sha256": "868ebf3ac8e9e3069d3b43ed5483dde1c76f01016819edd7c57a1b3188ba1687"
+    },
+    {
+      "name": "09.1 mvp1-plan.md",
+      "sha256": "9ebc5531c8d7813790fff8cd727de701df88c05dfa9a77fead7333779ed6bb2b"
+    },
+    {
+      "name": "09.2 分支规划表.md",
+      "sha256": "df405eaabc6a6881e08aea5b232ecdbf29fb543bf730963e25e9219dc2c32064"
+    },
+    {
+      "name": "09.3. 分支规划表.md",
+      "sha256": "0439860982aea9cf932a89b6c0575869e444930969697b21e49bc19535e8803b"
+    },
+    {
+      "name": "09.4. Issue.md",
+      "sha256": "9b2ce62d9b95d7ea6964c3b54e3937da60ffd9154a24e53bd1bdbad9dbaa79cc"
+    }
+  ]
+}

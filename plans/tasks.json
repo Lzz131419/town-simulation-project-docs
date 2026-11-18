@@ -1,0 +1,290 @@
+[
+  {
+    "id": "T01",
+    "title": "建立共享状态契约与初始化夹具",
+    "owner": "张果",
+    "reviewer": "姚富恩",
+    "estimateDays": 2,
+    "dependsOn": [],
+    "refs": [
+      "ADR-001",
+      "ADR-002"
+    ],
+    "branchTemplate": "feature/issue-{number}-schema",
+    "status": "This Week",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/shared/",
+      "tests/shared.test.mjs"
+    ],
+    "acceptance": "固定字段/种子/版本及30人初始夹具，资金总额1600；无DOM和网络依赖。"
+  },
+  {
+    "id": "T02",
+    "title": "实现世界初始化与原子时间控制",
+    "owner": "王崛",
+    "reviewer": "张果",
+    "estimateDays": 3,
+    "dependsOn": [
+      "T01",
+      "T04",
+      "T05",
+      "T10"
+    ],
+    "refs": [
+      "M1-AC-01",
+      "M1-AC-02"
+    ],
+    "branchTemplate": "feature/issue-{number}-world-control",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/app/",
+      "tests/world-control.test.mjs"
+    ],
+    "acceptance": "day=0起步；暂停可手动单步；忙/过期/异常全世界不变；参数错误不覆盖现有世界。"
+  },
+  {
+    "id": "T03",
+    "title": "实现观察页面与一次短缺交互",
+    "owner": "张果",
+    "reviewer": "王崛",
+    "estimateDays": 3,
+    "dependsOn": [
+      "T02",
+      "T06",
+      "T07",
+      "T08",
+      "T09",
+      "T10",
+      "T11"
+    ],
+    "refs": [
+      "M1-AC-03",
+      "M1-AC-04"
+    ],
+    "branchTemplate": "feature/issue-{number}-observer-ui",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/ui/",
+      "src/index.html",
+      "tests/observer-ui.test.mjs"
+    ],
+    "acceptance": "展示五个区域并消费应用结果；未知居民明确错误；短缺取floor(F*0.8)，重复拒绝；不在UI计算业务规则。"
+  },
+  {
+    "id": "T04",
+    "title": "实现工作工资与食水消费规则",
+    "owner": "李展博",
+    "reviewer": "钱俊昊",
+    "estimateDays": 3,
+    "dependsOn": [
+      "T01"
+    ],
+    "refs": [
+      "M2-AC-01",
+      "M2-AC-02"
+    ],
+    "branchTemplate": "feature/issue-{number}-livelihood",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/domain/life.mjs",
+      "tests/livelihood.test.mjs"
+    ],
+    "acceptance": "工作20/19精力、工资不足、饥饿49/50、余额1/2、零粮水边界可核对。"
+  },
+  {
+    "id": "T05",
+    "title": "实现广场关系与每日不变量检查",
+    "owner": "李展博",
+    "reviewer": "姚富恩",
+    "estimateDays": 2,
+    "dependsOn": [
+      "T04"
+    ],
+    "refs": [
+      "M2-AC-03",
+      "M2-AC-04"
+    ],
+    "branchTemplate": "feature/issue-{number}-social-invariants",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/domain/life.mjs",
+      "tests/social-invariants.test.mjs"
+    ],
+    "acceptance": "两人配对/容量10/关闭/上限100；固定输入30天稳定且资金守恒。"
+  },
+  {
+    "id": "T06",
+    "title": "实现一名数字人物的加入与时点约束",
+    "owner": "孙祥",
+    "reviewer": "李展博",
+    "estimateDays": 2,
+    "dependsOn": [
+      "T01"
+    ],
+    "refs": [
+      "M3-AC-01",
+      "M3-AC-03"
+    ],
+    "branchTemplate": "feature/issue-{number}-profile-import",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/domain/profile.mjs",
+      "tests/profile-import.test.mjs"
+    ],
+    "acceptance": "默认resident、cash0、人口31；上限及投票关闭拒绝；同名依靠ID区分。"
+  },
+  {
+    "id": "T07",
+    "title": "实现人物授权校验与安全文本展示适配",
+    "owner": "孙祥",
+    "reviewer": "张果",
+    "estimateDays": 2,
+    "dependsOn": [
+      "T06"
+    ],
+    "refs": [
+      "M3-AC-02",
+      "M3-AC-04"
+    ],
+    "branchTemplate": "feature/issue-{number}-profile-validation",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/domain/profile.mjs",
+      "src/ui/profile-view.mjs",
+      "tests/profile-validation.test.mjs"
+    ],
+    "acceptance": "16KiB、授权boolean、字段白名单、20码点与住宅校验；HTML文本不执行、不联网。"
+  },
+  {
+    "id": "T08",
+    "title": "实现固定议案的立场快照与计票",
+    "owner": "钱俊昊",
+    "reviewer": "孙祥",
+    "estimateDays": 2,
+    "dependsOn": [
+      "T01"
+    ],
+    "refs": [
+      "M4-AC-01",
+      "M4-AC-02"
+    ],
+    "branchTemplate": "feature/issue-{number}-proposal-vote",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/domain/decision.mjs",
+      "tests/proposal-vote.test.mjs"
+    ],
+    "acceptance": "score10=499/500、平票、空名单、关闭重复等结果准确；每人恰好一票。"
+  },
+  {
+    "id": "T09",
+    "title": "实现维修执行的资金与重复保护",
+    "owner": "钱俊昊",
+    "reviewer": "王崛",
+    "estimateDays": 2,
+    "dependsOn": [
+      "T08"
+    ],
+    "refs": [
+      "M4-AC-03",
+      "M4-AC-04"
+    ],
+    "branchTemplate": "feature/issue-{number}-proposal-execution",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/domain/decision.mjs",
+      "tests/proposal-execution.test.mjs"
+    ],
+    "acceptance": "119拒绝且events不变，120成功公库0；信任截断、外部支出列账；重复/故障无部分效果。"
+  },
+  {
+    "id": "T10",
+    "title": "实现事件契约与快照等值恢复",
+    "owner": "姚富恩",
+    "reviewer": "孙祥",
+    "estimateDays": 2,
+    "dependsOn": [
+      "T01"
+    ],
+    "refs": [
+      "M5-AC-01",
+      "M5-AC-02"
+    ],
+    "branchTemplate": "feature/issue-{number}-snapshot-core",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/evidence/",
+      "tests/snapshot-core.test.mjs"
+    ],
+    "acceptance": "连续事件序号、完整字段；导出恢复不新增世界事件；schema/rule/scenario版本均1。"
+  },
+  {
+    "id": "T11",
+    "title": "实现快照拒绝校验与续跑复现测试",
+    "owner": "姚富恩",
+    "reviewer": "李展博",
+    "estimateDays": 2,
+    "dependsOn": [
+      "T10",
+      "T04",
+      "T05"
+    ],
+    "refs": [
+      "M5-AC-03",
+      "M5-AC-04"
+    ],
+    "branchTemplate": "test/issue-{number}-snapshot-validation",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/evidence/",
+      "tests/snapshot-validation.test.mjs"
+    ],
+    "acceptance": "坏JSON、5MiB、缺字段、版本、负数、序号、引用分别拒绝；15+恢复+15等于30。"
+  },
+  {
+    "id": "T12",
+    "title": "完成单页集成与演示验收证据",
+    "owner": "王崛",
+    "reviewer": "张果",
+    "estimateDays": 2,
+    "dependsOn": [
+      "T03"
+    ],
+    "refs": [
+      "DEMO-01"
+    ],
+    "branchTemplate": "test/issue-{number}-integration-demo",
+    "status": "Backlog",
+    "issueUrl": null,
+    "branchCreated": false,
+    "files": [
+      "src/app/",
+      "src/index.html",
+      "tests/e2e.test.mjs",
+      "docs/test/implementation-results.md"
+    ],
+    "acceptance": "按演示脚本跑全链路，提供实际环境、30日结果、恢复对照、性能样本与缺陷清单；不以探针代替。"
+  }
+]

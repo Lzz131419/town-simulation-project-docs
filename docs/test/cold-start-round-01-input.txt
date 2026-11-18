@@ -1,0 +1,71 @@
+请仅根据下面这一份模块规格回答最后的问题；不读取其他文件，不使用任何项目历史，不补充规格未定义的规则。不调用工具、不修改文件，只直接回答问题。
+
+# 模块Spec：M4 公共议题与决策
+
+> 版本2.0；2026-11-18；负责人：钱俊昊；状态：本地重建，待团队评审。
+
+## 摘要
+只实现固定议案repair-well-01（维修老水井）：查看立场、关闭投票、执行一次资源效果。创建者不能直接改票。成功状态转换写入世界事件；拒绝操作只返回错误并写会话diagnostics，world（含events）不变。此规则为自包含契约，不依赖其他文档才能解释失败副作用。
+
+## 用户故事
+- **M4-US-1：理解公共选择**。作为观察者，我想查看居民立场与票数，以便知道为何通过或被否决。
+- **M4-US-2：执行并检查资金边界**。作为创建者，我想执行已通过维修并获得失败原因，以便避免重复或部分扣款。
+
+## 验收标准（Given/When/Then）
+
+### M4-AC-01：立场与正常计票（M4-US-1）
+```gherkin
+Given 议案OPEN、30或31名居民，所有在册居民有一票；一名居民waterNeed=50、communityTrust=50、对提案者affinity=50
+When 调用closeVote
+Then 每位居民计算整数score10=5*waterNeed+3*communityTrust+2*affinity，≥500支持，故该居民恰好500支持；所有人按agentId唯一计票且保存三个输入、score10、ruleVersion。支持严格多于反对则APPROVED，否则REJECTED，记录PROPOSAL_VOTED；不扣款、不加水。
+```
+
+### M4-AC-02：平票、空名单与关闭保护（M4-US-1）
+```gherkin
+Given OPEN且支持15反对15；另设无人名单与已关闭议案
+When 关闭投票
+Then 平票成功结算为REJECTED（不是接口错误），零资源变化；名单为空返回NO_ELIGIBLE_VOTERS且仍OPEN；重复关闭返回VOTE_ALREADY_CLOSED且保留原票数/状态/events；proposalId不存在时返回PROPOSAL_NOT_FOUND且世界不变。只存在整批规则表决入口，不提供人工逐票或重复投票接口。
+```
+
+### M4-AC-03：执行成功与资金边界（M4-US-2）
+```gherkin
+Given APPROVED，成本120，清水W，communityTrust=C，externalSpent=E；分别设置公库120和119
+When 执行议案
+Then 公库120时成功变0，清水W+30、信任min(100,C+5)、externalSpent=E+120、状态EXECUTED，只追加一条PROPOSAL_EXECUTED。公库119时返回INSUFFICIENT_TREASURY，message说明缺1；仍APPROVED，公库119、清水W、信任C、externalSpent E、rngState与events全部不变，不追加失败世界事件；允许独立diagnostics追加错误码。
+```
+
+### M4-AC-04：重复执行、无效状态与原子失败（M4-US-2）
+```gherkin
+Given 分别为EXECUTED、OPEN/REJECTED、不存在的proposalId、参数版本非1，或提交前注入失败
+When 执行议案
+Then 依次返回PROPOSAL_ALREADY_EXECUTED、PROPOSAL_NOT_APPROVED、PROPOSAL_NOT_FOUND、PROPOSAL_VERSION_MISMATCH或PROPOSAL_EXECUTION_FAILED；都不扣款、不加水、不改信任/议案/rngState/events。两个相同expectedRevision的执行只有第一个可提交，第二个STATE_CONFLICT；更新revision后再执行则PROPOSAL_ALREADY_EXECUTED。
+```
+
+## 功能需求
+- **M4-FR-01（US-1）**：初始化唯一议案：proposalId=repair-well-01，version=1，status=OPEN，cost=120，waterEffect=30，trustEffect=5，proposerAgentId=resident-001。议案无需故障事件触发。
+- **M4-FR-02（US-1）**：所有在册居民有一票，休息/饥饿不影响资格。提案者自己的affinity固定50；其他居民读取对提案者关系，缺省值50。采用整数score10防浮点阈值歧义；展示score=score10/10。
+- **M4-FR-03（US-1）**：关闭投票时一次性快照输入、计算全体选票、冻结票数。OPEN → APPROVED或REJECTED；关闭后不得追加人物或重新投票。查看立场预览不修改状态；关闭票数才是正式结果。
+- **M4-FR-04（US-2）**：执行校验顺序：M1 busy/revision/暂停校验（忙为STEP_IN_PROGRESS、过期为STATE_CONFLICT、运行中为SIMULATION_RUNNING；均无世界副作用） → ID → 参数版本 → EXECUTED检查 → APPROVED检查 → 公库≥120 → 副本中扣120、清水+30、信任+5截断100、externalSpent+120 → 状态EXECUTED → 一条成功事件 → 原子替换。
+- **M4-FR-05（US-2）**：Result成功 `{ok:true,data:{proposalId,status,treasury,water,communityTrust,externalSpent},events:[event]}`；失败 `{ok:false,error:{code,message},events:[]}`。无HTTP状态码，因为MVP1是本地函数接口。失败diagnostics与世界事件分离，不进入快照，不参与复现摘要。
+- **M4-FR-06（US-2）**：示例：119镇币执行120成本是拒绝，缺口1，议案保持APPROVED；下一次补足公库后允许重试（MVP1资金来自正常交易，不提供手工改余额按钮）。执行后不能撤回或再次执行。
+
+## 非功能需求
+确定性计票、原子结算、最多一次成功执行。每张票可解释到输入与整数阈值；不以规则立场推断真实人物政治立场。失败不得产生部分资源变化。
+
+## 边界与异常
+| 场景 | 预期行为 | 对应AC |
+| --- | --- | --- |
+| score10=499/500 | 499反对，500支持 | M4-AC-01 |
+| 平票/无人/重复关闭 | REJECTED / NO_ELIGIBLE_VOTERS / VOTE_ALREADY_CLOSED | M4-AC-02 |
+| 公库119/120、信任98 | 拒绝缺1 / 执行公库0 / 信任截断100 | M4-AC-03 |
+| 已执行/未通过/ID不存在/版本不符/提交失败 | 对应明确错误且world/events不变 | M4-AC-04 |
+
+## Non-Goals
+不自由提案、不多议案、不多轮对话、不手工改票、不加权投票、不借贷、不模拟现实政治结论。
+
+## 变更记录
+| 日期 | 变更 | 原因 |
+| --- | --- | --- |
+| 2026-11-18 | 统一为2.0；正常/边界/异常均给可观察结果 | 对齐课程模板，修正旧版歧义 |
+
+问题：公库只有119镇币时，创建者执行一个已通过、成本为120镇币的维修水井议案，系统应该发生什么？为什么？

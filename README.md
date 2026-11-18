@@ -1,66 +1,54 @@
-# 雾河镇：数字居民小镇模拟器
+# 雾河镇：数字居民小镇模拟系统
 
-一个围绕居民生活、资源生产、社交关系与公共决策的可交互小镇模拟器。当前仓库处于需求定义阶段，包含项目治理文档、规划文档和保存在 `docs/spike/` 下的技术探针。
+让观察者看到居民如何生活、交往和作出公共选择，并用事件与快照解释和复现结果。
 
-## 快速开始
+**本仓库当前交付：课程第6–9周工程文档基线（2026-11-18，v2.0）。正式MVP1业务代码尚未开发；历史HTML仅是技术探针。**
 
-下载或克隆仓库后，可直接用最新版 Chrome、Edge、Safari 或 Firefox 打开 [`docs/spike/town-simulation-spike.html`](docs/spike/town-simulation-spike.html)。该页面是技术探针，不需要安装依赖、启动服务器、配置 API 密钥或执行构建命令。
-
-技术探针不是 MVP1 验收结果，正式业务代码尚未开始。
-
-## 技术探针范围
-
-- 以 30 位居民开始模拟，可生成规则居民，并通过表单导入 1 位已获授权的数字人物。
-- 按天推进、暂停与恢复模拟；基于规则结算工作、生产、消费、余额、资源和居民关系。
-- 查看小镇地图、设施及库存、居民名册和居民详情，包括精力、饥饿、余额、关系和近期记忆。
-- 对“维修老水井”公共议题投票；议案通过后扣除公库资金，并更新清水资源和社区信任。
-- 手动触发轻度粮食短缺，查看库存变化及原因事件；库存偏低时也会记录告警。
-- 查看事件时间线；将状态保存到浏览器本地，或导入、导出 JSON 快照以恢复和复现实验。
-- 使用固定伪随机种子；模拟规则由本地代码执行，不调用 AI 模型。
-
-## 演示流程
-
-1. 打开 `docs/spike/town-simulation-spike.html`，查看初始居民与小镇状态。
-2. 推进数日，观察生产、消费、关系和事件记录。
-3. 对“维修老水井”投票并通过，观察公库、清水库存和信任变化。
-4. 触发粮食短缺，检查居民库存与事件时间线。
-5. 导出快照，再导入以恢复模拟状态。
-
-## 当前实现边界
-
-这是需求阶段的纯前端技术探针。状态保存在当前浏览器的 `localStorage`，不同浏览器或设备之间不会自动同步；当前没有账号系统、服务端数据库、多用户协作或 AI API。人物资料仅应在取得授权后导入。探针不适用于真实个人数据或真实治理决策。
-
-## 标准目录
-
-| 目录 | 用途 |
+## 本轮从哪里看
+| 课程任务 | 主要交付 |
 | --- | --- |
-| `spec/` | 范围、模块和验收标准 |
-| `adr/` | 架构决策记录 |
-| `plans/` | 阶段计划与任务拆解 |
-| `src/` | 通过 Spec 和 ADR 后的正式业务代码 |
-| `tests/` | 规则、模块和验收测试 |
-| `docs/spike/` | 不构成正式验收结果的技术探针 |
-| `.github/` | Issue、PR 和仓库协作模板 |
+| 06 上下文与协作 | [context](context.md)、[AI规则](agent-rules.md)、[团队安排](docs/team-guide.md) |
+| 07 Spec与验收 | [MVP1范围](spec/mvp1-scope.md)、[五模块Spec](spec/README.md)、[冷启动记录](docs/test/cold-start-01.md) |
+| 08 架构与决策 | [架构](docs/architecture.md)、[ADR-001](adr/ADR-001-runtime-and-state.md)、[ADR-002](adr/ADR-002-atomicity-and-replay.md)、[依赖风险](docs/dependency.md)、[探针计划](docs/spike/plan.md) |
+| 09 任务与评审 | [12项任务Plan](plans/mvp1-plan.md)、[分支表](plans/branch-plan.md)、[PR准入](docs/review/pr-checklist.md)、[待发布Issue](plans/issues/README.md) |
 
-目录约定见 [agent-rules.md](agent-rules.md)，不得为临时任务随意新建顶层目录。
+M4已完成两轮独立冷启动校验：补充完整错误返回示例后，本场景复测通过；原始输入、回答和哈希保存在校验记录中。
 
-## 项目规划文档
+**逐项核对：[PDF与模板交付检查表](docs/delivery-checklist.md) · [需求追踪矩阵](docs/traceability.md) · [本地检查结果](docs/review/validation.md)**
 
-- [context.md](context.md)：项目背景、目标、角色、领域对象与约束。
-- [spec/mvp1-scope.md](spec/mvp1-scope.md)：MVP1 端到端范围与模块责任。
-- [spec/README.md](spec/README.md)：MVP1 模块规格索引。
-- [spec/SRS.md](spec/SRS.md)：第一阶段软件需求规格。
-- [plans/phase-1.md](plans/phase-1.md)：第一阶段计划、演示与验收要点。
-- [plans/week-07.md](plans/week-07.md)：第 7 周 MVP1 范围、模块规格、冷启动与六人分工计划。
-- [adr/0001-prototype-technology.md](adr/0001-prototype-technology.md)：原型技术选择记录。
-- [agent-rules.md](agent-rules.md)：协作与 AI 使用约定。
-- [docs/team-guide.md](docs/team-guide.md)：团队协作和文档流程。
-- [docs/week-07/雾河镇第七周课堂展示讲稿与文件展示指引.docx](docs/week-07/雾河镇第七周课堂展示讲稿与文件展示指引.docx)：5 分钟课堂讲稿、展示顺序和备用问答。
+## MVP1做什么
+固定30名生成居民，最多导入1名授权数字人物；从day=0推进30日，观察生产、消费与广场关系，触发一次粮食短缺，完成一次维修水井表决与执行，再通过快照恢复和续跑验证可复现性。
 
-## 技术实现
+不纳入MVP1：模型对话、账号/云同步、自由地图、历史模拟、玩家视角。原构想中的这些方向保留在 [阶段计划](plans/phase-1.md)，不冒充已实现功能。
 
-当前探针采用单文件 HTML、CSS 和原生 JavaScript，以浏览器 `localStorage` 保存状态。模拟逻辑为确定性规则，不调用模型。正式 MVP1 技术栈将在 Spec 完成后通过 ADR 决定，并在 `src/` 中实现。
+## 检查与阅读
+文档检查仅依赖Python 3标准库：
+```sh
+python3 docs/tools/validate_docs.py
+```
+机制探针需Node.js 22+：
+```sh
+node --test docs/spike/atomic-replay-probe.mjs
+```
+这些检查不等于业务功能通过。正式开发与测试按 [DEMO-01](docs/test/demo-acceptance.md) 执行。
 
-## 贡献
+课堂展示可用 [讲解与文件指引](docs/presentation-guide.md)。初始化和人物样例见 [fixtures说明](docs/contracts/data-contract.md)，都是配置/输入样例，不是假造的运行结果。
 
-欢迎通过 GitHub Issue 提交建议、缺陷或改进方向。所有任务先建 Issue，再从短期分支发起 Pull Request，并使用仓库内的 PR 模板填写关联 Spec、AI 使用说明、验证证据、风险和回滚方案。公开仓库允许任何人查看和 Fork；只有仓库所有者授权的协作者才能直接推送或合并更改。
+## 保留的历史材料
+- [历史HTML探针](docs/spike/town-simulation-spike.html)：可本地直接打开，仅用于交互方向讨论；限制见[说明](docs/spike/town-simulation-spike.md)。
+- [2026-11-10冷启动记录](docs/test/cold-start-2026-11-10-history.md)：属于旧M4 v1.1，不证明新Spec。
+- [旧第7周DOCX讲稿说明](docs/week-07/README.md)：保留历史，最新规则以v2.0为准。
+
+## 仓库结构
+```text
+context.md / agent-rules.md       全局边界与协作
+spec/                            范围与五模块Spec
+adr/                             架构决策
+plans/                           Plan、分支、12份Issue正文
+docs/                            架构、风险、验收、参考、探针与检查
+src/ / tests/                    正式开发占位说明
+.github/                         Issue和PR模板
+```
+
+## 提交与线上流程
+本轮文档已完成本地重建、冷启动与检查，现按用户授权提交GitHub。[发布清单](docs/github-delivery.md)说明真实Issue/Projects/PR的建立与回读方法。占位分支编号和本地状态不代表线上已创建；不把人工评审或课程流程写成已通过。
