@@ -3,7 +3,7 @@
 2026-11-18用户授权正式实现，随后要求中文原创像素小镇桌面界面。文档基线保留在main提交03c9856；工程实现尚待人工评审合并。
 
 ## 已实现与验证
-五模块与DEMO-01已实现，39项本地Node测试通过；浏览器性能与完整文件恢复通过。最新界面、桌面尺寸和原始证据见[验收记录](test/implementation-results.md)。GitHub Actions暂未返回运行记录，不将本地通过写成远端CI通过。
+五模块与DEMO-01已实现，44项本地Node测试通过；浏览器性能与完整文件恢复通过。最新界面、桌面尺寸和原始证据见[验收记录](test/implementation-results.md)。GitHub Actions暂未返回运行记录，不将本地通过写成远端CI通过。
 
 ## 任务与PR
 [工程看板](https://github.com/users/techcswang-cpu/projects/1)由当前协作者techcswang-cpu持有，保持私有；默认仓库为本项目，未变更成员权限，未声称已挂入仓库Projects页。12项任务均为Review，治理/人工评审跟踪列入This Week，Done为空；[看板截图](test/evidence/project-board.png)记录五列与计数。
