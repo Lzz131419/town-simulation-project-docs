@@ -1,6 +1,6 @@
 # DEMO-01：MVP1端到端演示验收
 
-> 这是第10–11周正式实现的验收方案，当前没有业务执行结果。旧HTML探针不能代替本记录。
+> 这是正式实现的验收方案；2026-11-18实际执行结果见[实现验收记录](implementation-results.md)。旧HTML探针不作为结果依据。
 
 ## 环境与输入
 Node.js 22+、桌面Chrome/Edge；记录操作系统、CPU、浏览器版本、commit。输入使用scenario-v1.json与虚构人物digital-profile-v1.json，种子20261118，版本均1。
@@ -29,4 +29,4 @@ Then 关键差额可逐事件解释，A/B全世界等值，所有模块AC有实�
 ```
 
 ## 证据提交格式
-记录环境/commit、操作脚本、30日快照、A/B规范化差异、截图、性能原始样本、测试日志、Reviewer意见和未解决缺陷。业务验收时放docs/test/implementation-results.md；当前不创建填有“通过”的虚假结果。
+记录环境/commit、操作脚本、30日快照、A/B规范化差异、截图、性能原始样本、测试日志、Reviewer意见和未解决缺陷。实际运行证据已放入docs/test/implementation-results.md；人工Reviewer意见仍待真实评审。

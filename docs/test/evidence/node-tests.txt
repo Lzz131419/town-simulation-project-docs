@@ -1,0 +1,278 @@
+
+> mist-river-town@0.1.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: DEMO-01: 31 residents, day7 shortage/vote/repair, day15 restoration and matching day30
+ok 1 - DEMO-01: 31 residents, day7 shortage/vote/repair, day15 restoration and matching day30
+  ---
+  duration_ms: 709.607292
+  type: 'test'
+  ...
+# Subtest: M4-AC-03: full dispatcher rejects 119 without side effects; 120 succeeds
+ok 2 - M4-AC-03: full dispatcher rejects 119 without side effects; 120 succeeds
+  ---
+  duration_ms: 88.275958
+  type: 'test'
+  ...
+# Subtest: M5-AC-03: all corrupt snapshot rejection paths preserve dispatcher state and revision
+ok 3 - M5-AC-03: all corrupt snapshot rejection paths preserve dispatcher state and revision
+  ---
+  duration_ms: 15.529917
+  type: 'test'
+  ...
+# Subtest: M2-AC-01: energy 19/20 and partial wage
+ok 4 - M2-AC-01: energy 19/20 and partial wage
+  ---
+  duration_ms: 6.7895
+  type: 'test'
+  ...
+# Subtest: M2-AC-02: hunger, stock and cash thresholds; stock error has precedence
+ok 5 - M2-AC-02: hunger, stock and cash thresholds; stock error has precedence
+  ---
+  duration_ms: 11.570708
+  type: 'test'
+  ...
+# Subtest: M2-AC-02: water 69/70 and zero stock
+ok 6 - M2-AC-02: water 69/70 and zero stock
+  ---
+  duration_ms: 0.427292
+  type: 'test'
+  ...
+# Subtest: M2-AC-04: needs clamp at 100
+ok 7 - M2-AC-04: needs clamp at 100
+  ---
+  duration_ms: 4.093583
+  type: 'test'
+  ...
+# Subtest: M1-AC-03: overview, unknown agent, recent ten events, filters and immutable query results
+ok 8 - M1-AC-03: overview, unknown agent, recent ten events, filters and immutable query results
+  ---
+  duration_ms: 74.897541
+  type: 'test'
+  ...
+# Subtest: M1-AC-04: floor, zero inventory and duplicate shortage without side effects
+ok 9 - M1-AC-04: floor, zero inventory and duplicate shortage without side effects
+  ---
+  duration_ms: 31.41025
+  type: 'test'
+  ...
+# Subtest: M3-AC-01: one person, shared rules, zero cash and symmetric relations
+ok 10 - M3-AC-01: one person, shared rules, zero cash and symmetric relations
+  ---
+  duration_ms: 11.51375
+  type: 'test'
+  ...
+# Subtest: M3-AC-03: duplicate name accepted; second profile or closed vote rejected without mutation
+ok 11 - M3-AC-03: duplicate name accepted; second profile or closed vote rejected without mutation
+  ---
+  duration_ms: 12.251541
+  type: 'test'
+  ...
+# Subtest: M3-AC-02: ordered validation rejects each invalid input without side effects
+ok 12 - M3-AC-02: ordered validation rejects each invalid input without side effects
+  ---
+  duration_ms: 22.218875
+  type: 'test'
+  ...
+# Subtest: M3-AC-04: Unicode bounds, home and plain-text rendering
+ok 13 - M3-AC-04: Unicode bounds, home and plain-text rendering
+  ---
+  duration_ms: 2.103166
+  type: 'test'
+  ...
+# Subtest: M3-AC-02: exactly 16KiB enters JSON validation and accepts whitespace padding
+ok 14 - M3-AC-02: exactly 16KiB enters JSON validation and accepts whitespace padding
+  ---
+  duration_ms: 0.75175
+  type: 'test'
+  ...
+# Subtest: M4-AC-03: treasury 119 fails entirely; 120 executes once and caps trust
+ok 15 - M4-AC-03: treasury 119 fails entirely; 120 executes once and caps trust
+  ---
+  duration_ms: 7.77475
+  type: 'test'
+  ...
+# Subtest: M4-AC-04: invalid ID, version and state rejection
+ok 16 - M4-AC-04: invalid ID, version and state rejection
+  ---
+  duration_ms: 9.397166
+  type: 'test'
+  ...
+# Subtest: M4-AC-01: 499 opposes, 500 supports; self affinity stays 50
+ok 17 - M4-AC-01: 499 opposes, 500 supports; self affinity stays 50
+  ---
+  duration_ms: 2.442375
+  type: 'test'
+  ...
+# Subtest: M4-AC-01/02: majority and tie, frozen inputs, no resources changed
+ok 18 - M4-AC-01/02: majority and tie, frozen inputs, no resources changed
+  ---
+  duration_ms: 12.20925
+  type: 'test'
+  ...
+# Subtest: M4-AC-02: missing proposal and zero voters leave world unchanged
+ok 19 - M4-AC-02: missing proposal and zero voters leave world unchanged
+  ---
+  duration_ms: 0.620375
+  type: 'test'
+  ...
+# Subtest: T01: fixed fixture has 30 unique residents, five facilities and conserved 1600 coins
+ok 20 - T01: fixed fixture has 30 unique residents, five facilities and conserved 1600 coins
+  ---
+  duration_ms: 16.592625
+  type: 'test'
+  ...
+# Subtest: T01: reject config changes except nonzero uint32 seed
+ok 21 - T01: reject config changes except nonzero uint32 seed
+  ---
+  duration_ms: 1.544458
+  type: 'test'
+  ...
+# Subtest: T01: xorshift32 known vector and continuation
+ok 22 - T01: xorshift32 known vector and continuation
+  ---
+  duration_ms: 0.16125
+  type: 'test'
+  ...
+# Subtest: M5-AC-01: contiguous deterministic event IDs and required fields
+ok 23 - M5-AC-01: contiguous deterministic event IDs and required fields
+  ---
+  duration_ms: 6.940292
+  type: 'test'
+  ...
+# Subtest: M5-AC-02: encode/decode retains state, RNG and events without append
+ok 24 - M5-AC-02: encode/decode retains state, RNG and events without append
+  ---
+  duration_ms: 7.048083
+  type: 'test'
+  ...
+# Subtest: M5-AC-03: corrupt formats, size and precise ordered error classes
+ok 25 - M5-AC-03: corrupt formats, size and precise ordered error classes
+  ---
+  duration_ms: 39.076209
+  type: 'test'
+  ...
+# Subtest: M5-AC-04: 15 + restore + 15 exactly equals uninterrupted 30, including random state
+ok 26 - M5-AC-04: 15 + restore + 15 exactly equals uninterrupted 30, including random state
+  ---
+  duration_ms: 143.456
+  type: 'test'
+  ...
+# Subtest: M2-AC-03: ten-person capacity, symmetric capped relationships and single interaction
+ok 27 - M2-AC-03: ten-person capacity, symmetric capped relationships and single interaction
+  ---
+  duration_ms: 5.777708
+  type: 'test'
+  ...
+# Subtest: M2-AC-03: closed, zero capacity and solitary resident
+ok 28 - M2-AC-03: closed, zero capacity and solitary resident
+  ---
+  duration_ms: 4.307625
+  type: 'test'
+  ...
+# Subtest: M2-AC-04: two identical 30-day runs, daily action for everyone, one RNG draw per day
+ok 29 - M2-AC-04: two identical 30-day runs, daily action for everyone, one RNG draw per day
+  ---
+  duration_ms: 114.627958
+  type: 'test'
+  ...
+# Subtest: Map uses exactly the five real facility IDs and does not mutate world state
+ok 30 - Map uses exactly the five real facility IDs and does not mutate world state
+  ---
+  duration_ms: 2.299459
+  type: 'test'
+  ...
+# Subtest: Activity map follows this resident and this day, prioritizing real social activity
+ok 31 - Activity map follows this resident and this day, prioritizing real social activity
+  ---
+  duration_ms: 0.468875
+  type: 'test'
+  ...
+# Subtest: All 31 residents retain distinct presentation positions when resting together
+ok 32 - All 31 residents retain distinct presentation positions when resting together
+  ---
+  duration_ms: 1.060167
+  type: 'test'
+  ...
+# Subtest: Activity routes keep residents moving around their current facility
+ok 33 - Activity routes keep residents moving around their current facility
+  ---
+  duration_ms: 0.133375
+  type: 'test'
+  ...
+# Subtest: Daily journey follows the recorded work, market and social sequence
+ok 34 - Daily journey follows the recorded work, market and social sequence
+  ---
+  duration_ms: 0.217834
+  type: 'test'
+  ...
+# Subtest: Resident movement stays continuous at the reproduced 5199/5200ms jump and the journey loop
+ok 35 - Resident movement stays continuous at the reproduced 5199/5200ms jump and the journey loop
+  ---
+  duration_ms: 1.211083
+  type: 'test'
+  ...
+# Subtest: Staggered residents stay continuous at every facility boundary over two loops
+ok 36 - Staggered residents stay continuous at every facility boundary over two loops
+  ---
+  duration_ms: 1.038375
+  type: 'test'
+  ...
+# Subtest: Single-facility wandering has a continuous loop and pauses its walking pose at stops
+ok 37 - Single-facility wandering has a continuous loop and pauses its walking pose at stops
+  ---
+  duration_ms: 0.775375
+  type: 'test'
+  ...
+# Subtest: Travel has no facility activity and reduced motion stays at the last recorded stop
+ok 38 - Travel has no facility activity and reduced motion stays at the last recorded stop
+  ---
+  duration_ms: 0.771958
+  type: 'test'
+  ...
+# Subtest: Social links require recorded partners together at the plaza, never residents in motion
+ok 39 - Social links require recorded partners together at the plaza, never residents in motion
+  ---
+  duration_ms: 1.063
+  type: 'test'
+  ...
+# Subtest: M1-AC-01: explicit reset, fixed initialization and invalid config preserving existing world
+ok 40 - M1-AC-01: explicit reset, fixed initialization and invalid config preserving existing world
+  ---
+  duration_ms: 32.118042
+  type: 'test'
+  ...
+# Subtest: M1-AC-02: paused stepping, stale revision, reentrant busy priority and injected failure atomicity
+ok 41 - M1-AC-02: paused stepping, stale revision, reentrant busy priority and injected failure atomicity
+  ---
+  duration_ms: 13.562291
+  type: 'test'
+  ...
+# Subtest: M1-AC-02: scheduler starts once at 1000ms and pause prevents catch-up
+ok 42 - M1-AC-02: scheduler starts once at 1000ms and pause prevents catch-up
+  ---
+  duration_ms: 7.359625
+  type: 'test'
+  ...
+# Subtest: M4-AC-04: failed commit rolls back treasury/events/RNG; stale vs repeated execution
+ok 43 - M4-AC-04: failed commit rolls back treasury/events/RNG; stale vs repeated execution
+  ---
+  duration_ms: 61.259375
+  type: 'test'
+  ...
+# Subtest: M5-AC-03: snapshot rejection leaves world/revision unchanged and diagnostics contain no raw input
+ok 44 - M5-AC-03: snapshot rejection leaves world/revision unchanged and diagnostics contain no raw input
+  ---
+  duration_ms: 2.401083
+  type: 'test'
+  ...
+1..44
+# tests 44
+# suites 0
+# pass 44
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 894.343459

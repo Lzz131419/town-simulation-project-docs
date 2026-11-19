@@ -1,31 +1,18 @@
 # GitHub发布与看板交付
 
 ## 当前状态
-本轮文档已完成重建、独立冷启动和静态检查，用户于2026-11-18授权提交GitHub。保留旧Git历史，以本次文档变更更新主分支。12份MVP1开发工单仍是待发布正文，线上Projects、开发任务Issue与非作者人工评审不因文档提交而自动完成。
+原文档重建[Issue #5](https://github.com/Lzz131419/town-simulation-project-docs/issues/5)与[PR #6](https://github.com/Lzz131419/town-simulation-project-docs/pull/6)已完成合并，main为03c9856。用户随后授权正式开发，工程通过堆叠PR交付，未强推或覆盖历史。
 
-## 本轮提交追踪
-- 文档重建Issue：[#5](https://github.com/Lzz131419/town-simulation-project-docs/issues/5)。
-- 文档分支：`docs/issue-5-rebuild-weeks-06-09`。
-- 关联PR和最终main提交以该Issue的GitHub链接与合并记录为准。
-- 本次文档提交不等同于12项开发工单已录入Projects或非作者评审完成。
+12项任务Issues #7–#18及任务分支/PR已发布，准确对应见[工程进度](engineering-progress.md)与[tasks.json](../plans/tasks.json)。启动治理为[Issue #19](https://github.com/Lzz131419/town-simulation-project-docs/issues/19)，中文像素界面改造为[Issue #33](https://github.com/Lzz131419/town-simulation-project-docs/issues/33)。
 
-## 1. 提交前检查
-- 重新fetch并核对远程main是否仍是本次基线f62d04b，若有其他人更新，先合并核对，不强推覆盖。
-- 运行文档校验与探针，保留结果；按本轮交付索引逐项复核。
-- Git差异不应包含原始课程PDF、凭据、个人资料或新增src业务实现。
-- 使用有写权限的GitHub登录；浏览器登录不等于本机Git已认证。
+## 看板
+[雾河镇 MVP1 工程任务](https://github.com/users/techcswang-cpu/projects/1)具有Backlog、This Week、In Progress、Review、Done五个状态。12项任务均已录入Review；治理/评审工作进入This Week。保留私有可见性，不改变仓库或成员权限；未确认仓库Projects页的关联。
 
-## 2. 第6周文档PR演练
-先检查旧仓库是否已有可复用的真实PR证据；若不能满足课件要求，则创建一个README-only任务Issue，从更新的main切文档分支，仅调整README导航，按模板开PR，关联Issue，非作者人工评审后合并。这里“空PR”指无业务代码的文档PR，不是Git不允许的零diff PR。不能预写人工评审通过。
+## 第6周文档PR演练
+课程要求README-only文档PR及非作者评审；原PR #6是多文件重建，不能冒充该项练习。独立练习[Issue #34](https://github.com/Lzz131419/town-simulation-project-docs/issues/34)与[PR #35](https://github.com/Lzz131419/town-simulation-project-docs/pull/35)已创建，分支`docs/issue-34-readme-navigation`基于main，git diff确认仅修改README.md；人工评审与合并仍待完成。工程PR也不能代替人工签字。
 
-## 3. 第9周任务发布
-逐一查重后把plans/issues/T01–T12创建为真实Issue；记录编号、URL和实际账号指派。随后用真实编号替换分支规划和Issue正文的{number}。不一次性开12个空分支。
+## 发布与合并检查
+本地执行文档校验、规则测试、机制探针与浏览器验证；保存测试日志、快照、性能样本和桌面截图。GitHub Actions当前未查询到运行记录，不能称远程CI通过。上游PR合并后重新选择base并核对增量，不跳过依赖或伪造批准。
 
-## 4. GitHub Projects
-在仓库关联的Project中建立Status选项Backlog、This Week、In Progress、Review、Done；录入全部12个MVP1 Issue。T01排入This Week，其余Backlog。Review列已建但可为空；只有实际PR出现后进入Review。验收与合并都有证据才进入Done。
-
-## 5. 发布回读
-保存Project URL、12个Issue URL、关联PR、各Status截图或API回读结果；确认卡片数量、负责人、AC、分支名和任务依赖一致。没有Project权限时报告缺项，不能用Markdown表声称线上看板完成。
-
-## 6. 回滚
-保留原Git历史，以revert本轮提交回滚文档；不删除仓库、不强推历史、不移除他人Issue或PR。原HTML探针继续只读演示。
+## 回滚
+保留Git历史，以revert对应提交回滚；不强推、不删除仓库和他人Issue/PR。原HTML探针保持历史用途。
