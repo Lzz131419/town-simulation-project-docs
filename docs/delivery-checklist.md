@@ -1,6 +1,6 @@
 # 第6–9周交付要求对照与完成状态
 
-> 2026-11-18；只记录可验证事实。课程资料是任务依据；文档基线已合并；当前工程实现已验证并通过堆叠PR交付，人工评审尚待完成。
+> 2026-11-19；只记录可验证事实。课程资料是任务依据；文档基线已合并；当前工程实现已验证，15个工程与文档PR全部合入main，人工评审尚待完成。
 
 ## 第6周：上下文与项目管理
 | PDF物理页 | 要求 | 本地交付 | 状态/证据 |
@@ -8,7 +8,7 @@
 | 2、11–18 | context目标/场景/Non-Goals≥3/技术约束/禁依赖/风险/术语/变更 | [context](../context.md) | 已重写，7项非目标 |
 | 14–17 | AI规则可执行、工具加载说明、白名单/验证 | [agent-rules](../agent-rules.md) | 已重写 |
 | 11、19 | 标准目录；无正式业务实现 | src/tests说明、docs/spike | 该要求在文档基线03c9856满足；后续用户授权另进入正式工程实现 |
-| 20–24 | Projects五列、有卡片；真实Issue和文档PR演练 | [线上发布清单](github-delivery.md) | 五列私有看板、12个Issue及任务PR已建立；README-only练习PR #35已创建，人工评审待完成，见发布清单 |
+| 20–24 | Projects五列、有卡片；真实Issue和文档PR演练 | [线上发布清单](github-delivery.md) | 五列私有看板、12个Issue及任务PR已建立；README-only练习PR #35已合并，人工评审待完成，见发布清单 |
 
 ## 第7周：范围、模块Spec与冷启动
 | PDF物理页 | 要求 | 本地交付 | 状态/证据 |
@@ -30,12 +30,12 @@
 | --- | --- | --- | --- |
 | 2、5–8、15 | 8–12任务、完整八列表、每任务AC或ADR绑定、1–3人日 | [Plan](../plans/mvp1-plan.md) | 12任务、27人日；每功能任务2条AC |
 | 9 | 依赖顺序、并行、关键路径 | Plan+tasks.json | DAG无环；关键路径15工作日 |
-| 10–11 | 任务分支、真实Issue号、PR准入 | [分支表](../plans/branch-plan.md)、[门禁](review/pr-checklist.md) | 真实Issue #7–#18与PR #21–#32已发布，等待人工Review |
+| 10–11 | 任务分支、真实Issue号、PR准入 | [分支表](../plans/branch-plan.md)、[门禁](review/pr-checklist.md) | 真实Issue #7–#18已建立，PR #21–#32已合并main，非作者人工Review仍待完成 |
 | 12、15–16 | 全部任务录入Projects，This Week有卡片、Review已建 | [12份工单](../plans/issues/README.md) | 12项已录入Review，治理/评审进入This Week；看板仍为私有 |
 | 13、24 | 负责人和角色轮换 | [团队](team-guide.md)、Plan | 六名真实组员分工建议；不虚构贡献或评审 |
 
 ## 最终验收边界
 - 本地文档和静态检查结果见 [validation](review/validation.md)。
-- 正式MVP1代码、44项本地测试、浏览器性能与桌面界面验证已完成，见[实现验收](test/implementation-results.md)；不代表人工验收或已合并main。
-- 文档提交与开发任务看板分开核验：线上Projects、工单/分支/PR已有真实链接；人工评审、ADR接受及合并仍待完成，不因实现通过预先勾选。
+- 正式MVP1代码、44项本地测试、浏览器性能与桌面界面验证已完成，见[实现验收](test/implementation-results.md)；已合并main，合并版本远端CI通过；不代表人工验收。
+- 文档提交与开发任务看板分开核验：线上Projects、工单/分支/PR已有真实链接；合并已完成，人工评审与ADR接受仍待完成，不因实现通过预先勾选。
 - 原PDF和模板只记录引用，不上传课件本身；保留仓库旧历史以便回滚。

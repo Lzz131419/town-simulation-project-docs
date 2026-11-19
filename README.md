@@ -4,7 +4,7 @@
 
 ![雾河镇桌面界面](docs/test/evidence/desktop.png)
 
-**当前工程分支已实现 MVP1，本地44项测试通过。工程PR正在等待人工评审；main保留课程第6–9周文档基线，尚未合并本轮实现。**
+**MVP1、最新中文桌面界面、测试与交付文档已于2026-11-19全部合入 main。44项本地测试通过，合并版本的 GitHub Actions 检查通过。**
 
 ## 本地运行
 需要 Python 3；测试另需 Node.js 22+。无运行时第三方依赖，无需执行 npm install。
@@ -29,7 +29,7 @@ npm run docs:check
 ## 工程与课程导航
 | 内容 | 入口 |
 | --- | --- |
-| 实现结果与原始证据 | [验收记录](docs/test/implementation-results.md)、[工程进度与PR顺序](docs/engineering-progress.md) |
+| 实现结果与原始证据 | [验收记录](docs/test/implementation-results.md)、[工程进度与合并记录](docs/engineering-progress.md) |
 | 06 上下文与协作 | [context](context.md)、[AI规则](agent-rules.md)、[团队安排](docs/team-guide.md) |
 | 07 Spec与验收 | [范围](spec/mvp1-scope.md)、[五模块Spec](spec/README.md)、[独立冷启动记录](docs/test/cold-start-01.md) |
 | 08 架构与决策 | [架构](docs/architecture.md)、[ADR-001](adr/ADR-001-runtime-and-state.md)、[ADR-002](adr/ADR-002-atomicity-and-replay.md)、[风险](docs/dependency.md) |
