@@ -2196,16 +2196,41 @@ dialog {
   .workbench {
     margin-left: 180px;
     grid-template-columns: minmax(0, 1fr) 300px;
-    padding: 24px 20px 30px;
+    padding: 14px 16px 18px;
+    gap: 14px;
   }
   .header-status {
     display: none;
   }
   .world-heading {
-    padding-inline: 20px;
+    height: 82px;
+    padding: 14px 18px 10px;
+  }
+  .world-title {
+    margin-bottom: 9px;
+  }
+  .world-title h1 {
+    font-size: 22px;
+  }
+  .town-stats {
+    padding-block: 7px;
+  }
+  .playback {
+    height: 64px;
+    padding-inline: 16px;
   }
   .activity-strip {
-    padding-inline: 20px;
+    height: 70px;
+    padding: 10px 16px;
+  }
+  .activity-feed {
+    gap: 6px;
+  }
+  .activity-card {
+    padding: 7px;
+  }
+  .activity-card small {
+    margin-top: 2px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2216,27 +2241,26 @@ dialog {
   }
 }
 
-/* Final desktop presentation: give the living map the breathing room and
-   quiet natural palette of Smallville while retaining the portfolio shell. */
+/* The controls follow the supplied Portfolio theme; artwork owns its palette. */
 :root {
-  --green: #4f9a68;
-  --green-2: #3f8558;
-  --green-soft: #e7f3e8;
-  --ink: #1c2e3f;
-  --ink-2: #304458;
-  --cream: #faf7f0;
+  --green: #16c957;
+  --green-2: #0ca84a;
+  --green-soft: #e7fbed;
+  --ink: #12213c;
+  --ink-2: #243554;
+  --cream: #fbf7f0;
 }
 .app-header {
-  background: linear-gradient(110deg, #68a873 0%, #5f9d6d 55%, #4f9064 100%);
-  box-shadow: 0 8px 18px rgb(49 92 61 / 16%);
+  background: linear-gradient(110deg, #13c75a 0%, #18c85d 55%, #0fb65a 100%);
+  box-shadow: 0 8px 18px rgb(11 130 65 / 16%);
 }
 .header-actions .quiet {
   background: rgb(255 255 255 / 13%);
 }
 .workspace-nav .nav-button.active {
-  background: #e8f4e8;
+  background: var(--green-soft);
   color: var(--green-2);
-  box-shadow: inset 3px 0 0 #76ae7d;
+  box-shadow: inset 3px 0 0 var(--green);
 }
 .workbench {
   padding: 22px clamp(18px, 2.1vw, 36px) 26px;
@@ -2256,7 +2280,7 @@ dialog {
   margin: 0 14px;
   border: 1px solid #c8d6bd;
   border-radius: 14px;
-  background: #b7c985;
+  background: #a4f773;
 }
 #town-map {
   image-rendering: auto;
@@ -2307,5 +2331,139 @@ dialog {
   }
   .activity-strip {
     height: 92px;
+  }
+}
+
+/* Desktop canvas owns the available space; the event row stays compact. */
+.app-header {
+  height: 70px;
+  padding-inline: 24px;
+}
+.workspace-nav {
+  top: 70px;
+  width: 160px;
+  padding: 24px 10px;
+}
+.workspace-nav .nav-button {
+  padding-inline: 10px;
+  gap: 8px;
+  font-size: 13px;
+}
+.workspace-caption {
+  margin-inline: 0;
+}
+.workspace-note,
+.header-status,
+.world-title > .muted,
+.map-hint {
+  display: none;
+}
+.workbench {
+  height: calc(100vh - 70px);
+  margin-left: 160px;
+  padding: 14px;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) 300px;
+}
+.world-heading {
+  height: 88px;
+  padding: 14px 18px 10px;
+}
+.world-title {
+  margin-bottom: 10px;
+}
+.world-title h1 {
+  font-size: 21px;
+  letter-spacing: -.4px;
+}
+.town-stats {
+  padding: 7px 12px;
+}
+.map-stage {
+  margin-inline: 10px;
+}
+#town-map {
+  filter: none;
+}
+.playback {
+  height: 64px;
+  padding-inline: 16px;
+  gap: 10px;
+}
+.play-buttons button,
+.event-trigger {
+  height: 38px;
+  padding-inline: 10px;
+  font-size: 12px;
+}
+.activity-strip {
+  height: 64px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.strip-heading {
+  flex: 0 0 98px;
+  display: block;
+  margin: 0;
+}
+.strip-heading h2 {
+  font-size: 12px;
+}
+.strip-heading button {
+  margin-top: 4px;
+}
+#event-count {
+  display: none;
+}
+.activity-feed {
+  flex: 1;
+  min-width: 0;
+  gap: 8px;
+}
+.activity-card {
+  min-width: 0;
+  align-items: center;
+  padding: 8px;
+  box-shadow: none;
+}
+.activity-card > div {
+  min-width: 0;
+}
+.activity-card strong {
+  font-size: 10px;
+}
+.activity-card small {
+  display: none;
+}
+.stack .primary:not(:disabled) {
+  background: var(--green-2);
+  border-color: var(--green-2);
+}
+.stack button:not(.primary):not(:disabled) {
+  color: var(--ink);
+}
+.map-focused .workspace-nav,
+.map-focused .inspector,
+.map-focused .app-header,
+.map-focused .world-heading,
+.map-focused .activity-strip {
+  display: none;
+}
+.map-focused .workbench {
+  height: 100vh;
+  margin-left: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+.map-focused .map-stage {
+  margin-top: 10px;
+}
+@media (min-width: 1600px) {
+  .workbench {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+  .map-focused .workbench {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

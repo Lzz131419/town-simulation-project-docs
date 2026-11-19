@@ -72,6 +72,7 @@ function el(tag, value = "", className) {
 }
 function feedback(result, message) {
   clearTimeout(feedbackTimer);
+  $("feedback").hidden = false;
   $("feedback").textContent = result.ok
     ? message
     : `${result.error.code} · ${result.error.message}`;
@@ -565,6 +566,16 @@ $("more-events").addEventListener("click", () => {
 $("zoom-in").addEventListener("click", () => map.zoom(0.2));
 $("zoom-out").addEventListener("click", () => map.zoom(-0.2));
 $("fit-map").addEventListener("click", () => map.reset());
+$("expand-map").addEventListener("click", () => {
+  const expanded = document.body.classList.toggle("map-focused");
+  $("expand-map").setAttribute("aria-pressed", String(expanded));
+  $("expand-map").setAttribute("aria-label", expanded ? "退出大地图" : "扩大地图");
+  $("expand-map").title = expanded ? "退出大地图" : "扩大地图";
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && document.body.classList.contains("map-focused"))
+    $("expand-map").click();
+});
 $("show-names").addEventListener("change", () =>
   map.names($("show-names").checked),
 );
@@ -583,4 +594,4 @@ send(
 );
 // The initial state is self-evident from the map; reserve the toast for
 // actions that need acknowledgement.
-$("feedback").classList.add("quiet-feedback");
+$("feedback").hidden = true;

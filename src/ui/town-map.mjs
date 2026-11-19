@@ -7,15 +7,22 @@ const WIDTH = 1024,
   HEIGHT = 672,
   ART_SCALE = 2;
 const COLORS = [
-  "#c87953",
-  "#638c9a",
-  "#8776aa",
-  "#d9a755",
-  "#759162",
-  "#bb6b7e",
-  "#527c70",
-  "#926b51",
+  "#cf7857",
+  "#5f9eb0",
+  "#9680be",
+  "#e2b858",
+  "#6d9b64",
+  "#ce7896",
+  "#4a9688",
+  "#a57954",
 ];
+const placeIcons = {
+  farm: "✦",
+  well: "≈",
+  market: "◉",
+  plaza: "···",
+  home: "休",
+};
 export const locations = {
   farm: {
     label: "河畔农田",
@@ -57,20 +64,45 @@ const rect = (c, color, x, y, w, h) => {
   c.fillStyle = color;
   c.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
 };
+// Half-logical-pixel details resolve to whole pixels on the 2× art surface.
+// They add actual texture detail without enlarging the original tile shapes.
+const detailRect = (c, color, x, y, w, h) => {
+  c.fillStyle = color;
+  c.fillRect(
+    Math.round(x * 2) / 2,
+    Math.round(y * 2) / 2,
+    Math.round(w * 2) / 2,
+    Math.round(h * 2) / 2,
+  );
+};
 function tree(c, x, y, size = 1) {
   c.save();
   c.translate(x, y);
   c.scale(size, size);
-  rect(c, "#759b60", -15, 13, 34, 10);
-  rect(c, "#755e42", -3, 4, 7, 20);
-  rect(c, "#536e4c", -16, -14, 32, 29);
-  rect(c, "#536e4c", -10, -25, 20, 44);
-  rect(c, "#6b8c53", -19, -8, 35, 17);
-  rect(c, "#789b57", -13, -21, 25, 28);
-  rect(c, "#8cab61", -9, -23, 15, 8);
-  rect(c, "#93b06b", -15, -10, 8, 7);
-  rect(c, "#516f47", 8, -5, 8, 18);
-  rect(c, "#64864c", -7, 7, 19, 10);
+  rect(c, "#8bd56d", -14, 15, 31, 7);
+  rect(c, "#986f4f", -3, 7, 7, 17);
+  rect(c, "#bf8c58", -1, 10, 2, 14);
+  rect(c, "#567f70", -14, -18, 29, 33);
+  rect(c, "#567f70", -19, -8, 39, 17);
+  rect(c, "#567f70", -9, -25, 20, 43);
+  rect(c, "#6b9f7b", -15, -15, 29, 28);
+  rect(c, "#70a982", -17, -6, 34, 13);
+  rect(c, "#80b675", -11, -21, 22, 23);
+  rect(c, "#99ce7d", -7, -23, 13, 13);
+  rect(c, "#8cc37d", -14, -9, 12, 12);
+  rect(c, "#609b79", 7, -4, 10, 14);
+  rect(c, "#77ad7d", -7, 4, 19, 10);
+  // Scattered leaf facets, finer than the canopy's stepped outline.
+  for (const [dx, dy, light] of [
+    [-5.5, -20.5, true], [1.5, -18, true], [7, -13.5, true],
+    [-10.5, -11, true], [-14, -3.5, false], [-4.5, -6, true],
+    [3, -3.5, false], [10.5, 1, true], [-8, 5.5, false],
+    [-1.5, 9, true], [7, 8, false], [13, 4.5, false],
+  ]) {
+    detailRect(c, light ? "#a1d48a" : "#5c9675", dx, dy, 3.5, 1);
+    detailRect(c, light ? "#8bc480" : "#659e79", dx + 1, dy + 1, 1.5, 1);
+  }
+  detailRect(c, "#d49c62", 1.5, 17, 1, 5);
   c.restore();
 }
 function fence(c, x, y, w, h) {
@@ -114,37 +146,56 @@ function table(c, x, y, w = 28, h = 20) {
   rect(c, "#759567", x + w / 2 - 3, y + 7, 7, 5);
 }
 function house(c, x, y, w, h, roof, kind = "home") {
-  rect(c, "#779364", x + 8, y + 10, w + 4, h + 9);
-  rect(c, "#59625a", x - 4, y - 4, w + 8, h + 8);
-  rect(c, "#eee0b6", x, y, w, h);
-  for (let row = 18; row < h; row += 10) {
-    rect(c, "#dbc595", x + 3, y + row, w - 6, 1);
-    for (let col = 10 + (row % 20); col < w; col += 28)
-      rect(c, "#dbc595", x + col, y + row, 1, 10);
+  const floor = kind === "home"
+    ? ["#f0edc4", "#d9eddf", "#e8e3d1"][Math.floor(x) % 3]
+    : "#e8c788";
+  rect(c, "#80bc6950", x + 8, y + 10, w + 4, h + 9);
+  rect(c, "#545c64", x - 4, y - 4, w + 8, h + 8);
+  rect(c, floor, x, y, w, h);
+  for (let row = 18; row < h - 6; row += 10) {
+    detailRect(c, kind === "home" ? "#c4c5ad" : "#ba9765", x + 6, y + row, w - 12, 0.5);
+    detailRect(c, "#fff7d366", x + 6, y + row + 1, w - 12, 0.5);
+    for (let col = 10 + (row % 20); col < w - 9; col += 28) {
+      detailRect(c, "#b6b79d88", x + col, y + row, 0.5, 10);
+      detailRect(c, "#fffbe480", x + col + 2, y + row + 3, 9.5, 1);
+      if (kind !== "home")
+        detailRect(c, "#bd9869", x + col + 5, y + row + 6.5, 4, 0.5);
+    }
   }
   rect(c, roof, x - 8, y - 12, w + 16, 20);
-  rect(c, "#ffffff24", x - 8, y - 12, w + 16, 3);
-  rect(c, "#00000022", x - 8, y + 4, w + 16, 4);
+  rect(c, "#f6f5e8", x - 8, y - 12, w + 16, 3);
+  rect(c, "#60616a", x - 8, y + 4, w + 16, 4);
   for (let col = 0; col < w; col += 12)
-    rect(c, "#00000018", x + col, y - 10, 1, 14);
-  rect(c, "#ede3c6", x, y + 8, 6, h - 8);
-  rect(c, "#bdba9d", x + w - 6, y + 8, 6, h - 8);
-  rect(c, "#a69e83", x, y + h - 6, w, 6);
-  rect(c, "#e1cd98", x + w / 2 - 10, y + h - 7, 20, 11);
-  rect(c, "#6d8b89", x + 20, y - 1, 24, 5);
-  rect(c, "#bdd6bd", x + 22, y, 9, 3);
-  rect(c, "#bdd6bd", x + 33, y, 9, 3);
+    detailRect(c, "#74778166", x + col + 0.5, y - 9, 0.5, 12);
+  rect(c, "#f6f5e9", x, y + 8, 6, h - 8);
+  rect(c, "#b8bac1", x + w - 6, y + 8, 6, h - 8);
+  rect(c, "#a2a4aa", x, y + h - 6, w, 6);
+  detailRect(c, "#faf9ed", x + 1, y + h - 5.5, w - 2, 1);
+  detailRect(c, "#727985", x + 5.5, y + 8, 0.5, h - 14);
+  detailRect(c, "#f7f7ee", x + w - 5, y + 8, 1, h - 14);
+  rect(c, "#f3e3ac", x + w / 2 - 10, y + h - 7, 20, 11);
+  rect(c, "#586979", x + 20, y - 1, 24, 5);
+  rect(c, "#acd7db", x + 22, y, 9, 3);
+  rect(c, "#acd7db", x + 33, y, 9, 3);
+  detailRect(c, "#e7f5f1", x + 22.5, y + 0.5, 7, 0.5);
+  detailRect(c, "#e7f5f1", x + 33.5, y + 0.5, 7, 0.5);
   if (kind === "home") {
     bed(
       c,
       x + 12,
       y + 17,
-      ["#94aeb1", "#c89283", "#a9b885"][Math.floor(x) % 3],
+      ["#88b8c3", "#b694ba", "#a4bd72"][Math.floor(x) % 3],
     );
     shelf(c, x + w - 49, y + 13);
     table(c, x + w - 49, y + 48, 31, 20);
-    rect(c, "#b5a276", x + 47, y + 30, 24, 35);
-    rect(c, "#d0b78a", x + 50, y + 33, 18, 29);
+    rect(c, "#869ca0", x + 47, y + 30, 24, 35);
+    rect(c, "#c6d4bc", x + 50, y + 33, 18, 29);
+    for (let stripe = 0; stripe < 5; stripe++)
+      detailRect(c, "#f6efd4", x + 51, y + 35 + stripe * 5, 16, 0.5);
+    detailRect(c, "#e9eaf0", x + 14, y + 19.5, 18, 0.5);
+    detailRect(c, "#6e6e8155", x + 14, y + 45.5, 18, 0.5);
+    detailRect(c, "#ece4ce", x + w - 44.5, y + 51, 21, 0.5);
+    detailRect(c, "#725641", x + w - 44, y + 23.5, 27, 0.5);
   }
   if (kind === "market") {
     shelf(c, x + 12, y + 17, 70);
@@ -155,8 +206,14 @@ function house(c, x, y, w, h, roof, kind = "home") {
       rect(c, "#c4cf74", x + 24 + i * 10, y + 63, 6, 7);
       rect(c, "#bd7356", x + w - 74 + i * 10, y + 63, 6, 7);
     }
-    rect(c, "#8d9b6b", x + w / 2 - 16, y + 32, 32, 48);
-    rect(c, "#c9ce9e", x + w / 2 - 13, y + 35, 26, 42);
+    rect(c, "#849f84", x + w / 2 - 16, y + 32, 32, 48);
+    rect(c, "#c6d7a5", x + w / 2 - 13, y + 35, 26, 42);
+    for (let stripe = 0; stripe < 7; stripe++)
+      detailRect(c, "#e4e8bd", x + w / 2 - 11, y + 38 + stripe * 5, 22, 0.5);
+    for (let col = 0; col < 6; col++) {
+      detailRect(c, "#ffe9a4", x + 24 + col * 8.5, y + 64, 1.5, 1);
+      detailRect(c, "#e6a479", x + w - 74 + col * 8.5, y + 64, 1.5, 1);
+    }
   }
   if (kind === "shed") {
     shelf(c, x + 10, y + 14, 40);
@@ -195,32 +252,38 @@ function baseMap() {
   const c = canvas.getContext("2d");
   c.scale(ART_SCALE, ART_SCALE);
   c.imageSmoothingEnabled = false;
-  rect(c, "#b7c985", 0, 0, WIDTH, HEIGHT);
+  rect(c, "#a4f773", 0, 0, WIDTH, HEIGHT);
   for (let y = 0; y < HEIGHT; y += 8)
     for (let x = 0; x < WIDTH; x += 8) {
       const k = (x * 17 + y * 31 + x * y) % 107;
-      if (k < 22) rect(c, k % 2 ? "#c2d391" : "#abc27d", x + 2, y + 3, 3, 2);
+      if (k < 8)
+        detailRect(c, k % 2 ? "#bafc89" : "#97e56c", x + 2.5, y + 3.5, 2, 0.5);
       if (k === 4) {
-        rect(c, "#98b36d", x + 1, y, 1, 3);
-        rect(c, "#98b36d", x + 3, y + 1, 1, 2);
+        detailRect(c, "#6eb96c", x + 1.5, y, 0.5, 2.5);
+        detailRect(c, "#78c474", x + 3, y + 1.5, 0.5, 1.5);
+        detailRect(c, "#8ad577", x + 1.5, y + 2.5, 2, 0.5);
+      }
+      if (k === 44) {
+        detailRect(c, "#e8fba3", x + 3.5, y + 2, 1, 1);
+        detailRect(c, "#f3ffbb", x + 4.5, y + 1.5, 1, 1);
       }
     }
   // Riverbank and small wooden footbridge.
   for (let y = 0; y < HEIGHT; y += 16) {
     const edge = 915 + Math.round((Math.sin(y / 96) * 14) / 8) * 8;
-    rect(c, "#dfcc9b", edge - 8, y, WIDTH - edge + 8, 16);
-    rect(c, "#6fa3a4", edge, y, WIDTH - edge, 16);
-    rect(c, "#8bb9b5", edge + 5, y, WIDTH - edge - 5, 16);
+    rect(c, "#e2dfa0", edge - 8, y, WIDTH - edge + 8, 16);
+    rect(c, "#5b9fa3", edge, y, WIDTH - edge, 16);
+    rect(c, "#82c4c3", edge + 5, y, WIDTH - edge - 5, 16);
     if (y % 32 === 0)
       for (let x = edge + 15; x < WIDTH; x += 37)
-        rect(c, "#b7d3c8", x, y + 9, 17, 2);
+        detailRect(c, "#c0e4d4", x + 0.5, y + 9.5, 17, 0.5);
   }
   const path = (x, y, w, h) => {
-    rect(c, "#c9b880", x - 3, y - 3, w + 6, h + 6);
-    rect(c, "#e2d09a", x, y, w, h);
+    rect(c, "#e5ed91", x - 3, y - 3, w + 6, h + 6);
+    rect(c, "#fff99a", x, y, w, h);
     for (let yy = y + 4; yy < y + h; yy += 13)
       for (let xx = x + 5; xx < x + w; xx += 22)
-        rect(c, "#d6c38d", xx, yy, 3, 2);
+        detailRect(c, "#e8e79b", xx + 0.5, yy + 0.5, 1.5, 0.5);
   };
   path(70, 278, 880, 38);
   path(305, 42, 37, 578);
@@ -238,37 +301,42 @@ function baseMap() {
   rect(c, "#735c41", 905, 271, 119, 5);
   rect(c, "#735c41", 905, 320, 119, 5);
   // Northern homes, shop, field shed and residential lane.
-  house(c, 166, 58, 115, 91, "#a77b66");
-  house(c, 370, 48, 108, 95, "#728993");
-  house(c, 535, 48, 105, 95, "#ad8961");
-  house(c, 745, 76, 111, 105, "#7f8d69");
-  house(c, 404, 192, 210, 100, "#ab755c", "market");
-  house(c, 76, 197, 160, 65, "#9c7860", "shed");
+  house(c, 166, 58, 115, 91, "#c8c8c9");
+  house(c, 370, 48, 108, 95, "#c1c8d0");
+  house(c, 535, 48, 105, 95, "#d0cbc7");
+  house(c, 745, 76, 111, 105, "#c8cec4");
+  house(c, 404, 192, 210, 100, "#c9c5c6", "market");
+  house(c, 76, 197, 160, 65, "#c5c8c1", "shed");
   for (let y = 329; y < 407; y += 22)
     for (let x = 83; x < 255; x += 24) {
-      rect(c, "#90724b", x, y, 20, 17);
-      rect(c, "#b08d5d", x, y + 2, 20, 4);
-      rect(c, "#5f7e42", x + 7, y + 3, 4, 11);
-      rect(c, "#71934a", x + 3, y + 3, 12, 5);
-      rect(c, "#a9bb60", x + 7, y, 4, 6);
+      rect(c, "#a7784e", x, y, 20, 17);
+      rect(c, "#d7a16a", x, y + 2, 20, 4);
+      rect(c, "#568f54", x + 7, y + 3, 4, 11);
+      rect(c, "#6caf5d", x + 3, y + 3, 12, 5);
+      rect(c, "#a4d879", x + 7, y, 4, 6);
+      detailRect(c, "#d0e69a", x + 7.5, y + 1, 1, 4);
+      detailRect(c, "#866044", x + 1, y + 13.5, 17, 0.5);
     }
   fence(c, 71, 321, 195, 89);
   fence(c, 72, 411, 195, 0);
   // Plaza stone tiles, fountain, benches and gardens.
-  rect(c, "#91a269", 381, 336, 245, 130);
-  rect(c, "#d2c7a3", 388, 340, 231, 121);
+  rect(c, "#76a76f", 381, 336, 245, 130);
+  rect(c, "#d6d8c6", 388, 340, 231, 121);
   for (let y = 343; y < 461; y += 16)
     for (let x = 390; x < 619; x += 18) {
-      rect(c, (x + y) % 5 ? "#ddd4b4" : "#cbc3a5", x, y, 16, 14);
+      rect(c, (x + y) % 5 ? "#ece9cf" : "#c7cbbd", x, y, 16, 14);
+      detailRect(c, "#aeb9af", x + 1, y + 1, 14, 0.5);
     }
-  rect(c, "#8e9986", 486, 371, 53, 52);
-  rect(c, "#eee1b9", 481, 376, 63, 42);
-  rect(c, "#a9b6a7", 486, 380, 53, 34);
-  rect(c, "#78a6a3", 490, 384, 45, 25);
-  rect(c, "#b4d1c0", 495, 388, 34, 3);
-  rect(c, "#d9dac1", 507, 377, 11, 27);
-  rect(c, "#ece7c9", 503, 372, 19, 9);
-  rect(c, "#b7d6c9", 507, 368, 11, 6);
+  rect(c, "#717d84", 486, 371, 53, 52);
+  rect(c, "#f5edbe", 481, 376, 63, 42);
+  rect(c, "#b8c9bb", 486, 380, 53, 34);
+  rect(c, "#6aa8a2", 490, 384, 45, 25);
+  rect(c, "#a9d3bd", 495, 388, 34, 3);
+  rect(c, "#e3e4d4", 507, 377, 11, 27);
+  rect(c, "#fff3c6", 503, 372, 19, 9);
+  rect(c, "#c4e5c3", 507, 368, 11, 6);
+  detailRect(c, "#ffffff", 492, 385, 40, 0.5);
+  detailRect(c, "#438887", 497, 392, 30, 0.5);
   bench(c, 410, 352);
   bench(c, 568, 352);
   bench(c, 411, 438);
@@ -282,25 +350,26 @@ function baseMap() {
     flower(c, 401 + i * 30, 467);
   }
   // Well and water court.
-  rect(c, "#d5c696", 741, 339, 105, 98);
+  rect(c, "#d5d4b4", 741, 339, 105, 98);
   for (let y = 343; y < 434; y += 16)
-    for (let x = 746; x < 843; x += 18) rect(c, "#e5d7ad", x, y, 14, 12);
-  rect(c, "#718783", 767, 361, 47, 38);
-  rect(c, "#b4b69d", 762, 366, 57, 26);
-  rect(c, "#e5dfbf", 766, 362, 49, 8);
-  rect(c, "#567e82", 774, 370, 32, 16);
-  rect(c, "#8eb6b0", 779, 372, 22, 4);
-  rect(c, "#7e6548", 758, 343, 5, 45);
-  rect(c, "#7e6548", 818, 343, 5, 45);
-  rect(c, "#93694f", 753, 333, 74, 13);
-  rect(c, "#bf8e67", 758, 328, 64, 8);
-  rect(c, "#6e5740", 790, 344, 3, 27);
-  rect(c, "#a68b5c", 787, 367, 11, 8);
+    for (let x = 746; x < 843; x += 18) rect(c, "#f0e7c4", x, y, 14, 12);
+  rect(c, "#687b78", 767, 361, 47, 38);
+  rect(c, "#c4cbc0", 762, 366, 57, 26);
+  rect(c, "#f2edcf", 766, 362, 49, 8);
+  rect(c, "#5f999c", 774, 370, 32, 16);
+  rect(c, "#9fd0c0", 779, 372, 22, 4);
+  rect(c, "#725b4c", 758, 343, 5, 45);
+  rect(c, "#725b4c", 818, 343, 5, 45);
+  rect(c, "#8b684e", 753, 333, 74, 13);
+  rect(c, "#c09862", 758, 328, 64, 8);
+  rect(c, "#5f5245", 790, 344, 3, 27);
+  rect(c, "#d0ab6d", 787, 367, 11, 8);
+  detailRect(c, "#fbefc8", 755, 335, 69, 0.5);
   bench(c, 765, 416);
-  house(c, 158, 541, 113, 85, "#9b7c82");
-  house(c, 367, 541, 111, 85, "#778d7f");
-  house(c, 535, 541, 110, 85, "#b38468");
-  house(c, 737, 536, 112, 88, "#8587a2");
+  house(c, 158, 541, 113, 85, "#c8c3ca");
+  house(c, 367, 541, 111, 85, "#c1c9c8");
+  house(c, 535, 541, 110, 85, "#cdc8c5");
+  house(c, 737, 536, 112, 88, "#c3c5ce");
   // Orchard and town boundary: deliberate gaps keep entrances readable.
   for (const [x, y] of [
     [41, 65],
@@ -603,11 +672,91 @@ export function layoutResidents(agents, events, day) {
       index,
       slot,
       activity,
+      socialPartners: [
+        ...new Set(events
+          .filter((event) => event.day === day &&
+            event.type === "SOCIAL_INTERACTION" &&
+            event.actorIds.includes(agent.agentId))
+          .flatMap((event) => event.actorIds.filter((id) => id !== agent.agentId))),
+      ],
       to: anchor(activity.place, slot),
       route: activityRoute(activity.place, slot),
       journey,
     };
   });
+}
+
+const LEG_MS = 5200;
+const DWELL_FRACTION = 0.2;
+const smooth = (value) => value * value * (3 - 2 * value);
+
+// View-only motion. Local wandering is an offset from a facility, never a
+// second absolute destination. Its weight is zero at both ends of a journey
+// leg, so changing facilities (including the last-to-first leg) is continuous.
+export function residentMotion(person, time, reduced = false) {
+  const journey = person.journey?.length
+    ? person.journey
+    : [{ place: person.activity.place, anchor: person.to, route: person.route }];
+  if (reduced) {
+    const last = journey.at(-1);
+    return {
+      ...last.anchor,
+      currentPlace: last.place,
+      moving: false,
+      inTransit: false,
+    };
+  }
+  if (journey.length === 1) {
+    const stop = journey[0],
+      route = stop.route?.length ? stop.route : [stop.anchor],
+      phase = (time / LEG_MS + person.index * 0.23) % route.length,
+      index = Math.floor(phase),
+      progress = Math.max(0, (phase - index - DWELL_FRACTION) / (1 - DWELL_FRACTION)),
+      from = route[index],
+      to = route[(index + 1) % route.length],
+      ease = smooth(progress);
+    return {
+      x: from.x + (to.x - from.x) * ease,
+      y: from.y + (to.y - from.y) * ease,
+      currentPlace: stop.place,
+      moving: progress > 0 && Math.hypot(to.x - from.x, to.y - from.y) > 0,
+      inTransit: false,
+    };
+  }
+  const phase = (time / LEG_MS + person.index * 0.17) % journey.length,
+    index = Math.floor(phase),
+    from = journey[index],
+    to = journey[(index + 1) % journey.length],
+    progress = Math.max(0, (phase - index - DWELL_FRACTION) / (1 - DWELL_FRACTION)),
+    ease = smooth(progress),
+    route = from.route?.length ? from.route : [from.anchor],
+    roamPhase = (time / 2600 + person.index * 0.23) % route.length,
+    roamIndex = Math.floor(roamPhase),
+    roamT = roamPhase - roamIndex,
+    roamFrom = route[roamIndex],
+    roamTo = route[(roamIndex + 1) % route.length],
+    weight = Math.sin(Math.PI * progress) ** 2 * 0.35,
+    offsetX = roamFrom.x + (roamTo.x - roamFrom.x) * roamT - from.anchor.x,
+    offsetY = roamFrom.y + (roamTo.y - roamFrom.y) * roamT - from.anchor.y,
+    moving = progress > 0;
+  return {
+    x: from.anchor.x + (to.anchor.x - from.anchor.x) * ease + offsetX * weight,
+    y: from.anchor.y + (to.anchor.y - from.anchor.y) * ease + offsetY * weight,
+    currentPlace: moving ? null : from.place,
+    moving,
+    inTransit: moving,
+  };
+}
+
+export function visibleSocialPairs(people) {
+  const settled = people.filter((person) =>
+    person.currentPlace === "plaza" && !person.moving && !person.inTransit);
+  return settled.flatMap((a, index) =>
+    settled.slice(index + 1)
+      .filter((b) => a.socialPartners?.includes(b.id) &&
+        b.socialPartners?.includes(a.id) &&
+        Math.hypot(a.x - b.x, a.y - b.y) <= 96)
+      .map((b) => [a, b]));
 }
 export function createTownMap(canvas, { onSelect, onLocation }) {
   const ctx = canvas.getContext("2d"),
@@ -615,7 +764,7 @@ export function createTownMap(canvas, { onSelect, onLocation }) {
   let model = [],
     selected = "",
     hover = "",
-    zoom = 1.06,
+    zoom = 1,
     pan = { x: 0, y: 0 },
     size = { w: 1, h: 1, dpr: 1 },
     raf,
@@ -638,7 +787,7 @@ export function createTownMap(canvas, { onSelect, onLocation }) {
     const cam = camera();
     ctx.setTransform(size.dpr, 0, 0, size.dpr, 0, 0);
     ctx.clearRect(0, 0, size.w, size.h);
-    ctx.fillStyle = "#b7c985";
+    ctx.fillStyle = "#a4f773";
     ctx.fillRect(0, 0, size.w, size.h);
     ctx.translate(cam.x, cam.y);
     ctx.scale(cam.s, cam.s);
@@ -670,59 +819,22 @@ export function createTownMap(canvas, { onSelect, onLocation }) {
     }
     for (const person of model) {
       const t = reduced ? 1 : Math.min(1, (time - person.start) / 850),
-        ease = t * t * (3 - 2 * t),
-        journey = person.journey?.length
-          ? person.journey
-          : [
-              {
-                place: person.activity.place,
-                anchor: person.to,
-                route: person.route,
-              },
-            ],
-        journeyPhase = reduced
-          ? journey.length - 1
-          : (time / 5200 + person.index * 0.17) % journey.length,
-        journeyIndex = Math.floor(journeyPhase),
-        journeyT = journey.length === 1 ? 1 : journeyPhase - journeyIndex,
-        journeyFrom = journey[journeyIndex],
-        journeyTo = journey[(journeyIndex + 1) % journey.length],
-        pathEase = journeyT * journeyT * (3 - 2 * journeyT),
-        pathX =
-          journeyFrom.anchor.x +
-          (journeyTo.anchor.x - journeyFrom.anchor.x) * pathEase,
-        pathY =
-          journeyFrom.anchor.y +
-          (journeyTo.anchor.y - journeyFrom.anchor.y) * pathEase,
-        route = journeyFrom.route,
-        phase = reduced
-          ? 0
-          : (time / 2600 + person.index * 0.23) % route.length,
-        routeIndex = Math.floor(phase),
-        routeT = phase - routeIndex,
-        fromRoute = route[routeIndex],
-        toRoute = route[(routeIndex + 1) % route.length],
-        roamX = fromRoute.x + (toRoute.x - fromRoute.x) * routeT,
-        roamY = fromRoute.y + (toRoute.y - fromRoute.y) * routeT;
-      person.currentPlace = journeyFrom.place;
-      person.x =
-        person.from.x +
-        (pathX - person.from.x) * ease +
-        (roamX - pathX) * ease * 0.35;
-      person.y =
-        person.from.y +
-        (pathY - person.from.y) * ease +
-        (roamY - pathY) * ease * 0.35;
+        ease = smooth(t),
+        motion = residentMotion(person, time, reduced),
+        entering = t < 1 && Math.hypot(motion.x - person.from.x, motion.y - person.from.y) > 0.1;
+      person.currentPlace = entering ? null : motion.currentPlace;
+      person.moving = entering || motion.moving;
+      person.inTransit = entering || motion.inTransit;
+      person.x = person.from.x + (motion.x - person.from.x) * ease;
+      person.y = person.from.y + (motion.y - person.from.y) * ease;
     }
-    const social = model.filter((person) => person.currentPlace === "plaza");
-    if (social.length > 1) {
+    const socialPairs = visibleSocialPairs(model);
+    if (showActions && socialPairs.length) {
       ctx.save();
       ctx.strokeStyle = "#a4b48b99";
       ctx.lineWidth = 1.5;
       ctx.setLineDash([3, 4]);
-      for (let i = 0; i + 1 < social.length; i += 2) {
-        const a = social[i],
-          b = social[i + 1];
+      for (const [a, b] of socialPairs) {
         ctx.beginPath();
         ctx.moveTo(a.x, a.y - 13);
         ctx.lineTo(b.x, b.y - 13);
@@ -752,12 +864,14 @@ export function createTownMap(canvas, { onSelect, onLocation }) {
         person.y,
         person.index,
         1.9,
-        time - person.start < 850 ? time / 90 : 0,
+        person.moving && !reduced ? time / 90 : 0,
       );
       if (
         showActions &&
+        !person.moving &&
+        !person.inTransit &&
         (active ||
-          person.activity.place === "plaza" ||
+          person.currentPlace === "plaza" ||
           person.index % 4 === 0) &&
         oldDay > 0
       ) {
@@ -766,7 +880,11 @@ export function createTownMap(canvas, { onSelect, onLocation }) {
         ctx.font = "bold 13px monospace";
         ctx.fillStyle = "#5b6958";
         ctx.textAlign = "center";
-        ctx.fillText(person.activity.icon, person.x + 1, person.y - 43);
+        ctx.fillText(
+          placeIcons[person.currentPlace] ?? person.activity.icon,
+          person.x + 1,
+          person.y - 43,
+        );
       }
       if (showNames || active || pointed) {
         ctx.font = `${active ? "600" : "500"} 10px system-ui`;
