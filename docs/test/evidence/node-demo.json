@@ -1,0 +1,43 @@
+{
+  "environment": {
+    "node": "v22.23.3",
+    "platform": "darwin",
+    "arch": "arm64",
+    "os": "27.2.0",
+    "cpu": "Apple M4"
+  },
+  "shortage": {
+    "foodBefore": 264,
+    "foodAfter": 211,
+    "revision": 10
+  },
+  "vote": {
+    "status": "APPROVED",
+    "support": 31,
+    "oppose": 0
+  },
+  "repair": {
+    "proposalId": "repair-well-01",
+    "status": "EXECUTED",
+    "treasury": 898,
+    "water": 357,
+    "communityTrust": 65,
+    "externalSpent": 120,
+    "revision": 12
+  },
+  "final": {
+    "day": 30,
+    "population": 31,
+    "resources": {
+      "food": 407,
+      "water": 625,
+      "wood": 100,
+      "treasury": 900
+    },
+    "externalSpent": 120,
+    "events": 3040,
+    "snapshotBytes": 1180854
+  },
+  "restoredEqualsContinuous": true,
+  "damagedSnapshotRejectedWithoutMutation": true
+}
