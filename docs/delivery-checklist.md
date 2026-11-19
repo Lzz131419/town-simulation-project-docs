@@ -36,6 +36,6 @@
 
 ## 最终验收边界
 - 本地文档和静态检查结果见 [validation](review/validation.md)。
-- 正式MVP1代码、37项本地测试、浏览器性能与桌面界面验证已完成，见[实现验收](test/implementation-results.md)；不代表人工验收或已合并main。
+- 正式MVP1代码、39项本地测试、浏览器性能与桌面界面验证已完成，见[实现验收](test/implementation-results.md)；不代表人工验收或已合并main。
 - 文档提交与开发任务看板分开核验：线上Projects、工单/分支/PR已有真实链接；人工评审、ADR接受及合并仍待完成，不因实现通过预先勾选。
 - 原PDF和模板只记录引用，不上传课件本身；保留仓库旧历史以便回滚。

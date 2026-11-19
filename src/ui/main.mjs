@@ -400,6 +400,7 @@ function render() {
   );
 }
 function openEvents() {
+  setNavigation("nav-events");
   renderTimeline();
   $("events-dialog").showModal();
 }
@@ -414,17 +415,17 @@ $("create").addEventListener("click", () => {
   send(
     "CREATE_WORLD",
     { config: SCENARIO },
-    "小镇重新开始了：第0天，30名居民。",
+    "小镇已重置。",
   );
 });
 $("step").addEventListener("click", () =>
-  send("STEP", {}, "居民们又度过了一天。"),
+  send("STEP", {}, "新的一天开始了。"),
 );
 $("run").addEventListener("click", () =>
-  feedback(app.resume(), "开始观察：每秒推进一天，可随时暂停。"),
+  feedback(app.resume(), "模拟开始。"),
 );
 $("pause").addEventListener("click", () =>
-  feedback(app.pause(), "已暂停，点击居民看看今天发生了什么。"),
+  feedback(app.pause(), "模拟已暂停。"),
 );
 $("shortage").addEventListener("click", () => {
   const r = send("TRIGGER_SHORTAGE");
@@ -578,5 +579,8 @@ app.subscribe(render);
 send(
   "CREATE_WORLD",
   { config: SCENARIO },
-  "雾河镇准备好了，点击“开始模拟”或“推进一天”看看吧。",
+  "小镇已准备好。",
 );
+// The initial state is self-evident from the map; reserve the toast for
+// actions that need acknowledgement.
+$("feedback").classList.add("quiet-feedback");

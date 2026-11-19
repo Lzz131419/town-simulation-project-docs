@@ -15,8 +15,11 @@
     <header class="app-header">
       <a class="brand" href="./index.html"
         ><span class="town-logo" aria-hidden="true"><i></i><i></i><i></i></span
-        ><span>雾河镇<small>数字居民的小小世界</small></span></a
+        ><span>雾河镇</span></a
       >
+      <div class="header-status" aria-label="运行状态">
+        <i></i><span>本地模拟空间 · 固定场景</span>
+      </div>
       <div class="header-actions">
         <button id="open-profile" class="quiet">＋ 添加居民</button
         ><span class="divider"></span
@@ -49,10 +52,8 @@
         </button>
       </nav>
       <div class="workspace-note">
-        <span>生活 · 连接 · 共建</span
-        ><strong>每个居民，<br />都有故事。</strong>
-        <p>观察一座小镇，<br />理解每一次共同选择。</p>
-        <div class="local-badge"><i></i> 本地模拟空间</div>
+        <span>小镇工作区</span>
+        <div class="local-badge"><i></i> 本地运行</div>
       </div>
     </aside>
     <main class="workbench">
@@ -61,7 +62,7 @@
           <div class="world-title">
             <span class="live-dot"></span>
             <h1>小镇观察室</h1>
-            <span class="muted">雾河镇 · 河流旁的共同生活</span>
+            <span class="muted">雾河镇</span>
           </div>
           <div class="town-stats" aria-label="小镇总览">
             <div>
@@ -107,7 +108,7 @@
           </div>
           <div class="map-legend">
             <label
-              ><input id="show-names" type="checkbox" checked />居民姓名</label
+              ><input id="show-names" type="checkbox" />居民姓名</label
             ><label
               ><input
                 id="show-actions"
@@ -116,7 +117,7 @@
               />活动标记</label
             >
           </div>
-          <div class="map-hint">点击居民查看生活 · 拖动探索小镇</div>
+          <div class="map-hint">点击居民 · 拖动地图</div>
         </section>
         <section class="playback" aria-label="时间控制">
           <div class="day-display">
@@ -203,9 +204,7 @@
           hidden
         >
           <div class="decision-intro">
-            <span class="section-kicker">一件大家的事</span>
             <h2>修好那口老水井</h2>
-            <p>一笔公共资金，一次共同选择。让居民的需求决定这口水井的未来。</p>
           </div>
           <div class="well-illustration" aria-hidden="true">
             <span>≈</span><i></i>
@@ -220,44 +219,35 @@
             </div>
             <div><small>社区信任</small><strong>+5</strong></div>
           </div>
-          <p class="decision-note">
-            全体居民各有一票，支持票严格多于反对票才通过。可先观察七天，再关闭投票。
-          </p>
+          <p class="decision-note">支持票过半即可通过。</p>
           <div class="stack">
             <button id="vote" class="primary">关闭投票，生成结果</button
             ><button id="execute">执行维修</button>
           </div>
           <p id="vote-result" class="muted"></p>
           <details>
-            <summary>居民为什么支持或反对？</summary>
-            <p class="formula">
-              评分＝缺水需求×0.5＋社区信任×0.3＋对提案者亲近度×0.2；评分≥50支持。
-            </p>
+            <summary>查看投票明细</summary>
             <div id="ballots" class="ballot-list"></div>
           </details>
         </section>
         <div class="inspector-footer">
           <span class="offline-dot"></span> 仅在本地运行
-          <span>离开前请保存进度</span>
         </div>
       </aside>
     </main>
     <div id="feedback" class="feedback" role="status" aria-live="polite">
-      小镇准备好了，开始观察居民的一天。
+      小镇已准备好。
     </div>
     <dialog id="profile-dialog">
       <div class="dialog-heading">
         <div>
-          <span class="section-kicker">新的邻居</span>
           <h2>让一位数字居民加入</h2>
         </div>
         <button id="close-profile" aria-label="关闭人物导入">×</button>
       </div>
-      <p>
-        用一份已授权的人物档案，为小镇带来新的邻居。人物与其他居民遵循相同的生活规则。
-      </p>
+      <p>导入一份人物JSON，添加新的居民。</p>
       <div class="privacy-note">
-        资料只留在本页内存，不会上传。演示请使用虚构人物。
+        资料仅保留在本页内存。
       </div>
       <label for="profile-text">人物档案（本地JSON，≤16KiB）</label
       ><textarea id="profile-text" spellcheck="false" rows="9">
@@ -271,14 +261,11 @@
             accept=".json,application/json" /></label
         ><button id="profile-import" class="primary">导入文本中的人物</button>
       </div>
-      <p class="muted">
-        最多导入1人，须在投票关闭前加入。重置可移除当前人物；已下载的存档请自行删除。
-      </p>
+      <p class="muted">最多添加1人，投票关闭前可加入。</p>
     </dialog>
     <dialog id="events-dialog" class="events-dialog">
       <div class="dialog-heading">
         <div>
-          <span class="section-kicker">每一步都有迹可循</span>
           <h2>雾河镇事件簿</h2>
         </div>
         <button id="close-events" aria-label="关闭事件簿">×</button>

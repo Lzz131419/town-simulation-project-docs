@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  activityRoute,
+  dailyJourney,
   locations,
   layoutResidents,
   presentationFor,
@@ -55,4 +57,35 @@ test("All 31 residents retain distinct presentation positions when resting toget
   }));
   const points = layoutResidents(world.state.agents, events, 7);
   assert.equal(new Set(points.map((p) => `${p.to.x},${p.to.y}`)).size, 31);
+});
+
+test("Activity routes keep residents moving around their current facility", () => {
+  const first = activityRoute("plaza", 2),
+    second = activityRoute("plaza", 2);
+  assert.deepEqual(first, second);
+  assert.ok(first.length >= 4);
+  assert.ok(new Set(first.map((p) => `${p.x},${p.y}`)).size > 1);
+});
+
+test("Daily journey follows the recorded work, market and social sequence", () => {
+  const world = createWorld(SCENARIO),
+    agent = world.state.agents[0],
+    event = (sequence, type) => ({
+      day: 1,
+      sequence,
+      type,
+      actorIds: [agent.agentId],
+    });
+  assert.deepEqual(
+    dailyJourney(
+      agent,
+      [
+        event(1, "WORKED"),
+        event(2, "FOOD_PURCHASED"),
+        event(3, "SOCIAL_INTERACTION"),
+      ],
+      1,
+    ),
+    ["farm", "market", "plaza"],
+  );
 });

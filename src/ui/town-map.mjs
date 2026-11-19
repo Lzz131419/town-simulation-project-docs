@@ -1,6 +1,11 @@
 // Original pixel artwork, drawn locally. Presentation positions are not world state.
+// Keep the logical map at 1024×672 for stable hit-testing and simulation
+// coordinates, then render the artwork on a 2× backing surface.  The
+// supersampled background keeps the hand-drawn pixel shapes clear when the
+// desktop map grows beyond its original viewport.
 const WIDTH = 1024,
-  HEIGHT = 672;
+  HEIGHT = 672,
+  ART_SCALE = 2;
 const COLORS = [
   "#c87953",
   "#638c9a",
@@ -17,35 +22,35 @@ export const locations = {
     x: 160,
     y: 320,
     facilityId: "farm-01",
-    description: "农夫在这里生产粮食。每日劳动产粮4份，工资最高2镇币。",
+    description: "生产粮食",
   },
   well: {
     label: "老水井",
     x: 785,
     y: 340,
     facilityId: "well-01",
-    description: "取水工在这里生产清水。维修议案可一次性补充30份清水。",
+    description: "取水与补给",
   },
   market: {
     label: "雾河集市",
     x: 505,
     y: 220,
     facilityId: "market-01",
-    description: "居民用2镇币购买1份粮食，款项进入公共资金。",
+    description: "购买粮食",
   },
   plaza: {
     label: "中央广场",
     x: 506,
     y: 420,
     facilityId: "plaza-01",
-    description: "每天最多10名合格居民按稳定编号配对，增进双向关系。",
+    description: "居民社交",
   },
   home: {
     label: "居民住宅",
     x: 325,
     y: 566,
     facilityId: "home-01",
-    description: "住宅区容纳全体居民。普通居民或精力不足者休息恢复精力。",
+    description: "居民休息",
   },
 };
 const rect = (c, color, x, y, w, h) => {
@@ -185,29 +190,30 @@ function lamp(c, x, y) {
 }
 function baseMap() {
   const canvas = document.createElement("canvas");
-  canvas.width = WIDTH;
-  canvas.height = HEIGHT;
+  canvas.width = WIDTH * ART_SCALE;
+  canvas.height = HEIGHT * ART_SCALE;
   const c = canvas.getContext("2d");
+  c.scale(ART_SCALE, ART_SCALE);
   c.imageSmoothingEnabled = false;
-  rect(c, "#acc67d", 0, 0, WIDTH, HEIGHT);
+  rect(c, "#b7c985", 0, 0, WIDTH, HEIGHT);
   for (let y = 0; y < HEIGHT; y += 8)
     for (let x = 0; x < WIDTH; x += 8) {
       const k = (x * 17 + y * 31 + x * y) % 107;
-      if (k < 22) rect(c, k % 2 ? "#b7cf88" : "#a3bd72", x + 2, y + 3, 3, 2);
+      if (k < 22) rect(c, k % 2 ? "#c2d391" : "#abc27d", x + 2, y + 3, 3, 2);
       if (k === 4) {
-        rect(c, "#8ead64", x + 1, y, 1, 3);
-        rect(c, "#8ead64", x + 3, y + 1, 1, 2);
+        rect(c, "#98b36d", x + 1, y, 1, 3);
+        rect(c, "#98b36d", x + 3, y + 1, 1, 2);
       }
     }
   // Riverbank and small wooden footbridge.
   for (let y = 0; y < HEIGHT; y += 16) {
     const edge = 915 + Math.round((Math.sin(y / 96) * 14) / 8) * 8;
     rect(c, "#dfcc9b", edge - 8, y, WIDTH - edge + 8, 16);
-    rect(c, "#609398", edge, y, WIDTH - edge, 16);
-    rect(c, "#79aeb0", edge + 5, y, WIDTH - edge - 5, 16);
+    rect(c, "#6fa3a4", edge, y, WIDTH - edge, 16);
+    rect(c, "#8bb9b5", edge + 5, y, WIDTH - edge - 5, 16);
     if (y % 32 === 0)
       for (let x = edge + 15; x < WIDTH; x += 37)
-        rect(c, "#a4c9bf", x, y + 9, 17, 2);
+        rect(c, "#b7d3c8", x, y + 9, 17, 2);
   }
   const path = (x, y, w, h) => {
     rect(c, "#c9b880", x - 3, y - 3, w + 6, h + 6);
@@ -418,6 +424,89 @@ export function presentationFor(agent, events, day) {
   if (rested) return { place: "home", action: "在住宅休息", icon: "休" };
   return { place: "market", action: "完成今日生活安排", icon: "·" };
 }
+
+export function dailyJourney(agent, events, day) {
+  const own = events
+      .filter(
+        (event) => event.day === day && event.actorIds.includes(agent.agentId),
+      )
+      .sort((a, b) => a.sequence - b.sequence),
+    places = [];
+  const add = (place) => {
+    if (places.at(-1) !== place) places.push(place);
+  };
+  if (day === 0) {
+    add(
+      agent.jobCode === "farmer"
+        ? "farm"
+        : agent.jobCode === "waterWorker"
+          ? "well"
+          : "home",
+    );
+  }
+  for (const event of own) {
+    if (event.type === "WORKED")
+      add(agent.jobCode === "farmer" ? "farm" : "well");
+    else if (
+      [
+        "FOOD_PURCHASED",
+        "FOOD_OUT_OF_STOCK",
+        "INSUFFICIENT_PERSONAL_FUNDS",
+      ].includes(event.type)
+    )
+      add("market");
+    else if (["WATER_CONSUMED", "WATER_OUT_OF_STOCK"].includes(event.type))
+      add("well");
+    else if (event.type === "SOCIAL_INTERACTION") add("plaza");
+    else if (event.type === "RESTED") add("home");
+  }
+  if (!places.length) add(presentationFor(agent, events, day).place);
+  return places;
+}
+
+const ROUTE_OFFSETS = {
+  farm: [
+    [0, 0],
+    [12, -5],
+    [20, 4],
+    [8, 11],
+    [-8, 7],
+    [-14, -3],
+  ],
+  well: [
+    [0, 0],
+    [12, -4],
+    [20, 5],
+    [9, 12],
+    [-8, 8],
+    [-15, -2],
+  ],
+  market: [
+    [0, 0],
+    [12, -5],
+    [20, 3],
+    [10, 11],
+    [-8, 9],
+    [-16, 1],
+  ],
+  plaza: [
+    [0, 0],
+    [10, -6],
+    [18, 2],
+    [9, 10],
+    [-7, 8],
+    [-15, 0],
+  ],
+  home: [
+    [0, 0],
+    [10, -4],
+    [16, 5],
+    [7, 11],
+    [-8, 7],
+    [-13, -2],
+  ],
+};
+
 function anchor(place, index) {
   const groups = {
     farm: [
@@ -480,18 +569,43 @@ function anchor(place, index) {
   const point = points[index % points.length];
   return { x: point[0], y: point[1] + Math.floor(index / points.length) * 33 };
 }
+
+export function activityRoute(place, slot) {
+  const base = anchor(place, slot),
+    offsets = ROUTE_OFFSETS[place] ?? ROUTE_OFFSETS.home,
+    shift = slot % offsets.length;
+  return offsets.map((_, index) => {
+    const [x, y] = offsets[(index + shift) % offsets.length];
+    return { x: base.x + x, y: base.y + y };
+  });
+}
+
 export function layoutResidents(agents, events, day) {
   const slots = {};
   return agents.map((agent, index) => {
     const activity = presentationFor(agent, events, day);
     const slot = slots[activity.place] ?? 0;
     slots[activity.place] = slot + 1;
+    const journey = dailyJourney(agent, events, day).map(
+      (place, journeyIndex) => {
+        const journeySlot =
+          place === activity.place ? slot : (index + journeyIndex) % 10;
+        return {
+          place,
+          anchor: anchor(place, journeySlot),
+          route: activityRoute(place, journeySlot),
+        };
+      },
+    );
     return {
       id: agent.agentId,
       name: agent.displayName,
       index,
+      slot,
       activity,
       to: anchor(activity.place, slot),
+      route: activityRoute(activity.place, slot),
+      journey,
     };
   });
 }
@@ -501,14 +615,14 @@ export function createTownMap(canvas, { onSelect, onLocation }) {
   let model = [],
     selected = "",
     hover = "",
-    zoom = 1,
+    zoom = 1.06,
     pan = { x: 0, y: 0 },
     size = { w: 1, h: 1, dpr: 1 },
     raf,
     drag = null,
     oldDay = -1,
     presentationKey = "",
-    showNames = true,
+    showNames = false,
     showActions = true;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const camera = () => ({
@@ -524,12 +638,16 @@ export function createTownMap(canvas, { onSelect, onLocation }) {
     const cam = camera();
     ctx.setTransform(size.dpr, 0, 0, size.dpr, 0, 0);
     ctx.clearRect(0, 0, size.w, size.h);
-    ctx.fillStyle = "#a4bf7a";
+    ctx.fillStyle = "#b7c985";
     ctx.fillRect(0, 0, size.w, size.h);
     ctx.translate(cam.x, cam.y);
     ctx.scale(cam.s, cam.s);
+    // Downsample the 2× backing surface once before drawing the characters.
+    // This keeps the map details clear at desktop scale without large nearest
+    // neighbour blocks, while the residents remain crisp pixel sprites.
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(background, 0, 0, WIDTH, HEIGHT);
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(background, 0, 0);
     for (const [key, location] of Object.entries(locations)) {
       const y =
         key === "farm"
@@ -552,9 +670,71 @@ export function createTownMap(canvas, { onSelect, onLocation }) {
     }
     for (const person of model) {
       const t = reduced ? 1 : Math.min(1, (time - person.start) / 850),
-        ease = t * t * (3 - 2 * t);
-      person.x = person.from.x + (person.to.x - person.from.x) * ease;
-      person.y = person.from.y + (person.to.y - person.from.y) * ease;
+        ease = t * t * (3 - 2 * t),
+        journey = person.journey?.length
+          ? person.journey
+          : [
+              {
+                place: person.activity.place,
+                anchor: person.to,
+                route: person.route,
+              },
+            ],
+        journeyPhase = reduced
+          ? journey.length - 1
+          : (time / 5200 + person.index * 0.17) % journey.length,
+        journeyIndex = Math.floor(journeyPhase),
+        journeyT = journey.length === 1 ? 1 : journeyPhase - journeyIndex,
+        journeyFrom = journey[journeyIndex],
+        journeyTo = journey[(journeyIndex + 1) % journey.length],
+        pathEase = journeyT * journeyT * (3 - 2 * journeyT),
+        pathX =
+          journeyFrom.anchor.x +
+          (journeyTo.anchor.x - journeyFrom.anchor.x) * pathEase,
+        pathY =
+          journeyFrom.anchor.y +
+          (journeyTo.anchor.y - journeyFrom.anchor.y) * pathEase,
+        route = journeyFrom.route,
+        phase = reduced
+          ? 0
+          : (time / 2600 + person.index * 0.23) % route.length,
+        routeIndex = Math.floor(phase),
+        routeT = phase - routeIndex,
+        fromRoute = route[routeIndex],
+        toRoute = route[(routeIndex + 1) % route.length],
+        roamX = fromRoute.x + (toRoute.x - fromRoute.x) * routeT,
+        roamY = fromRoute.y + (toRoute.y - fromRoute.y) * routeT;
+      person.currentPlace = journeyFrom.place;
+      person.x =
+        person.from.x +
+        (pathX - person.from.x) * ease +
+        (roamX - pathX) * ease * 0.35;
+      person.y =
+        person.from.y +
+        (pathY - person.from.y) * ease +
+        (roamY - pathY) * ease * 0.35;
+    }
+    const social = model.filter((person) => person.currentPlace === "plaza");
+    if (social.length > 1) {
+      ctx.save();
+      ctx.strokeStyle = "#a4b48b99";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([3, 4]);
+      for (let i = 0; i + 1 < social.length; i += 2) {
+        const a = social[i],
+          b = social[i + 1];
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y - 13);
+        ctx.lineTo(b.x, b.y - 13);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = "bold 10px system-ui";
+        ctx.fillStyle = "#ad8a6a";
+        ctx.textAlign = "center";
+        ctx.fillText("·", (a.x + b.x) / 2, (a.y + b.y) / 2 - 16);
+        ctx.setLineDash([3, 4]);
+      }
+      ctx.restore();
     }
     for (const person of [...model].sort((a, b) => a.y - b.y)) {
       const active = person.id === selected,
@@ -571,10 +751,16 @@ export function createTownMap(canvas, { onSelect, onLocation }) {
         person.x,
         person.y,
         person.index,
-        1.7,
+        1.9,
         time - person.start < 850 ? time / 90 : 0,
       );
-      if (showActions && (active || person.index % 5 === 0) && oldDay > 0) {
+      if (
+        showActions &&
+        (active ||
+          person.activity.place === "plaza" ||
+          person.index % 4 === 0) &&
+        oldDay > 0
+      ) {
         rect(ctx, "#fffdf0", person.x - 10, person.y - 56, 22, 17);
         rect(ctx, "#fffdf0", person.x - 2, person.y - 39, 4, 4);
         ctx.font = "bold 13px monospace";
