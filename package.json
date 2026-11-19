@@ -1,0 +1,14 @@
+{
+  "name": "mist-river-town",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "docs:check": "python3 docs/tools/validate_docs.py",
+    "start": "python3 -m http.server 8765 --bind 127.0.0.1"
+  }
+}
