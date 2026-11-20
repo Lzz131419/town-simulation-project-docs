@@ -1,0 +1,1 @@
+PASS: desktop/Retina rendering, journal, map guide, follow, zoom/reset, minimap and expand/restore.

@@ -1,0 +1,29 @@
+{
+  "errors": [],
+  "sizes": [
+    {
+      "width": 1440,
+      "height": 900,
+      "dpr": 2,
+      "overflow": false,
+      "canvas": {
+        "width": 1794,
+        "height": 1254,
+        "cssWidth": 897,
+        "cssHeight": 627
+      }
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "dpr": 1,
+      "overflow": false,
+      "canvas": {
+        "width": 737,
+        "height": 458,
+        "cssWidth": 737,
+        "cssHeight": 458
+      }
+    }
+  ]
+}

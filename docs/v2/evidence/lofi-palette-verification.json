@@ -1,0 +1,98 @@
+{
+  "result": "passed",
+  "reference": "User supplied Lofi Community preview",
+  "sizes": [
+    "1440x900",
+    "1280x720"
+  ],
+  "surfaces": [
+    {
+      "selector": "sidebar",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar small",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "topbar",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "main-area",
+      "bg": "rgb(241, 245, 249)"
+    },
+    {
+      "selector": "avatar large",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "selector": "",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "selector": "",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "selector": "ai-entry",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "selected",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "avatar tiny",
+      "bg": "rgb(255, 255, 255)"
+    }
+  ]
+}

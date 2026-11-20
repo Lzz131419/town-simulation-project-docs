@@ -1,0 +1,29 @@
+{
+  "errors": [],
+  "sizes": [
+    {
+      "width": 1440,
+      "height": 900,
+      "dpr": 2,
+      "overflow": false,
+      "dialog": {
+        "x": 340,
+        "y": 93.71875,
+        "width": 760,
+        "height": 712.5625
+      }
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "dpr": 1,
+      "overflow": false,
+      "dialog": {
+        "x": 260,
+        "y": 32,
+        "width": 760,
+        "height": 656
+      }
+    }
+  ]
+}

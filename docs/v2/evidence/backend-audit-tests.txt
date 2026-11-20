@@ -1,0 +1,70 @@
+
+> mist-river-town@2.0.0 test:coverage
+> .venv/bin/python -m pytest backend/tests -q --cov=backend/app --cov-report=term-missing --cov-report=xml:.local/backend-coverage.xml --cov-fail-under=90
+
+........................................................................ [ 48%]
+........................................................................ [ 97%]
+...                                                                      [100%]
+================================ tests coverage ================================
+______________ coverage: platform darwin, python 3.12.10-final-0 _______________
+
+Name                                       Stmts   Miss  Cover   Missing
+------------------------------------------------------------------------
+backend/app/__init__.py                        0      0   100%
+backend/app/ai/__init__.py                     0      0   100%
+backend/app/ai/planner.py                     87      1    99%   89
+backend/app/ai/provider.py                    51      4    92%   29-30, 35, 101
+backend/app/ai/records.py                     23      0   100%
+backend/app/ai/response.py                    21      3    86%   11, 13, 19
+backend/app/api/__init__.py                    0      0   100%
+backend/app/api/ai.py                         60     31    48%   49-65, 70-77, 82-85, 90-93, 98-99
+backend/app/api/archives.py                   59      6    90%   16-20, 100-102
+backend/app/api/auth.py                       29      0   100%
+backend/app/api/dependencies.py                7      0   100%
+backend/app/api/health.py                     32      0   100%
+backend/app/api/messages.py                   20      0   100%
+backend/app/api/orders.py                     17      1    94%   20
+backend/app/api/profile.py                    16      0   100%
+backend/app/api/realtime.py                   49      7    86%   25-26, 32-33, 37-38, 51
+backend/app/api/world.py                      80      1    99%   82
+backend/app/balance.py                        25      0   100%
+backend/app/bootstrap.py                      21      0   100%
+backend/app/catalog.py                        24      0   100%
+backend/app/config.py                         27      5    81%   27, 30-34
+backend/app/database.py                       17      0   100%
+backend/app/db.py                              3      0   100%
+backend/app/domain/__init__.py                 0      0   100%
+backend/app/domain/actions.py                156      4    97%   175-176, 193, 208
+backend/app/domain/deliveries.py              26      0   100%
+backend/app/domain/economy.py                 16      0   100%
+backend/app/domain/migration.py               42      3    93%   39, 44-45
+backend/app/domain/orders.py                  42      0   100%
+backend/app/domain/plans.py                   25      0   100%
+backend/app/domain/progression.py             16      0   100%
+backend/app/domain/recipes.py                  3      0   100%
+backend/app/domain/rules.py                   15      0   100%
+backend/app/domain/scheduler.py              141     11    92%   48, 50, 56, 61-65, 68, 128, 130
+backend/app/engine.py                          5      0   100%
+backend/app/infrastructure/__init__.py         0      0   100%
+backend/app/infrastructure/async_io.py        19      1    95%   19
+backend/app/infrastructure/http.py            50      4    92%   36, 56-65, 79
+backend/app/infrastructure/migrations.py      10      0   100%
+backend/app/main.py                           54      2    96%   36, 70
+backend/app/models.py                         73      0   100%
+backend/app/pathfinding.py                    73      2    97%   56, 92
+backend/app/realtime/__init__.py               0      0   100%
+backend/app/realtime/protocol.py              14      0   100%
+backend/app/runtime.py                       184     21    89%   37, 73, 77, 92-93, 177, 188-195, 223-228, 236
+backend/app/schemas.py                        43      0   100%
+backend/app/security.py                       28      0   100%
+backend/app/services/__init__.py               0      0   100%
+backend/app/services/commands.py              51      0   100%
+backend/app/services/container.py              4      0   100%
+backend/app/services/history.py               14      0   100%
+backend/app/telemetry.py                      35      0   100%
+backend/app/world_map.py                       4      0   100%
+------------------------------------------------------------------------
+TOTAL                                       1811    107    94%
+Coverage XML written to file .local/backend-coverage.xml
+Required test coverage of 90% reached. Total coverage: 94.09%
+147 passed in 23.87s

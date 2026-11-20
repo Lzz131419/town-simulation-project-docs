@@ -1,0 +1,34 @@
+
+> mist-river-town@2.0.0 test:browser
+> npm --prefix frontend run test:browser
+
+
+> mist-river-town-client@2.0.0 test:browser
+> playwright test
+
+
+Running 19 tests using 1 worker
+
+(node:78740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser.spec.ts:23:1 › six simultaneous members, real movement, workspace and cloud archive (8.4s)
+  ✓   2 tests/browser.spec.ts:132:1 › logout keeps saved rule plan and removes online presence (1.4s)
+  ✓   3 tests/browser.spec.ts:156:1 › two members complete an escrow order through the interface (1.7s)
+  ✓   4 tests/browser.spec.ts:219:1 › personal milestones and selected-neighbor interaction survive reload (4.3s)
+  ✓   5 tests/districts.spec.ts:6:1 › new districts connect a real furniture chain to community delivery (23.1s)
+  ✓   6 tests/districts.spec.ts:85:1 › canvas buildings stay clickable while map controls do not click through (1.3s)
+  ✓   7 tests/journey.spec.ts:5:1 › motion follows actual traversed corners, never the replaced route length (1ms)
+  ✓   8 tests/journey.spec.ts:34:1 › recipe sources, food, stopped journey and expanded camera remain consistent (2.9s)
+  ✓   9 tests/lighting.spec.ts:4:1 › lighting is continuous across dawn, dusk and midnight (121ms)
+  ✓  10 tests/lighting.spec.ts:41:1 › night actually shades rendered pixels and ambience toggle restores daylight (3.1s)
+  ✓  11 tests/map.spec.ts:29:1 › east bank navigation, action details, real fruit harvest and consumption (5.1s)
+  ✓  12 tests/map.spec.ts:86:1 › live material chains produce tools, boosted ore and a cooked meal (14.3s)
+  ✓  13 tests/queue.spec.ts:28:1 › queue recipes, reorder and remove steps, finish a real chain and stop (8.4s)
+  ✓  14 tests/queue.spec.ts:84:1 › failed finite step pauses later work and stale drafts cannot replace new queues (4.9s)
+  ✓  15 tests/reliability.spec.ts:18:1 › patch validates continuity and schema without damaging current state (47ms)
+  ✓  16 tests/reliability.spec.ts:81:1 › request timeout covers response body and never retries mutations (25ms)
+  ✓  17 tests/reliability.spec.ts:111:1 › startup failure and stalled server offer a working retry (12.7s)
+  ✓  18 tests/reliability.spec.ts:136:1 › broken websocket reconnects and resyncs after a malformed packet (1.7s)
+  ✓  19 tests/reliability.spec.ts:171:1 › economic charts show real samples at both desktop sizes (901ms)
+
+  19 passed (1.6m)

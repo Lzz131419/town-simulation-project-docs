@@ -1,0 +1,30 @@
+{
+  "backup": {
+    "backup": ".local/pre-queue-20261120-001416.db",
+    "integrity": "ok",
+    "tick": 11628,
+    "revision": 11657,
+    "residents": 12,
+    "economy_total": 2840
+  },
+  "health": {
+    "ok": true,
+    "version": "2.0.0"
+  },
+  "control_modes": [
+    "manual",
+    "rules",
+    "plan"
+  ],
+  "queue_routes": [
+    "/api/me/plan/append",
+    "/api/me/plan/edit"
+  ],
+  "current": {
+    "tick": 11709,
+    "revision": 11738,
+    "residents": 12,
+    "money": 2840,
+    "integrity": "ok"
+  }
+}

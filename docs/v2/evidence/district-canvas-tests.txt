@@ -1,0 +1,12 @@
+
+> mist-river-town-client@2.0.0 test:browser
+> playwright test --grep canvas buildings
+
+
+Running 1 test using 1 worker
+
+(node:78002) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/districts.spec.ts:85:1 › canvas buildings stay clickable while map controls do not click through (1.3s)
+
+  1 passed (2.0s)

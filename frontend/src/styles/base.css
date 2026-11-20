@@ -1,0 +1,263 @@
+:root {
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  color: var(--color-text);
+  background: var(--color-canvas);
+  font-synthesis: none;
+  font-size: 14px;
+  font-weight: 400;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #505050;
+  padding: 8px 14px;
+  transition:
+    background 0.15s,
+    transform 0.15s;
+}
+button:hover:not(:disabled) {
+  background: #f0f0f0;
+  border-color: #d3d3d3;
+}
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+button.primary {
+  background: var(--green);
+  color: #ffffff;
+  border-color: var(--green);
+}
+button.primary:hover:not(:disabled) {
+  background: #444444;
+}
+button.quiet {
+  border-color: transparent;
+  background: transparent;
+  color: #797979;
+}
+button.quiet:hover {
+  background: #f0f0f0;
+}
+button.compact {
+  min-height: 32px;
+  font-size: 12px;
+  padding: 6px 11px;
+}
+button.wide {
+  width: 100%;
+}
+button.icon-button {
+  padding: 7px;
+  min-height: 32px;
+  width: 32px;
+  border-color: transparent;
+  background: transparent;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #bbbbbb;
+  outline-offset: 2px;
+}
+input,
+select,
+textarea {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 7px;
+  color: #454545;
+  padding: 10px 12px;
+  min-width: 0;
+}
+textarea {
+  resize: vertical;
+  line-height: 1.75;
+}
+input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--green);
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  color: #6f6f6f;
+  font-weight: 500;
+  margin: 18px 0;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+h1 {
+  font-size: 26px;
+  letter-spacing: -0.8px;
+  font-weight: 600;
+}
+h2 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 14px 0 7px;
+}
+p {
+  line-height: 1.8;
+  color: #868686;
+  font-size: 13px;
+}
+strong {
+  font-weight: 600;
+}
+.muted {
+  color: #919191;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2.3px;
+  font-weight: 600;
+  color: #969696;
+}
+.green-text {
+  color: #7c7c7c;
+}
+.ochre-text {
+  color: #999999;
+}
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #9c9c9c;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px #9a9a9a12;
+}
+.status-dot.gray {
+  background: #b5b5b5;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  font-size: 10px;
+  border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  padding: 4px 8px;
+  color: #949494;
+  background: #f6f6f6;
+  font-weight: 500;
+}
+.tag.green {
+  color: #767676;
+  background: #f2f2f2;
+  border-color: #e7e7e7;
+}
+.brand-mark {
+  background: #575757;
+  border-radius: 12px;
+  color: #f1f1f1;
+  width: 43px;
+  height: 43px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.spin {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.boot {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #898989;
+}
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #4e4e4e;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px #38383825;
+  max-width: 85vw;
+  font-size: 13px;
+}
+.toast.error {
+  background: #636363;
+}
+.toast-enter-active,
+.toast-leave-active {
+  transition: 0.2s;
+}
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
+  bottom: 18px;
+}
+
+.connection-error {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 40px;
+  text-align: center;
+}

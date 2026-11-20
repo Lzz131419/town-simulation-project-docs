@@ -1,0 +1,18 @@
+{
+  "health": {
+    "ok": true,
+    "version": "2.0.0"
+  },
+  "integrity": "ok",
+  "map_version": 3,
+  "residents": 12,
+  "places": 21,
+  "goods": 15,
+  "delivery_requests": 6,
+  "tick": 12674,
+  "previous_tick": 12628,
+  "revision": 12704,
+  "economy_total": 2840,
+  "tick_seconds": 2.0,
+  "backup": ".local/pre-district-20261120-004811.db"
+}

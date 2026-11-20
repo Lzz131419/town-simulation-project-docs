@@ -1,5 +1,10 @@
 # 雾河镇 AI 协作规则
 
+> **当前版本入口（2026-11-20）**：用户已明确授权本地重建 v2：Vue 3 + TypeScript + Phaser 3、FastAPI + SQLAlchemy、LangGraph，六人共享世界、固定账号、个人模型、离线规则执行。以 [v2 产品设计](docs/v2/product-design.md)、[v2 Spec](docs/v2/spec.md)、[v2 架构](docs/v2/architecture.md) 和 [ADR-003](adr/ADR-003-shared-town-v2.md) 为当前依据。非游戏区黑白灰，业务与显示、规则、模型和持久化分离。**2026-11-20用户已明确授权将当前最新代码与课程作业材料提交至原GitHub仓库；本次允许commit/push，保留历史、不强制推送。后续修改的发布范围仍以用户指令为准。**
+>
+> 以下正文保留为 v1 课程基线；其中无 Vue/后端/模型、30+1 人、每日手动推进、完整世界回滚及旧提交授权均不适用于 v2。保留历史不等于继续执行旧限制。新工作先阅读新版文档并运行根目录列出的 v2 检查；不伪造人工评审、远程状态或真实模型验证。
+
+
 ## 1. 开始任务前
 阅读 context.md → 对应 spec → docs/architecture.md 与相关 ADR → plans/mvp1-plan.md 的任务条目。agent-rules.md 是跨工具约定，需由调用方显式提供，不宣称所有工具自动加载。
 

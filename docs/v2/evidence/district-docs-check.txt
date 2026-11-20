@@ -1,0 +1,11 @@
+
+> mist-river-town@2.0.0 docs:check
+> python3 docs/tools/validate_docs.py
+
+PASS: 72 Markdown files; 309 local links resolve
+PASS: v2 23 GWT criteria with verification mappings; current architecture and ADR present
+PASS: v1 5 modules; 20 unique GWT ACs; every story and boundary linked
+PASS: 12 tasks; all ACs covered; owners/reviewers/Issue bodies/branch templates valid
+PASS: DAG acyclic; T01 -> T04 -> T05 -> T02 -> T03 -> T12 = 15 working days; 27 person-days
+PASS: fixtures match population and money; published task numbers and resolved branches consistent
+LIMIT: checks structure and references only, not semantic correctness, implementation, human review or GitHub status

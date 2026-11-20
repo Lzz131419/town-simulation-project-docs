@@ -1,6 +1,12 @@
 # GitHub发布与看板交付
 
-## 当前状态
+## 2026-11-20 最新版本提交
+
+用户已授权提交当前v2全部代码及原课程作业交付。本次内容、阅读路径和验证边界见[完整交付目录](submission-2026-11-20.md)。v1课程基线、冷启动原始证据与既有Git历史保留；v2包含Vue/Phaser前端、FastAPI后端、数据库迁移、AI规划、测试与运维资料。各阶段仅本地验证的记录保留原日期，不改写为当时已经远端发布。
+
+下面的PR、Issue和看板信息是此前v1交付记录；不将本次代码提交视为补齐人工评审、ADR签字或云端部署。
+
+## v1 交付历史
 原文档重建[Issue #5](https://github.com/Lzz131419/town-simulation-project-docs/issues/5)与[PR #6](https://github.com/Lzz131419/town-simulation-project-docs/pull/6)已完成合并，原文档基线为历史提交03c9856。用户随后授权正式开发，工程通过堆叠PR交付。2026-11-19按用户明确授权，PR #20–#32、#35、#36共15项全部合入main（合并节点c781657），未强推或覆盖历史。
 
 12项任务Issues #7–#18及任务分支/PR已发布，准确对应见[工程进度](engineering-progress.md)与[tasks.json](../plans/tasks.json)。启动治理为[Issue #19](https://github.com/Lzz131419/town-simulation-project-docs/issues/19)，中文像素界面改造为[Issue #33](https://github.com/Lzz131419/town-simulation-project-docs/issues/33)。

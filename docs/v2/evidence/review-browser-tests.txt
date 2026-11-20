@@ -1,0 +1,24 @@
+
+> mist-river-town@2.0.0 test:browser
+> npm --prefix frontend run test:browser
+
+
+> mist-river-town-client@2.0.0 test:browser
+> playwright test
+
+
+Running 9 tests using 1 worker
+
+(node:68225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser.spec.ts:23:1 › six simultaneous members, real movement, workspace and cloud archive (10.5s)
+  ✓  2 tests/browser.spec.ts:132:1 › logout keeps saved rule plan and removes online presence (1.3s)
+  ✓  3 tests/browser.spec.ts:156:1 › two members complete an escrow order through the interface (1.7s)
+  ✓  4 tests/browser.spec.ts:219:1 › personal milestones and selected-neighbor interaction survive reload (8.2s)
+  ✓  5 tests/reliability.spec.ts:18:1 › patch validates continuity and schema without damaging current state (62ms)
+  ✓  6 tests/reliability.spec.ts:54:1 › request timeout covers response body and never retries mutations (24ms)
+  ✓  7 tests/reliability.spec.ts:84:1 › startup failure and stalled server offer a working retry (12.7s)
+  ✓  8 tests/reliability.spec.ts:109:1 › broken websocket reconnects and resyncs after a malformed packet (2.0s)
+  ✓  9 tests/reliability.spec.ts:144:1 › economic charts show real samples at both desktop sizes (885ms)
+
+  9 passed (38.2s)

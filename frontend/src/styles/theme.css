@@ -1,0 +1,720 @@
+/* Shared sketchbook theme. Structure lives in town.css and workspace.css. */
+:root {
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+  border-radius: 9px;
+  font-weight: 500;
+  transition:
+    background 0.15s,
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+button:hover:not(:disabled) {
+  background: var(--color-yellow);
+  border-color: var(--color-ink);
+}
+button.primary {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: #fff;
+}
+button.primary:hover:not(:disabled) {
+  background: var(--color-graphite-hover);
+  box-shadow: 3px 3px 0 var(--color-lime);
+  transform: translate(-1px, -1px);
+}
+button.quiet,
+button.icon-button {
+  color: var(--color-muted);
+  border-color: transparent;
+}
+button:disabled {
+  background: var(--color-selection);
+  color: var(--color-faint);
+  border-color: var(--color-border-subtle);
+  opacity: 1;
+  box-shadow: none;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 4px;
+}
+input,
+select,
+textarea {
+  border: 1.5px solid var(--color-field-border);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border-radius: 8px;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-faint);
+}
+label {
+  color: var(--color-text);
+}
+h1,
+h2,
+h3 {
+  color: var(--color-ink);
+  font-weight: 750;
+}
+h1 {
+  letter-spacing: -1px;
+}
+p,
+.muted,
+.empty {
+  color: var(--color-muted);
+}
+strong {
+  font-weight: 700;
+}
+.sketch-mark {
+  color: var(--color-ink);
+  pointer-events: none;
+}
+
+/* Navigation: one highlighted sticker, quiet surrounding controls. */
+.app-shell {
+  grid-template-columns: 204px minmax(0, 1fr);
+  grid-template-rows: 68px minmax(0, 1fr);
+  background: var(--color-canvas);
+}
+.app-shell.map-focus {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+.main-area,
+.town-page {
+  background: var(--color-canvas);
+}
+.sidebar {
+  padding: 26px 16px 18px;
+  background: var(--color-surface);
+  border-right: 1.5px solid var(--color-border);
+}
+.brand {
+  color: var(--color-ink);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  gap: 10px;
+}
+.brand-mark {
+  background: var(--color-lime);
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-ink);
+}
+.brand .brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px 8px 11px 7px;
+  transform: rotate(-5deg);
+}
+.workspace-label {
+  padding: 37px 10px 15px;
+  color: var(--color-muted);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+.sidebar nav {
+  gap: 7px;
+}
+.sidebar nav button {
+  min-height: 43px;
+  padding: 10px 11px;
+  color: var(--color-text);
+  font-size: 13px;
+  gap: 10px;
+  border-radius: 9px;
+}
+.sidebar nav button > svg:first-child {
+  color: inherit;
+  stroke-width: 1.8;
+}
+.sidebar nav button.active,
+.sidebar nav button.active:hover:not(:disabled) {
+  background: var(--color-lime);
+  color: var(--color-ink);
+  border-color: var(--color-ink);
+  box-shadow: var(--shadow-sticker);
+  font-weight: 750;
+}
+.sidebar nav button.active > svg:first-child {
+  color: var(--color-ink);
+}
+.world-live {
+  color: var(--color-muted);
+  font-size: 10px;
+  padding: 16px 3px;
+}
+.status-dot {
+  background: var(--color-ink);
+  box-shadow: none;
+  width: 6px;
+  height: 6px;
+}
+.status-dot.gray {
+  background: #aaa;
+}
+.account {
+  border: 0;
+}
+.account strong {
+  color: var(--color-ink);
+  font-size: 13px;
+}
+.account small,
+.logout {
+  color: var(--color-muted);
+  font-size: 10px;
+}
+.account:hover:not(:disabled) {
+  background: #fff;
+}
+.avatar {
+  background: #fff;
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+  font-weight: 650;
+}
+.avatar::after {
+  display: none;
+}
+.avatar.large {
+  width: 64px;
+  height: 64px;
+  border-radius: 47% 53% 50% 48%;
+  box-shadow: none;
+}
+.avatar.small {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+.avatar.tiny {
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+}
+.topbar {
+  background: #fff;
+  border-bottom: 1.5px solid var(--color-border);
+  padding: 0 28px;
+}
+.breadcrumb {
+  color: var(--color-muted);
+  font-size: 12px;
+  gap: 12px;
+}
+.breadcrumb strong {
+  color: var(--color-ink);
+  font-weight: 650;
+}
+.topbar-right {
+  gap: 12px;
+}
+.clock,
+.top-metric {
+  color: var(--color-text);
+  font-size: 11px;
+}
+.clock {
+  border: 1.5px solid var(--color-ink);
+  border-radius: 30px;
+  padding: 7px 12px;
+  background: var(--color-yellow);
+}
+.clock svg,
+.top-metric svg {
+  color: var(--color-ink);
+  stroke-width: 1.8;
+}
+.top-metric {
+  padding: 0 7px;
+}
+.top-metric strong {
+  color: var(--color-ink);
+}
+
+/* Content cards use clean paper, outlined edges and sparse sticker accents. */
+.workspace-page {
+  max-width: 1380px;
+  padding: 36px 38px 48px;
+}
+.workspace-page > .page-heading {
+  margin-bottom: 30px;
+}
+.page-heading h1 {
+  position: relative;
+  isolation: isolate;
+  width: fit-content;
+}
+.page-heading h1::after {
+  content: "";
+  position: absolute;
+  width: 52px;
+  height: 8px;
+  left: 0;
+  bottom: 1px;
+  background: var(--color-pink);
+  transform: rotate(-3deg);
+  z-index: -1;
+}
+.workspace-page > .page-heading h1 {
+  font-size: 29px;
+}
+.card {
+  border: 1.5px solid var(--color-border);
+  border-radius: 13px;
+  padding: 26px;
+  box-shadow: 3px 3px 0 #161616;
+}
+.card h2 {
+  font-size: 17px;
+  font-weight: 750;
+}
+.card p {
+  color: var(--color-muted);
+}
+.card button {
+  font-size: 12px;
+}
+.tag,
+.tag.green {
+  color: var(--color-ink);
+  background: var(--color-yellow);
+  border: 1px solid var(--color-ink);
+  border-radius: 30px;
+  padding: 4px 9px;
+  font-weight: 600;
+}
+.tag.green {
+  background: var(--color-lime);
+}
+.toolbar {
+  margin: 0 0 25px;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+.toolbar strong {
+  color: var(--color-ink);
+}
+.toolbar > input {
+  max-width: 260px;
+}
+.resident-card {
+  padding: 25px;
+}
+.resident-card:hover:not(:disabled) {
+  background: #fff;
+  border-color: var(--color-ink);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--color-ink);
+}
+.resident-card h2 {
+  font-size: 19px;
+  margin-top: 19px;
+}
+.resident-card-stats {
+  color: var(--color-muted);
+  font-size: 11px;
+}
+.resident-card-stats strong,
+.card-link {
+  color: var(--color-ink);
+}
+.product-art,
+.product-art.bread,
+.product-art.wood {
+  width: 74px;
+  height: 74px;
+  font-size: 42px;
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-ink);
+  border-radius: 48% 52% 46% 54%;
+  background: var(--color-lime);
+  transform: rotate(-6deg);
+}
+.product-art.bread {
+  background: var(--color-yellow);
+  transform: rotate(5deg);
+}
+.product-art.wood {
+  background: var(--color-blue);
+  transform: rotate(-4deg);
+}
+.product-card {
+  padding: 30px 24px 24px;
+}
+.product-card p,
+.price-row {
+  color: var(--color-muted);
+  font-size: 11px;
+}
+.price-row strong {
+  color: var(--color-ink);
+  font-size: 22px;
+  font-weight: 750;
+}
+.empty {
+  padding: 48px 16px;
+}
+.two-col {
+  gap: 24px;
+  align-items: start;
+}
+.order-icon {
+  color: var(--color-ink);
+  background: var(--color-blue);
+  border: 1px solid var(--color-ink);
+  border-radius: 50%;
+}
+.order-row strong {
+  color: var(--color-ink);
+  font-size: 13px;
+}
+.order-total,
+.form-total strong {
+  color: var(--color-ink);
+}
+.order-total small,
+.form-total {
+  color: var(--color-muted);
+}
+.project-hero {
+  background: var(--color-blue);
+  border: 1.5px solid var(--color-ink);
+  border-radius: 15px;
+  min-height: 164px;
+  padding: 32px 34px;
+  margin-bottom: 26px;
+  box-shadow: var(--shadow-sticker);
+}
+.project-hero h2 {
+  color: var(--color-ink);
+  font-size: 29px;
+  font-weight: 800;
+  margin: 0 0 17px;
+}
+.project-hero .tag {
+  background: #fff;
+}
+.project-symbol {
+  position: absolute;
+  right: 36px;
+  top: 36px;
+  color: var(--color-ink);
+  transform: rotate(8deg);
+}
+.project-progress > div:first-child {
+  color: var(--color-muted);
+}
+.project-progress strong {
+  color: var(--color-ink);
+}
+.progress-track {
+  height: 9px;
+  background: #fff;
+  border: 1px solid var(--color-ink);
+}
+.progress-track i {
+  background: var(--color-lime);
+  border-right: 1px solid var(--color-ink);
+}
+.festival-card > strong {
+  color: var(--color-ink);
+  font-weight: 750;
+}
+.festival-card > strong small {
+  color: var(--color-muted);
+}
+.list-line {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+.list-line strong,
+.plan-step strong {
+  color: var(--color-ink);
+}
+.plan-step > span {
+  color: var(--color-muted);
+}
+.plan-step > span:first-child {
+  background: var(--color-yellow);
+  padding: 4px 7px;
+  border-radius: 50%;
+}
+.report-metrics strong {
+  color: var(--color-ink);
+  font-size: 36px;
+  font-weight: 800;
+}
+.report-metrics span {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+.report-metrics .card {
+  box-shadow: 3px 3px 0 var(--color-lime);
+}
+.message > p,
+.message.mine > p {
+  background: #fff;
+  border: 1px solid var(--color-ink);
+  color: var(--color-text);
+  font-size: 13px;
+}
+.message.mine > p {
+  background: #f6fbe6;
+}
+.message > div strong {
+  color: var(--color-ink);
+}
+.event-line strong {
+  color: var(--color-text);
+  font-size: 12px;
+}
+.event-line small {
+  color: var(--color-muted);
+  font-size: 10px;
+}
+.event-dot {
+  background: var(--color-ink);
+}
+.ai-result {
+  background: #fffdf1;
+  color: var(--color-text);
+  border-left-color: var(--color-ink);
+}
+.archive-toolbar {
+  margin-bottom: 28px;
+  max-width: 660px;
+}
+.archive-toolbar > input {
+  flex: 1;
+}
+.archive-card h2 {
+  color: var(--color-ink);
+  font-size: 18px;
+}
+.archive-card > .eyebrow {
+  letter-spacing: 0;
+  color: var(--color-muted);
+  font-size: 11px;
+}
+.modal-backdrop {
+  background: var(--color-overlay);
+}
+.modal {
+  background: #fff;
+  border: 2px solid var(--color-ink);
+  border-radius: 17px;
+  box-shadow: 7px 7px 0 var(--color-ink);
+}
+.modal h2 {
+  margin-top: 0;
+}
+.archive-summary {
+  background: #fffdf1;
+  box-shadow: none;
+  border: 1px dashed var(--color-ink);
+  border-radius: 9px;
+}
+
+/* Game stays colorful and large; surrounding resident information stays white. */
+.map-side {
+  padding: 25px 22px 0;
+}
+.map-side h1 {
+  font-size: 25px;
+  font-weight: 800;
+}
+.map-side .page-heading {
+  margin-bottom: 21px;
+}
+.game-map {
+  background: #a4f773;
+  border: 2px solid var(--color-ink);
+  border-radius: 14px;
+}
+.map-controls button {
+  background: #fff;
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-ink);
+}
+.map-names {
+  background: #fff;
+  color: var(--color-text);
+  border: 1px solid var(--color-ink);
+  font-size: 10px;
+}
+.inspector {
+  border-left: 1.5px solid var(--color-border);
+  background: #fff;
+}
+.inspector-top {
+  font-size: 11px;
+  color: var(--color-muted);
+}
+.resident-hero h2 {
+  color: var(--color-ink);
+  font-weight: 750;
+}
+.resident-hero p {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+.resident-presence {
+  color: var(--color-muted);
+}
+.resident-presence.online,
+.roster-state {
+  color: var(--color-ink);
+}
+.resident-presence.online::before {
+  background: var(--color-ink);
+}
+.needs > div,
+.needs strong {
+  color: var(--color-muted);
+  font-size: 11px;
+}
+.needs > div > div {
+  height: 6px;
+  background: #eee;
+}
+.needs i {
+  background: var(--color-ink);
+}
+.needs .hunger i {
+  background: var(--color-ink);
+}
+.wallet > span,
+.wallet small {
+  color: var(--color-muted);
+  font-size: 11px;
+}
+.wallet strong {
+  color: var(--color-ink);
+  font-weight: 750;
+  font-size: 21px;
+}
+.bag-grid > div {
+  background: transparent;
+}
+.bag-grid span {
+  color: var(--color-muted);
+  font-size: 10px;
+}
+.bag-grid strong {
+  color: var(--color-ink);
+  font-size: 18px;
+  font-weight: 700;
+}
+.section-label {
+  color: var(--color-text);
+  font-size: 11px;
+  letter-spacing: 0;
+  font-weight: 650;
+}
+.section-label span {
+  color: var(--color-muted);
+  font-weight: 400;
+}
+.quick-actions button {
+  font-size: 12px;
+  color: var(--color-text);
+  background: #fff;
+  border: 1px solid var(--color-field-border);
+}
+.quick-actions button:hover:not(:disabled) {
+  background: var(--color-yellow);
+}
+.ai-entry {
+  min-height: 49px;
+  color: var(--color-ink);
+  background: #fff;
+  border: 1.5px solid var(--color-ink);
+}
+.ai-entry > svg:first-child {
+  background: var(--color-blue);
+  padding: 3px;
+  box-sizing: content-box;
+  border-radius: 50%;
+}
+.ai-entry strong {
+  font-size: 12px;
+  font-weight: 650;
+}
+.ai-entry:hover:not(:disabled) {
+  background: #fff;
+  box-shadow: 2px 2px 0 var(--color-blue);
+}
+.inspector-roster button {
+  color: var(--color-text);
+  font-size: 12px;
+}
+.inspector-roster button small {
+  color: var(--color-muted);
+  font-size: 10px;
+}
+.inspector-roster button.selected,
+.inspector-roster button.selected:hover:not(:disabled) {
+  background: #fff;
+  color: var(--color-ink);
+  font-weight: 750;
+}
+.inspector-roster button.selected .avatar {
+  border-width: 2px;
+}
+.toast,
+.toast.error {
+  background: var(--color-ink);
+  color: #fff;
+  border: 1px solid #fff;
+  box-shadow: 4px 4px 0 var(--color-lime);
+}
+.connection-banner {
+  background: var(--color-yellow);
+  border-color: var(--color-ink);
+  color: var(--color-text);
+}
+.event-details {
+  color: var(--color-muted);
+}
+.event-details strong {
+  color: var(--color-ink);
+}
+@media (max-height: 780px) {
+  .sidebar {
+    padding-top: 20px;
+  }
+  .sidebar nav {
+    gap: 5px;
+  }
+  .sidebar nav button {
+    min-height: 38px;
+    font-size: 12px;
+  }
+  .workspace-label {
+    padding-top: 26px;
+  }
+  .workspace-page {
+    padding-top: 28px;
+  }
+  .map-side {
+    padding-top: 22px;
+  }
+  .map-side h1 {
+    font-size: 22px;
+  }
+}

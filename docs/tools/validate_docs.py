@@ -8,9 +8,9 @@ ROOT = Path(__file__).resolve().parents[2]
 errors = []
 def check(ok, message):
     if not ok: errors.append(message)
-required = ['README.md','context.md','agent-rules.md','spec/mvp1-scope.md','docs/architecture.md','docs/dependency.md','docs/spike/plan.md','plans/mvp1-plan.md','plans/branch-plan.md','docs/review/pr-checklist.md','docs/test/cold-start-01.md']
+required = ['README.md','context.md','agent-rules.md','spec/mvp1-scope.md','docs/architecture.md','docs/dependency.md','docs/spike/plan.md','plans/mvp1-plan.md','plans/branch-plan.md','docs/review/pr-checklist.md','docs/test/cold-start-01.md', 'docs/v2/product-design.md', 'docs/v2/spec.md', 'docs/v2/architecture.md', 'docs/v2/implementation-plan.md', 'docs/v2/verification.md', 'adr/ADR-003-shared-town-v2.md']
 for rel in required: check((ROOT/rel).is_file(), f'missing: {rel}')
-mds = sorted(ROOT.rglob('*.md'))
+mds = sorted(p for p in ROOT.rglob('*.md') if not any(part in {'.git','.venv','.local','node_modules','test-results','playwright-report','dist','.pytest_cache'} for part in p.relative_to(ROOT).parts))
 link_count = 0
 for p in mds:
     text = p.read_text()
@@ -107,8 +107,22 @@ for m in modules:
 if errors:
     for error in errors:print('FAIL:',error)
     sys.exit(1)
+v2spec=(ROOT/'docs/v2/spec.md').read_text()
+v2acs=re.findall(r'^### (V2-AC-\d{2})',v2spec,re.M)
+check(len(v2acs)==24 and len(set(v2acs))==24, 'v2 requires twenty-four unique acceptance criteria')
+v2blocks=re.findall(r'```gherkin\n(.*?)```',v2spec,re.S)
+check(len(v2blocks)==len(v2acs), 'v2 AC without GWT block')
+for block in v2blocks:
+    check(all(re.search(r'^'+word+r'\s+\S',block,re.M) for word in ['Given','When','Then']), 'v2 incomplete GWT')
+verification=(ROOT/'docs/v2/verification.md').read_text()
+for ac in v2acs:
+    check(ac in verification, 'v2 missing verification mapping: '+ac)
+if errors:
+    for error in errors:print('FAIL:',error)
+    sys.exit(1)
 print(f'PASS: {len(mds)} Markdown files; {link_count} local links resolve')
-print(f'PASS: {len(modules)} modules; {len(all_acs)} unique GWT ACs; every story and boundary linked')
+print(f'PASS: v2 {len(v2acs)} GWT criteria with verification mappings; current architecture and ADR present')
+print(f'PASS: v1 {len(modules)} modules; {len(all_acs)} unique GWT ACs; every story and boundary linked')
 print(f'PASS: {len(tasks)} tasks; all ACs covered; owners/reviewers/Issue bodies/branch templates valid')
 print('PASS: DAG acyclic; '+ ' -> '.join(paths[critical])+f" = {finish[critical]} working days; 27 person-days")
 print('PASS: fixtures match population and money; published task numbers and resolved branches consistent')

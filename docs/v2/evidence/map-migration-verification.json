@@ -1,0 +1,11 @@
+{
+  "backup": ".local/pre-map-expansion-20261119-230929.db",
+  "integrity": "ok",
+  "revision": 9749,
+  "tick": 9721,
+  "economy_total": 2840,
+  "residents": 12,
+  "assets_and_plans_preserved": true,
+  "migration_idempotent": true,
+  "new_map_version": 2
+}

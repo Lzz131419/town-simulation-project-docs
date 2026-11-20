@@ -1,0 +1,52 @@
+{
+  "pid": 80525,
+  "before": {
+    "revision": 14134,
+    "tick": 14104,
+    "schema": "0002",
+    "map_version": 3,
+    "residents": 12,
+    "cash_total": 2840
+  },
+  "after": {
+    "revision": 14135,
+    "tick": 14105,
+    "schema": "0002",
+    "map_version": 3,
+    "residents": 12,
+    "cash_total": 2840
+  },
+  "health": {
+    "health": {
+      "ok": true,
+      "version": "2.0.0",
+      "checks": {
+        "database": true,
+        "world_clock": true
+      }
+    },
+    "health/live": {
+      "ok": true,
+      "version": "2.0.0"
+    },
+    "health/ready": {
+      "ok": true,
+      "version": "2.0.0",
+      "checks": {
+        "database": true,
+        "world_clock": true
+      }
+    }
+  },
+  "unchanged_tables": [
+    "users",
+    "archives",
+    "messages",
+    "model_configs",
+    "model_calls"
+  ],
+  "all_original_rows_unchanged_before_clock_start": true,
+  "preview_5173_ok": true,
+  "external_model_calls": 0,
+  "backup": "/Users/evan/Documents/Town/town-simulation-project-docs/.local/schema-rehearsal-95y_m5_9/backup.db"
+}

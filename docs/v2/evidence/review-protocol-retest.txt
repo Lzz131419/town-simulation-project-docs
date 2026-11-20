@@ -1,0 +1,16 @@
+
+> mist-river-town-client@2.0.0 test:browser
+> playwright test tests/reliability.spec.ts
+
+
+Running 5 tests using 1 worker
+
+(node:68497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/reliability.spec.ts:18:1 › patch validates continuity and schema without damaging current state (75ms)
+  ✓  2 tests/reliability.spec.ts:60:1 › request timeout covers response body and never retries mutations (24ms)
+  ✓  3 tests/reliability.spec.ts:90:1 › startup failure and stalled server offer a working retry (12.8s)
+  ✓  4 tests/reliability.spec.ts:115:1 › broken websocket reconnects and resyncs after a malformed packet (1.5s)
+  ✓  5 tests/reliability.spec.ts:150:1 › economic charts show real samples at both desktop sizes (874ms)
+
+  5 passed (16.2s)

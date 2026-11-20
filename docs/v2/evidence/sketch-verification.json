@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-19",
+  "result": "passed",
+  "reference": "User supplied screenshot and Figma Community URL; original SVG/CSS adaptation",
+  "checks": [
+    "login fits 1280×720",
+    "town fits 1280×720",
+    "map names, zoom, reset and expand",
+    "邻里档案 fits 1280×720",
+    "集市交易 fits 1280×720",
+    "合作订单 fits 1280×720",
+    "共同建设 fits 1280×720",
+    "邻里留言 fits 1280×720",
+    "我的 AI 分身 fits 1280×720",
+    "进度与归档 fits 1280×720",
+    "生活记录 fits 1280×720"
+  ],
+  "colors": {
+    "sidebar": "rgb(255, 255, 255)",
+    "inspector": "rgb(255, 255, 255)",
+    "avatar": "rgb(255, 255, 255)",
+    "inventory": "rgba(0, 0, 0, 0)",
+    "selectedNav": "rgb(213, 242, 103)"
+  },
+  "map": {
+    "x": 226,
+    "y": 149,
+    "width": 741,
+    "height": 462
+  },
+  "errors": []
+}

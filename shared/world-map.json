@@ -1,0 +1,757 @@
+{
+  "version": 3,
+  "bounds": {
+    "x": -96,
+    "y": -80,
+    "width": 2048,
+    "height": 1440
+  },
+  "navigation": {
+    "width": 1856,
+    "height": 1280,
+    "cell": 16
+  },
+  "river": {
+    "x": 912,
+    "width": 48
+  },
+  "bridges": [
+    {
+      "x": 896,
+      "y": 272,
+      "w": 80,
+      "h": 48
+    },
+    {
+      "x": 896,
+      "y": 560,
+      "w": 80,
+      "h": 48
+    },
+    {
+      "x": 896,
+      "y": 1008,
+      "w": 80,
+      "h": 48
+    }
+  ],
+  "districts": [
+    {
+      "id": "town",
+      "name": "中心街区",
+      "x": 470,
+      "y": 375,
+      "width": 960,
+      "height": 760
+    },
+    {
+      "id": "east",
+      "name": "东岸原野",
+      "x": 1140,
+      "y": 415,
+      "width": 680,
+      "height": 800
+    },
+    {
+      "id": "south",
+      "name": "南部田园",
+      "x": 480,
+      "y": 940,
+      "width": 1060,
+      "height": 650
+    },
+    {
+      "id": "craft",
+      "name": "手作街区",
+      "x": 1536,
+      "y": 440,
+      "width": 720,
+      "height": 850
+    },
+    {
+      "id": "harbor",
+      "name": "南岸商埠",
+      "x": 1280,
+      "y": 1040,
+      "width": 1100,
+      "height": 480
+    }
+  ],
+  "overview": {
+    "x": 928,
+    "y": 620,
+    "width": 1930,
+    "height": 1320
+  },
+  "places": {
+    "home": {
+      "name": "河畔住宅",
+      "x": 325,
+      "y": 520,
+      "action": "rest",
+      "district": "town"
+    },
+    "farm": {
+      "name": "晨光农场",
+      "x": 152,
+      "y": 330,
+      "action": "farm",
+      "district": "town"
+    },
+    "workshop": {
+      "name": "木作工坊",
+      "x": 800,
+      "y": 197,
+      "action": "craft",
+      "district": "town"
+    },
+    "bakery": {
+      "name": "麦香面包房",
+      "x": 505,
+      "y": 309,
+      "action": "bake",
+      "district": "town"
+    },
+    "market": {
+      "name": "河畔集市",
+      "x": 505,
+      "y": 465,
+      "action": "buy",
+      "district": "town"
+    },
+    "hall": {
+      "name": "共建事务所",
+      "x": 787,
+      "y": 438,
+      "action": "work",
+      "district": "town"
+    },
+    "plaza": {
+      "name": "邻里广场",
+      "x": 503,
+      "y": 520,
+      "action": "social",
+      "district": "town"
+    },
+    "orchard": {
+      "name": "河畔果园",
+      "x": 1096,
+      "y": 344,
+      "action": "gather",
+      "district": "east"
+    },
+    "fishery": {
+      "name": "钓鱼台",
+      "x": 1032,
+      "y": 584,
+      "action": "fish",
+      "district": "east"
+    },
+    "forest": {
+      "name": "迷雾森林",
+      "x": 1064,
+      "y": 216,
+      "action": "chop",
+      "district": "east"
+    },
+    "mine": {
+      "name": "山脚矿洞",
+      "x": 1208,
+      "y": 504,
+      "action": "mine",
+      "district": "east"
+    },
+    "herb_garden": {
+      "name": "草药园",
+      "x": 1144,
+      "y": 696,
+      "action": "forage",
+      "district": "east"
+    },
+    "meadow": {
+      "name": "南岸营地",
+      "x": 536,
+      "y": 856,
+      "action": "picnic",
+      "district": "south"
+    },
+    "garden": {
+      "name": "南岸菜园",
+      "x": 184,
+      "y": 936,
+      "action": "harvest_veg",
+      "district": "south"
+    },
+    "apiary": {
+      "name": "花田蜂场",
+      "x": 1480,
+      "y": 216,
+      "action": "gather_honey",
+      "district": "craft"
+    },
+    "flax_field": {
+      "name": "蓝花亚麻田",
+      "x": 1544,
+      "y": 424,
+      "action": "harvest_flax",
+      "district": "craft"
+    },
+    "loom": {
+      "name": "蓝线织坊",
+      "x": 1480,
+      "y": 664,
+      "action": "weave",
+      "district": "craft"
+    },
+    "carpentry": {
+      "name": "榫卯家具坊",
+      "x": 1712,
+      "y": 664,
+      "action": "assemble",
+      "district": "craft"
+    },
+    "kitchen": {
+      "name": "南岸公共厨房",
+      "x": 744,
+      "y": 856,
+      "action": "cook",
+      "district": "south"
+    },
+    "tea_house": {
+      "name": "渡口茶舍",
+      "x": 1112,
+      "y": 1000,
+      "action": "honey_tea",
+      "district": "harbor"
+    },
+    "depot": {
+      "name": "南岸交付站",
+      "x": 1512,
+      "y": 1080,
+      "action": "delivery",
+      "district": "harbor"
+    }
+  },
+  "buildings": [
+    {
+      "id": "house-1",
+      "x": 166,
+      "y": 58,
+      "w": 115,
+      "h": 91,
+      "kind": "home",
+      "tone": "#92b4a0"
+    },
+    {
+      "id": "house-2",
+      "x": 370,
+      "y": 48,
+      "w": 108,
+      "h": 95,
+      "kind": "home",
+      "tone": "#ad9fbc"
+    },
+    {
+      "id": "house-3",
+      "x": 535,
+      "y": 48,
+      "w": 105,
+      "h": 95,
+      "kind": "home",
+      "tone": "#c4aa83"
+    },
+    {
+      "id": "workshop",
+      "x": 745,
+      "y": 76,
+      "w": 111,
+      "h": 105,
+      "kind": "workshop",
+      "tone": "#9aafa1"
+    },
+    {
+      "id": "bakery",
+      "x": 404,
+      "y": 192,
+      "w": 210,
+      "h": 100,
+      "kind": "bakery",
+      "tone": "#bc9482"
+    },
+    {
+      "id": "farm",
+      "x": 76,
+      "y": 197,
+      "w": 160,
+      "h": 65,
+      "kind": "shed",
+      "tone": "#9caf88"
+    },
+    {
+      "id": "hall",
+      "x": 735,
+      "y": 327,
+      "w": 118,
+      "h": 81,
+      "kind": "hall",
+      "tone": "#9bb2bd"
+    },
+    {
+      "id": "house-4",
+      "x": 158,
+      "y": 541,
+      "w": 113,
+      "h": 85,
+      "kind": "home",
+      "tone": "#9eb8c1"
+    },
+    {
+      "id": "house-5",
+      "x": 367,
+      "y": 541,
+      "w": 111,
+      "h": 85,
+      "kind": "home",
+      "tone": "#c4a48d"
+    },
+    {
+      "id": "house-6",
+      "x": 535,
+      "y": 541,
+      "w": 110,
+      "h": 85,
+      "kind": "home",
+      "tone": "#a8b485"
+    },
+    {
+      "id": "house-7",
+      "x": 737,
+      "y": 536,
+      "w": 112,
+      "h": 88,
+      "kind": "home",
+      "tone": "#b49cae"
+    },
+    {
+      "id": "forest",
+      "x": 1000,
+      "y": 100,
+      "w": 120,
+      "h": 90,
+      "kind": "cabin",
+      "tone": "#7a9a6a"
+    },
+    {
+      "id": "mine",
+      "x": 1150,
+      "y": 400,
+      "w": 100,
+      "h": 80,
+      "kind": "mine",
+      "tone": "#8a7a6a"
+    },
+    {
+      "id": "orchard",
+      "x": 1050,
+      "y": 250,
+      "w": 80,
+      "h": 60,
+      "kind": "shed",
+      "tone": "#9aaf7a"
+    },
+    {
+      "id": "herb_garden",
+      "x": 1100,
+      "y": 600,
+      "w": 90,
+      "h": 70,
+      "kind": "greenhouse",
+      "tone": "#8aaa8a"
+    },
+    {
+      "id": "fishery",
+      "x": 992,
+      "y": 500,
+      "w": 70,
+      "h": 50,
+      "kind": "fishery",
+      "tone": "#7a9aaa"
+    },
+    {
+      "id": "garden",
+      "x": 116,
+      "y": 684,
+      "w": 130,
+      "h": 64,
+      "kind": "greenhouse",
+      "tone": "#a6bc81"
+    },
+    {
+      "id": "apiary",
+      "x": 1412,
+      "y": 80,
+      "w": 136,
+      "h": 104,
+      "kind": "apiary",
+      "tone": "#d6b575"
+    },
+    {
+      "id": "flax_field",
+      "x": 1480,
+      "y": 300,
+      "w": 130,
+      "h": 88,
+      "kind": "shed",
+      "tone": "#9caec1"
+    },
+    {
+      "id": "loom",
+      "x": 1412,
+      "y": 536,
+      "w": 136,
+      "h": 104,
+      "kind": "loom",
+      "tone": "#91afb5"
+    },
+    {
+      "id": "carpentry",
+      "x": 1640,
+      "y": 536,
+      "w": 144,
+      "h": 104,
+      "kind": "furniture",
+      "tone": "#bc9e7b"
+    },
+    {
+      "id": "kitchen",
+      "x": 680,
+      "y": 720,
+      "w": 140,
+      "h": 104,
+      "kind": "kitchen",
+      "tone": "#ca9a81"
+    },
+    {
+      "id": "tea_house",
+      "x": 1040,
+      "y": 864,
+      "w": 152,
+      "h": 104,
+      "kind": "teahouse",
+      "tone": "#a7b89b"
+    },
+    {
+      "id": "depot",
+      "x": 1424,
+      "y": 920,
+      "w": 176,
+      "h": 128,
+      "kind": "depot",
+      "tone": "#94aeb5"
+    }
+  ],
+  "obstacles": [
+    {
+      "x": 481,
+      "y": 371,
+      "w": 63,
+      "h": 52
+    }
+  ],
+  "roads": [
+    {
+      "x": 66,
+      "y": 278,
+      "w": 884,
+      "h": 38
+    },
+    {
+      "x": 305,
+      "y": 40,
+      "w": 37,
+      "h": 584
+    },
+    {
+      "x": 663,
+      "y": 65,
+      "w": 38,
+      "h": 563
+    },
+    {
+      "x": 138,
+      "y": 477,
+      "w": 654,
+      "h": 34
+    },
+    {
+      "x": 315,
+      "y": 145,
+      "w": 368,
+      "h": 28
+    },
+    {
+      "x": 488,
+      "y": 275,
+      "w": 35,
+      "h": 236
+    },
+    {
+      "x": 147,
+      "y": 412,
+      "w": 179,
+      "h": 25
+    },
+    {
+      "x": 760,
+      "y": 310,
+      "w": 30,
+      "h": 182
+    },
+    {
+      "x": 970,
+      "y": 200,
+      "w": 28,
+      "h": 640
+    },
+    {
+      "x": 970,
+      "y": 200,
+      "w": 105,
+      "h": 28
+    },
+    {
+      "x": 970,
+      "y": 328,
+      "w": 138,
+      "h": 28
+    },
+    {
+      "x": 970,
+      "y": 488,
+      "w": 252,
+      "h": 28
+    },
+    {
+      "x": 970,
+      "y": 568,
+      "w": 84,
+      "h": 28
+    },
+    {
+      "x": 970,
+      "y": 680,
+      "w": 190,
+      "h": 28
+    },
+    {
+      "x": 680,
+      "y": 568,
+      "w": 300,
+      "h": 28
+    },
+    {
+      "x": 305,
+      "y": 624,
+      "w": 32,
+      "h": 245
+    },
+    {
+      "x": 170,
+      "y": 850,
+      "w": 166,
+      "h": 24
+    },
+    {
+      "x": 320,
+      "y": 844,
+      "w": 236,
+      "h": 28
+    },
+    {
+      "x": 970,
+      "y": 200,
+      "w": 530,
+      "h": 28
+    },
+    {
+      "x": 1376,
+      "y": 200,
+      "w": 28,
+      "h": 896
+    },
+    {
+      "x": 1376,
+      "y": 408,
+      "w": 192,
+      "h": 28
+    },
+    {
+      "x": 1376,
+      "y": 648,
+      "w": 420,
+      "h": 32
+    },
+    {
+      "x": 1200,
+      "y": 488,
+      "w": 590,
+      "h": 28
+    },
+    {
+      "x": 1376,
+      "y": 824,
+      "w": 420,
+      "h": 32
+    },
+    {
+      "x": 1500,
+      "y": 824,
+      "w": 28,
+      "h": 272
+    },
+    {
+      "x": 320,
+      "y": 844,
+      "w": 450,
+      "h": 28
+    },
+    {
+      "x": 170,
+      "y": 924,
+      "w": 166,
+      "h": 28
+    },
+    {
+      "x": 305,
+      "y": 850,
+      "w": 32,
+      "h": 310
+    },
+    {
+      "x": 305,
+      "y": 1016,
+      "w": 1098,
+      "h": 32
+    },
+    {
+      "x": 970,
+      "y": 984,
+      "w": 160,
+      "h": 28
+    },
+    {
+      "x": 970,
+      "y": 984,
+      "w": 28,
+      "h": 64
+    },
+    {
+      "x": 980,
+      "y": 1064,
+      "w": 750,
+      "h": 32
+    },
+    {
+      "x": 1696,
+      "y": 648,
+      "w": 32,
+      "h": 448
+    },
+    {
+      "x": 320,
+      "y": 1140,
+      "w": 550,
+      "h": 28
+    }
+  ],
+  "parcels": [
+    {
+      "id": "south-garden",
+      "x": 65,
+      "y": 674,
+      "w": 222,
+      "h": 292,
+      "color": "#d7cda6"
+    },
+    {
+      "id": "kitchen-yard",
+      "x": 648,
+      "y": 700,
+      "w": 220,
+      "h": 235,
+      "color": "#e1cbb0"
+    },
+    {
+      "id": "camp-yard",
+      "x": 388,
+      "y": 726,
+      "w": 244,
+      "h": 220,
+      "color": "#dacda9"
+    },
+    {
+      "id": "south-square",
+      "x": 370,
+      "y": 984,
+      "w": 500,
+      "h": 218,
+      "color": "#e3d8bd"
+    },
+    {
+      "id": "apiary-yard",
+      "x": 1380,
+      "y": 48,
+      "w": 400,
+      "h": 208,
+      "color": "#dbd5a4"
+    },
+    {
+      "id": "flax-yard",
+      "x": 1444,
+      "y": 272,
+      "w": 360,
+      "h": 210,
+      "color": "#d4d8bc"
+    },
+    {
+      "id": "workshop-row",
+      "x": 1360,
+      "y": 524,
+      "w": 448,
+      "h": 224,
+      "color": "#dfcdb0"
+    },
+    {
+      "id": "craft-square",
+      "x": 1416,
+      "y": 760,
+      "w": 388,
+      "h": 112,
+      "color": "#e5d6bb"
+    },
+    {
+      "id": "tea-court",
+      "x": 1010,
+      "y": 832,
+      "w": 320,
+      "h": 190,
+      "color": "#e0d2b4"
+    },
+    {
+      "id": "freight-yard",
+      "x": 1360,
+      "y": 880,
+      "w": 432,
+      "h": 348,
+      "color": "#d6c8ab"
+    },
+    {
+      "id": "riverside-promenade",
+      "x": 1000,
+      "y": 1100,
+      "w": 320,
+      "h": 128,
+      "color": "#e2d4b7"
+    }
+  ]
+}

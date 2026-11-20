@@ -12,7 +12,24 @@ jobs:
           node-version: '22'
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.12'
+      - run: python3 -m venv .venv
+      - run: .venv/bin/python -m pip install -r backend/requirements.lock
+      - run: npm ci --prefix frontend
       - run: python3 docs/tools/validate_docs.py
       - run: node --test docs/spike/atomic-replay-probe.mjs
-      - run: if ls tests/*.test.mjs >/dev/null 2>&1; then npm test; fi
+      - run: npm run lint
+      - run: npm run test:coverage
+      - name: Check migration on a clean database
+        env:
+          TOWN_DATABASE_URL: sqlite:///.local/ci-migration.db
+        run: |
+          .venv/bin/alembic -c backend/alembic.ini upgrade head
+          .venv/bin/alembic -c backend/alembic.ini check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-coverage
+          path: .local/backend-coverage.xml
+      - run: npm run build
+      - run: npm run test:legacy

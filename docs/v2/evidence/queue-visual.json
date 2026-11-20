@@ -1,0 +1,29 @@
+{
+  "errors": [],
+  "sizes": [
+    {
+      "width": 1440,
+      "height": 900,
+      "dpr": 2,
+      "queuePanel": {
+        "x": 226,
+        "y": 551,
+        "width": 901,
+        "height": 235
+      },
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "dpr": 1,
+      "queuePanel": {
+        "x": 226,
+        "y": 377,
+        "width": 741,
+        "height": 235
+      },
+      "overflow": false
+    }
+  ]
+}

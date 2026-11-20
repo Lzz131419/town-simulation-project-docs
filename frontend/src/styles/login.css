@@ -1,0 +1,262 @@
+/* Sketchbook entrance: original line artwork and functional resident stickers. */
+.login-screen {
+  min-height: 100vh;
+  min-width: 1120px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  background: var(--color-surface);
+}
+.login-landscape {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 48px);
+  border: 2px solid var(--color-ink);
+  border-radius: 22px 22px 68px 22px;
+  padding: 32px 40px 24px;
+  color: var(--color-ink);
+  display: flex;
+  flex-direction: column;
+}
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.login-brand svg {
+  stroke-width: 2.2;
+}
+.login-visual-content {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 22px;
+}
+.login-visual-content h1 {
+  position: relative;
+  align-self: flex-start;
+  margin-left: 18px;
+  color: var(--color-ink);
+  font-size: clamp(52px, 4.5vw, 74px);
+  font-weight: 850;
+  letter-spacing: -3px;
+  line-height: 1.22;
+  z-index: 1;
+}
+.login-visual-content h1 > span {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+.login-visual-content h1 > span::before {
+  content: "";
+  position: absolute;
+  inset: 39% -9px 1px -8px;
+  background: var(--color-lime);
+  transform: rotate(-3deg);
+  clip-path: polygon(0 7%, 98% 0, 100% 94%, 1% 100%);
+  z-index: -1;
+}
+.login-visual-content h1 .sketch-mark {
+  position: absolute;
+  width: 62px;
+  height: 62px;
+  top: 2px;
+  right: -92px;
+  transform: rotate(12deg);
+}
+.login-town-art {
+  width: 118%;
+  max-width: 800px;
+  margin: -14px -9% 0;
+  display: block;
+}
+.login-dots {
+  position: absolute;
+  width: 66px;
+  height: 66px;
+  right: -14px;
+  top: 28px;
+  transform: rotate(-14deg);
+}
+.login-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 50px;
+}
+.login-card {
+  width: 100%;
+  max-width: 392px;
+}
+.login-heading {
+  margin-bottom: 34px;
+}
+.login-card h2 {
+  display: inline-block;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  color: var(--color-ink);
+  line-height: 1.35;
+}
+.resident-picker {
+  border: 0;
+  padding: 0;
+  margin: 0 0 25px;
+  min-width: 0;
+}
+.resident-picker legend {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin-bottom: 12px;
+  padding: 0;
+}
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.member-grid button {
+  position: relative;
+  min-height: 78px;
+  padding: 13px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 11px;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--color-ink);
+}
+.member-grid button:hover:not(:disabled) {
+  background: var(--color-yellow);
+  border-color: var(--color-ink);
+  transform: translateY(-2px);
+}
+.member-grid button.chosen,
+.member-grid button.chosen:hover:not(:disabled) {
+  background: var(--color-lime);
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-sticker);
+  transform: rotate(-2deg);
+}
+.member-initial {
+  font-size: 19px;
+  font-weight: 750;
+  line-height: 1;
+}
+.member-name {
+  font-size: 12px;
+  font-weight: 500;
+}
+.member-check {
+  position: absolute;
+  right: 11px;
+  top: 14px;
+  color: var(--color-ink);
+  stroke-width: 3;
+}
+.login-card > label {
+  margin: 21px 0 9px;
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+.login-card input {
+  height: 48px;
+  padding: 12px 15px;
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-field-border);
+  border-radius: 9px;
+  background: var(--color-surface);
+  font-size: 14px;
+}
+.password-field {
+  position: relative;
+}
+.password-field input {
+  padding-right: 48px;
+}
+.password-toggle {
+  position: absolute;
+  right: 7px;
+  top: 6px;
+  width: 36px;
+  height: 36px;
+  min-height: 0;
+  padding: 8px;
+  background: transparent;
+  border: 0;
+  color: var(--color-muted);
+}
+button.login-submit {
+  width: 100%;
+  height: 51px;
+  margin-top: 29px;
+  justify-content: space-between;
+  border-radius: 9px;
+  padding: 0 17px;
+  font-size: 14px;
+  font-weight: 650;
+  box-shadow: 4px 4px 0 var(--color-lime);
+}
+.login-submit > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+@media (max-height: 780px) {
+  .login-screen {
+    padding: 18px;
+  }
+  .login-landscape {
+    min-height: calc(100vh - 36px);
+    padding: 27px 32px 20px;
+  }
+  .login-side {
+    padding: 24px 42px;
+  }
+  .login-heading {
+    margin-bottom: 25px;
+  }
+  .login-card h2 {
+    font-size: 30px;
+  }
+  .member-grid button {
+    min-height: 67px;
+    padding: 10px 13px;
+    gap: 8px;
+  }
+  .resident-picker {
+    margin-bottom: 21px;
+  }
+  .login-card > label {
+    margin-top: 18px;
+  }
+  button.login-submit {
+    margin-top: 24px;
+  }
+  .login-visual-content {
+    padding-top: 12px;
+  }
+  .login-visual-content h1 {
+    font-size: 55px;
+  }
+  .login-town-art {
+    margin-top: -6px;
+  }
+  .login-dots {
+    width: 48px;
+    height: 48px;
+  }
+}

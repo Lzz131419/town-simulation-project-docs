@@ -1,0 +1,50 @@
+{
+  "errors": [],
+  "layouts": [
+    {
+      "base": "http://127.0.0.1:8011",
+      "width": 1440,
+      "height": 900,
+      "dpr": 2,
+      "canvas": {
+        "width": 1794,
+        "height": 1254,
+        "cssWidth": 897,
+        "cssHeight": 627
+      },
+      "overflow": false
+    },
+    {
+      "base": "http://127.0.0.1:8011",
+      "width": 1280,
+      "height": 720,
+      "dpr": 1,
+      "canvas": {
+        "width": 737,
+        "height": 458,
+        "cssWidth": 737,
+        "cssHeight": 458
+      },
+      "overflow": false
+    },
+    {
+      "base": "http://127.0.0.1:5173",
+      "width": 1440,
+      "height": 900,
+      "dpr": 2,
+      "canvas": {
+        "width": 1794,
+        "height": 1254,
+        "cssWidth": 897,
+        "cssHeight": 627
+      },
+      "overflow": false
+    }
+  ],
+  "localWorld": {
+    "revision": 8749,
+    "tick": 8721,
+    "residents": 12,
+    "economy_total": 2840
+  }
+}

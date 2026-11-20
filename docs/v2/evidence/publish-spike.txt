@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: failure discards candidate state, RNG and events
+ok 1 - failure discards candidate state, RNG and events
+  ---
+  duration_ms: 0.526917
+  type: 'test'
+  ...
+# Subtest: same expected revision cannot commit twice
+ok 2 - same expected revision cannot commit twice
+  ---
+  duration_ms: 0.086167
+  type: 'test'
+  ...
+# Subtest: 15 plus restored 15 matches uninterrupted 30
+ok 3 - 15 plus restored 15 matches uninterrupted 30
+  ---
+  duration_ms: 0.782375
+  type: 'test'
+  ...
+# Subtest: restore does not append a world event
+ok 4 - restore does not append a world event
+  ---
+  duration_ms: 0.125875
+  type: 'test'
+  ...
+# Subtest: resetting to seed instead of saved RNG breaks continuation
+ok 5 - resetting to seed instead of saved RNG breaks continuation
+  ---
+  duration_ms: 0.150834
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 33.429083

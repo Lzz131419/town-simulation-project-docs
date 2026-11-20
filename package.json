@@ -1,14 +1,20 @@
 {
   "name": "mist-river-town",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test tests/*.test.mjs",
+    "start": "python3 scripts/dev.py",
+    "setup": "python3 scripts/setup.py",
+    "build": "npm --prefix frontend run build",
+    "test": ".venv/bin/python -m pytest backend/tests -q",
+    "test:legacy": "node --test tests/*.test.mjs",
+    "test:browser": "npm --prefix frontend run test:browser",
     "docs:check": "python3 docs/tools/validate_docs.py",
-    "start": "python3 -m http.server 8765 --bind 127.0.0.1"
+    "lint": ".venv/bin/ruff check backend && npm --prefix frontend run format:check",
+    "test:coverage": ".venv/bin/python -m pytest backend/tests -q --cov=backend/app --cov-report=term-missing --cov-report=xml:.local/backend-coverage.xml --cov-fail-under=90"
   }
 }

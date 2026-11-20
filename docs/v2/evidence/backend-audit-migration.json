@@ -1,0 +1,53 @@
+{
+  "source": "/Users/evan/Documents/Town/town-simulation-project-docs/.local/town.db",
+  "backup": "/Users/evan/Documents/Town/town-simulation-project-docs/.local/schema-rehearsal-95y_m5_9/backup.db",
+  "migrated_copy": "/Users/evan/Documents/Town/town-simulation-project-docs/.local/schema-rehearsal-95y_m5_9/migrated.db",
+  "revision": "0002",
+  "original_rows_unchanged": true,
+  "repeat_upgrade_unchanged": true,
+  "schema_matches_models": true,
+  "integrity_check": "ok",
+  "foreign_key_check": "ok",
+  "tables": {
+    "archives": {
+      "rows": 3,
+      "sha256": "445da592a57afa3f0dc4e2ea45247ad12ad0e577d08db9557865af825cf55cce"
+    },
+    "departures": {
+      "rows": 6,
+      "sha256": "78374607c2ccd3e4f81c3f76cffa189b4c3887dcdc0a11eec65b918a5684a139"
+    },
+    "events": {
+      "rows": 13550,
+      "sha256": "68f089ac59fd3b9172a9eb2572436fc2116142970001880c9fac96e3906b4808"
+    },
+    "messages": {
+      "rows": 3,
+      "sha256": "db5bc7085e56e9d062d3da3181a1d640d5de126b554d3cbd739facb4fa584c4c"
+    },
+    "model_calls": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "model_configs": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sessions": {
+      "rows": 62,
+      "sha256": "fbd60f0227428bcfcac66051fe9b5484563e2cff604e22c6ade89de772664982"
+    },
+    "users": {
+      "rows": 6,
+      "sha256": "796b7bbb639c2d4e6c8f36909af51c212a6733aeb4f1bfc2860dd6cc78ad410f"
+    },
+    "world_samples": {
+      "rows": 240,
+      "sha256": "05a9ce3d4632f0cf51e4b54ef5e1280f0d0f47e4c39c7dadcd699221a7f2b5bd"
+    },
+    "worlds": {
+      "rows": 1,
+      "sha256": "d60358d198a27d3a52bbbf084821567224fd9e31f257f985fc220cfa36280b4d"
+    }
+  }
+}

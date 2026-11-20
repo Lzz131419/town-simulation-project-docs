@@ -1,0 +1,41 @@
+{
+  "errors": [],
+  "screens": [
+    {
+      "width": 1440,
+      "height": 900,
+      "state": "town",
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "state": "recipes",
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "state": "food",
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "state": "town",
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "state": "recipes",
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "state": "food",
+      "overflow": false
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: town
+      POSTGRES_PASSWORD: town-local
+      POSTGRES_DB: town
+    volumes:
+      - town-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U town -d town"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+  backup:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      PGHOST: db
+      PGUSER: town
+      PGPASSWORD: town-local
+      PGDATABASE: town
+      BACKUP_INTERVAL_SECONDS: 86400
+      BACKUP_KEEP_DAYS: 7
+    entrypoint: ["sh", "/opt/backup/postgres.sh"]
+    volumes:
+      - ./scripts/backup/postgres.sh:/opt/backup/postgres.sh:ro
+      - town-backups:/backups
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD-SHELL, 'test -f /backups/last-success && test $$(($$(date +%s) - $$(cat /backups/last-success))) -lt 90000']
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+  town:
+    build: .
+    ports:
+      - "127.0.0.1:8080:8000"
+    environment:
+      TOWN_DATABASE_URL: postgresql+psycopg://town:town-local@db:5432/town
+      TOWN_TICK_SECONDS: 2
+    volumes:
+      - town-settings:/app/.local
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  town-postgres:
+  town-settings:
+  town-backups:

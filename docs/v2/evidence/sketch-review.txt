@@ -1,0 +1,1 @@
+PASS: fresh 1280×720 context; all nine views; map controls; white resident surfaces; lime selection; no page errors.

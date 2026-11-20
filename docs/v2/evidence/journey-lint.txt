@@ -1,0 +1,11 @@
+
+> mist-river-town@2.0.0 lint
+> .venv/bin/ruff check backend && npm --prefix frontend run format:check
+
+All checks passed!
+
+> mist-river-town-client@2.0.0 format:check
+> prettier --check src tests *.ts *.json index.html
+
+Checking formatting...
+All matched files use Prettier code style!

@@ -1,0 +1,1 @@
+PASS: resident selection, password visibility, login/logout, nine pages, desktop overflow checks, no browser errors.

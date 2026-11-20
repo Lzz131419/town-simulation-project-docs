@@ -1,0 +1,3 @@
+2026-11-19
+PASS: production assets served by FastAPI at http://127.0.0.1:8000/; login, same-origin API, WebSocket and Phaser canvas.
+Method: headless Google Chrome via Playwright, built frontend assets, actual running FastAPI process.

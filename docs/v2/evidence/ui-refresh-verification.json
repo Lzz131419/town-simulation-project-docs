@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-19",
+  "result": "passed",
+  "sizes": [
+    "1440x900",
+    "1280x720"
+  ],
+  "checks": [
+    "resident selection",
+    "password visibility",
+    "login/logout",
+    "nine views",
+    "no horizontal overflow",
+    "no page errors"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "backup": ".local/pre-journey-20261119-234711.db",
+  "backup_world": {
+    "tick": 10843,
+    "revision": 10872,
+    "map_version": 2,
+    "residents": 12,
+    "money_total": 2840,
+    "integrity": "ok"
+  },
+  "running_world": {
+    "tick": 11001,
+    "revision": 11030,
+    "map_version": 2,
+    "residents": 12,
+    "money_total": 2840,
+    "integrity": "ok"
+  },
+  "health": {
+    "ok": true,
+    "version": "2.0.0"
+  }
+}

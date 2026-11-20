@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-19",
+  "sizes": [
+    {
+      "width": 1440,
+      "height": 900,
+      "dpr": 2,
+      "dimensions": {
+        "width": 1794,
+        "height": 1254,
+        "cssWidth": 897,
+        "cssHeight": 627
+      },
+      "checks": [
+        "no horizontal overflow",
+        "retina backing scale",
+        "six goals",
+        "journal keyboard close",
+        "place guide",
+        "follow and drag exit",
+        "zoom/reset",
+        "expand/restore",
+        "minimap navigation"
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "dpr": 1,
+      "dimensions": {
+        "width": 737,
+        "height": 458,
+        "cssWidth": 737,
+        "cssHeight": 458
+      },
+      "checks": [
+        "no horizontal overflow",
+        "retina backing scale",
+        "six goals",
+        "journal keyboard close",
+        "place guide",
+        "follow and drag exit",
+        "zoom/reset",
+        "expand/restore",
+        "minimap navigation"
+      ]
+    }
+  ],
+  "errors": [],
+  "result": "passed"
+}

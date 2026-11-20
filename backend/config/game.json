@@ -1,0 +1,6 @@
+{
+  "fiscal": {"daily_surplus_rate": 0.05, "protected_cash": 100},
+  "simulation": {"sample_interval_ticks": 6, "history_limit": 240, "retry_delay_ticks": 12},
+  "npc": {"wake_hour": 6, "social_start_hour": 12, "social_end_hour": 14, "sleep_hour": 21},
+  "needs": {"high_hunger": 80, "rest_gain": 25, "hungry_rest_gain": 12}
+}

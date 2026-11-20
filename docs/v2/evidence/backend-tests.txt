@@ -1,0 +1,6 @@
+
+> mist-river-town@2.0.0 test
+> .venv/bin/python -m pytest backend/tests -q
+
+...............................                                          [100%]
+31 passed in 4.20s

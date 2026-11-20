@@ -1,0 +1,31 @@
+/* Project palette adapted from the supplied black-line / sticker reference. */
+:root {
+  --color-canvas: #fff;
+  --color-surface: #fff;
+  --color-surface-soft: #fffdf5;
+  --color-ink: #161616;
+  --color-text: #252525;
+  --color-muted: #626262;
+  --color-faint: #767676;
+  --color-border: #202020;
+  --color-border-subtle: #deded8;
+  --color-field-border: #454545;
+  --color-graphite: #161616;
+  --color-graphite-hover: #303030;
+  --color-focus: #161616;
+  --color-selection: #f5f5ed;
+  --color-overlay: #16161659;
+  --color-lime: #d5f267;
+  --color-pink: #f4b8d0;
+  --color-blue: #c4e6f4;
+  --color-yellow: #fff0a8;
+  --shadow-sticker: 3px 3px 0 var(--color-ink);
+  --ink: var(--color-ink);
+  --secondary: var(--color-muted);
+  --subtle: var(--color-faint);
+  --green: var(--color-graphite);
+  --muted: var(--color-muted);
+  --line: var(--color-border-subtle);
+  --paper: var(--color-surface);
+  --nav: var(--color-surface);
+}

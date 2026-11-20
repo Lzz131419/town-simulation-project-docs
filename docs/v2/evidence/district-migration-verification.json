@@ -1,0 +1,14 @@
+{
+  "backup": ".local/pre-district-20261120-004811.db",
+  "integrity": "ok",
+  "old_map_version": 2,
+  "new_map_version": 3,
+  "tick": 12628,
+  "revision": 12657,
+  "residents": 12,
+  "economy_total": 2840,
+  "original_assets_and_plans_preserved": true,
+  "new_items_zero": true,
+  "idempotent": true,
+  "relocated_residents": []
+}
