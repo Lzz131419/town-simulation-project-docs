@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures/live-test";
 import { applyPacket, type Snapshot } from "../src/realtime/protocol";
 import { api, ApiError } from "../src/api";
 
@@ -174,10 +174,24 @@ test("economic charts show real samples at both desktop sizes", async ({
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await login(page);
+  // Fresh isolated worlds need two real scheduler samples before drawing a trend.
+  await expect
+    .poll(
+      async () => {
+        const report = await page.request
+          .get("/api/report")
+          .then((r) => r.json());
+        return report.series.length;
+      },
+      { timeout: 15000 },
+    )
+    .toBeGreaterThan(1);
   await page
     .locator("nav")
     .getByRole("button", { name: "生活记录", exact: true })
     .click();
+  // T7 defaults to daily turnover; this assertion exercises sampled treasury.
+  await page.getByLabel("趋势指标").selectOption("treasury");
   await expect(page.locator(".trend-chart svg")).toBeVisible();
   await expect(page.locator(".fiscal-note")).toContainText("5%");
   const report = await page.request.get("/api/report").then((r) => r.json());
@@ -195,14 +209,14 @@ test("economic charts show real samples at both desktop sizes", async ({
       ),
     ).toBeTruthy();
     await page.screenshot({
-      path: `../docs/v2/evidence/review-report-${width}.png`,
+      path: `test-results/review-report-${width}.png`,
       fullPage: true,
     });
   }
   await page.locator(".resource-chart").scrollIntoViewIfNeeded();
   await expect(page.locator(".resource-chart")).toBeVisible();
   await page.screenshot({
-    path: "../docs/v2/evidence/review-report-detail.png",
+    path: "test-results/review-report-detail.png",
   });
   expect(errors).toEqual([]);
 });

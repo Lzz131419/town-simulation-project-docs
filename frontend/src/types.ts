@@ -1,3 +1,13 @@
+export interface InventoryBatch {
+  qty: number;
+  fresh: number;
+}
+export type Inventory = Record<string, number | InventoryBatch[]>;
+export function invQty(value: number | InventoryBatch[] | undefined): number {
+  return Array.isArray(value)
+    ? value.reduce((sum, batch) => sum + batch.qty, 0)
+    : (value ?? 0);
+}
 export interface Action {
   type: string;
   item?: string;
@@ -26,16 +36,24 @@ export interface Milestone {
   place: string;
 }
 export interface Resident {
+  family?: { group: "a" | "b" | null; kin: "spouse" | "sibling" | null };
+  home_id?: string | null;
+  sleeping?: { since_tick: number; phase: "light" | "deep" } | null;
+  fatigue?: number;
+  reputation?: number;
+  title?: string;
   delivery_log?: { day: number; items: string[] };
   id: string;
   name: string;
   npc: boolean;
+  personality?: string;
+  memories?: { tick: number; text: string }[];
   x: number;
   y: number;
   cash: number;
   energy: number;
   hunger: number;
-  inventory: Record<string, number>;
+  inventory: Inventory;
   mode: string;
   policy?: Policy;
   plan?: Action[];
@@ -68,10 +86,34 @@ export interface TownEvent {
   text: string;
   details?: Record<string, unknown>;
 }
+export interface Home {
+  id: string;
+  x: number;
+  y: number;
+  level: number;
+  owner_id: string | null;
+}
+export interface FamilyInvitation {
+  group: string;
+  host_id: string;
+  guest_id: string;
+  home_id: string;
+  issued_tick: number;
+  expires_tick: number;
+  status: "pending" | "accepted" | "expired";
+}
 export interface Town {
+  family_state?: {
+    groups: Record<string, unknown>;
+    invitations: Record<string, FamilyInvitation>;
+  };
+  homes?: Home[];
   supply?: { completed: number; goods: Record<string, number> };
   schema_version: number;
   tick: number;
+  market_day?: { until_tick?: number };
+  weather?: "sunny" | "cloudy" | "rain" | "storm";
+  season?: "spring" | "summer" | "autumn" | "winter";
   agents: Record<string, Resident>;
   market: Record<string, number>;
   treasury: number;
@@ -86,6 +128,16 @@ export interface Town {
     contributors: Record<string, number>;
   };
   activity_goal: { name: string; trades: number; target: number };
+  flood_effort?: {
+    goal: number;
+    donated: number;
+    deadline_tick: number;
+    participants: string[];
+    settled?: boolean;
+    outcome?: "success" | "failed";
+    lost_item?: string | null;
+    lost_quantity?: number;
+  } | null;
 }
 export interface User {
   id: string;
@@ -94,6 +146,15 @@ export interface User {
   goal: string;
 }
 export interface Catalog {
+  rules?: {
+    market_day?: { delivery_multiplier: number };
+    homes?: {
+      upgrades: Record<string, { wood: number; cash: number }>;
+      capacity_per_level: number;
+      sleep_multipliers: number[];
+      dawn_hunger_relief: number;
+    };
+  };
   deliveries?: Record<
     string,
     { name: string; inputs: Record<string, number>; reward: number }
@@ -131,6 +192,7 @@ export const members = [
   { id: "yaofuen", name: "姚富恩" },
 ];
 export const itemNames: Record<string, string> = {
+  spoiled: "变质食物",
   vegetable: "蔬菜",
   honey: "蜂蜜",
   flax: "亚麻",
@@ -174,6 +236,7 @@ export const actionNames: Record<string, string> = {
   sell: "出售",
   social: "广场交流",
   contribute: "捐建仓库",
+  reinforce: "加固河堤",
   move: "前往",
   gather: "采集水果",
   fish: "河边钓鱼",

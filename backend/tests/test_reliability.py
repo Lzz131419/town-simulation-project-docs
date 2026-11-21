@@ -186,6 +186,7 @@ def test_poor_treasury_full_bag_and_lonely_social_do_not_fail_forever():
     a = w["agents"]["wangjue"]
     a["inventory"] = {k: 0 for k in a["inventory"]}
     a["inventory"]["wood"] = 30
+    w["market"]["wood"] = balance.pricing.basic_target_stock
     w["treasury"] = 2
     assert fallback_action(w, a) is None
     w["treasury"] = 7
@@ -204,13 +205,17 @@ def test_npc_schedule_hunger_and_rest():
     a = w["agents"]["npc-1"]
     w["tick"] = 84  # 22:00
     assert fallback_action(w, a)["type"] == "rest"
-    a["x"], a["y"], a["energy"] = PLACES["home"]["x"], PLACES["home"]["y"], 100
+    from app.domain.homes import home_destination
+    target = home_destination(w, a)
+    a["x"], a["y"], a["energy"] = target["x"], target["y"], 100
     assert fallback_action(w, a) is None
     a["hunger"] = 90
     assert fallback_action(w, a)["type"] == "eat"
     a["energy"] = 10
     execute(w, a, {"type": "rest"}, [])
-    assert a["energy"] == 22
+    assert a["energy"] == 10 and a["sleeping"]["phase"] == "light"
+    tick_world(w, [])
+    assert a["energy"] == 17
 
 
 def test_ten_days_rules_preserve_invariants_and_continue_activity():

@@ -5,6 +5,30 @@
   margin-bottom: 28px;
   align-items: stretch;
 }
+.report-overview {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.report-chip {
+  padding: 16px 18px;
+}
+.report-chip span {
+  display: block;
+  color: var(--color-muted);
+  font-size: 11px;
+}
+.report-chip strong {
+  display: inline-block;
+  margin-top: 9px;
+  font-size: 23px;
+}
+.report-chip small {
+  margin-left: 5px;
+  color: var(--color-muted);
+  font-size: 10px;
+}
 .report-dashboard .economy-chart {
   grid-column: 1/-1;
 }
@@ -112,4 +136,9 @@
 .relationship-graph .node-initial {
   font-size: 14px;
   fill: #161616;
+}
+@media (max-width: 760px) {
+  .report-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

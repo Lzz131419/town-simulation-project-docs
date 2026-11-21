@@ -8,12 +8,15 @@ import {
   SCENE_BOUNDS,
 } from "./terrain";
 import { BUILDINGS, drawBuilding, drawPlaza } from "./buildings";
+import { setTreeSeason } from "./vegetation";
+import type { Season } from "../visual-state";
 export { BUILDINGS, SCENE_BOUNDS };
-export function makeMapTexture(scale = 3) {
+export function makeMapTexture(scale = 3, season: Season = "summer") {
   const canvas = document.createElement("canvas");
   canvas.width = SCENE_BOUNDS.width * scale;
   canvas.height = SCENE_BOUNDS.height * scale;
   const c = canvas.getContext("2d")!;
+  setTreeSeason(c, season);
   c.scale(scale, scale);
   c.translate(-SCENE_BOUNDS.x, -SCENE_BOUNDS.y);
   drawTerrain(c);

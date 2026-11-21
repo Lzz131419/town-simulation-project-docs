@@ -4,7 +4,7 @@ import { layout } from "../../game/world-layout";
 import { usePlanQueue } from "../../composables/usePlanQueue";
 import { ref, watch } from "vue";
 import { useTown } from "../../stores/town";
-import { itemNames } from "../../types";
+import { invQty, itemNames } from "../../types";
 import { api } from "../../api";
 import { ArrowRight, X, MapPin, Clock3, Zap } from "lucide-vue-next";
 const { place, catalog, go, action, me, pending } = useTown();
@@ -87,7 +87,7 @@ const items = (values?: Record<string, number>) =>
             v-if="
               a.inputs &&
               Object.entries(a.inputs).some(
-                ([k, n]) => (me?.inventory[k] ?? 0) < n,
+                ([k, n]) => invQty(me?.inventory[k]) < n,
               )
             "
             class="place-shortage"

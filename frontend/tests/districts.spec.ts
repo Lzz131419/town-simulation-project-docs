@@ -1,5 +1,5 @@
 import layout from "../../shared/world-map.json" with { type: "json" };
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "./fixtures/live-test";
 const own = async (page: Page) =>
   (await (await page.request.get("/api/world")).json()).world.agents.lizhanbo;
 

@@ -11,8 +11,8 @@ const { user, world, pending, me, contribute, action, who } = useTown();
       <Warehouse class="project-symbol" :size="88" :stroke-width="1" />
       <span class="tag">{{
         world.project.completed
-          ? "已落成 · 全员背包容量60份"
-          : "建设中 · 建成后全员背包容量30 → 60份"
+          ? "已落成 · 全员基础背包容量60份"
+          : "建设中 · 建成后全员基础背包容量30 → 60份"
       }}</span>
     </div>
     <div class="two-col">

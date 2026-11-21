@@ -3,7 +3,7 @@ import { useArchives } from "../composables/useArchives";
 import { useMessages } from "../composables/useMessages";
 import { useAgent } from "../composables/useAgent";
 
-import { ref, computed, inject, type InjectionKey } from "vue";
+import { ref, computed, inject, reactive, watch, type InjectionKey } from "vue";
 import {
   Home,
   Users,
@@ -17,8 +17,14 @@ import {
 } from "lucide-vue-next";
 import { api, ApiError } from "../api";
 import { applyPacket } from "../realtime/protocol";
+import {
+  TownAudio,
+  readAudioSettings,
+  AUDIO_SETTINGS_KEY,
+} from "../game/audio";
 import { createConnection } from "../realtime/connection";
 import {
+  invQty,
   members,
   itemNames,
   actionNames,
@@ -35,6 +41,8 @@ import type {
 } from "../types";
 
 export function createTownStore() {
+  const audio = new TownAudio();
+  const audioSettings = reactive(readAudioSettings());
   const catalog = ref<Catalog>({
     items: {},
     places: {},
@@ -53,6 +61,18 @@ export function createTownStore() {
     revision = ref(-1),
     connected = ref(false),
     booting = ref(true);
+  const stopAudioWatch = watch(
+    [audioSettings, world, user],
+    () => {
+      audio.configure(audioSettings, user.value ? world.value : null);
+      try {
+        localStorage.setItem(AUDIO_SETTINGS_KEY, JSON.stringify(audioSettings));
+      } catch {
+        /* Session-only settings. */
+      }
+    },
+    { deep: false, immediate: true, flush: "sync" },
+  );
   const view = ref("town"),
     selected = ref(""),
     focus = ref(false),
@@ -91,7 +111,10 @@ export function createTownStore() {
   );
   const myPlan = computed(() => me.value?.plan ?? []);
   const bag = computed(() =>
-    Object.values(me.value?.inventory ?? {}).reduce((a, b) => a + b, 0),
+    Object.values(me.value?.inventory ?? {}).reduce<number>(
+      (a, b) => a + invQty(b),
+      0,
+    ),
   );
   const colors = [
     "#575757",
@@ -105,7 +128,14 @@ export function createTownStore() {
   ];
   let toastTimer: ReturnType<typeof setTimeout> | undefined;
   const connection = createConnection({
-    message: (data) => apply(data),
+    message: (data) => {
+      const packet = data as any;
+      if (packet?.type === "return_summary") {
+        returnSummary.value = packet.summary;
+        return;
+      }
+      apply(data);
+    },
     status: (value) => {
       connected.value = value;
     },
@@ -155,6 +185,7 @@ export function createTownStore() {
       world.value = next.world;
       events.value = next.events;
       revision.value = next.revision;
+      audio.consume(next.events, user.value?.id);
     }
   }
   async function refresh() {
@@ -167,16 +198,17 @@ export function createTownStore() {
   async function enter(u: User) {
     const epoch = ++generation;
     connection.stop();
-    const [definitions, snapshot, summary] = await Promise.all([
+    const summary = await api("/return-summary");
+    const [definitions, snapshot] = await Promise.all([
       api<Catalog>("/catalog"),
       api("/world"),
-      api("/return-summary"),
     ]);
     if (epoch !== generation || disposed) return;
     if (!snapshot?.world?.agents?.[u.id])
       throw Error("居民数据暂时不可用，请重试");
     revision.value = -1;
     world.value = null;
+    audio.reset();
     apply(snapshot);
     catalog.value = definitions;
     user.value = u;
@@ -187,7 +219,7 @@ export function createTownStore() {
     view.value = "town";
     policy.value = { ...me.value!.policy! };
     syncPlanDraft();
-    returnSummary.value = summary?.completed ? summary : null;
+    returnSummary.value = summary ?? null;
     connection.start();
     try {
       await loadModel();
@@ -196,6 +228,7 @@ export function createTownStore() {
     }
   }
   function resetSession() {
+    audio.reset();
     generation++;
     connection.stop();
     resetAgent();
@@ -306,6 +339,7 @@ export function createTownStore() {
   async function initialize() {
     if (disposed) return;
     if (!initialized) {
+      audio.install();
       window.addEventListener("keydown", escape);
       initialized = true;
     }
@@ -322,6 +356,8 @@ export function createTownStore() {
     }
   }
   function dispose() {
+    stopAudioWatch();
+    audio.dispose();
     disposed = true;
     generation++;
     connection.stop();
@@ -364,6 +400,7 @@ export function createTownStore() {
   } = useArchives(ctx);
   const {
     report,
+    economy,
     history,
     eventActor,
     eventKind,
@@ -372,6 +409,7 @@ export function createTownStore() {
     resetReports,
   } = useReports(notify);
   return {
+    audioSettings,
     catalog,
     returnSummary,
     user,
@@ -414,6 +452,7 @@ export function createTownStore() {
     archiveTitle,
     archiveDetail,
     report,
+    economy,
     history,
     eventActor,
     eventKind,

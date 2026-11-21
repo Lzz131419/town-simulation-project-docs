@@ -1,6 +1,60 @@
 {
-  "fiscal": {"daily_surplus_rate": 0.05, "protected_cash": 100},
-  "simulation": {"sample_interval_ticks": 6, "history_limit": 240, "retry_delay_ticks": 12},
-  "npc": {"wake_hour": 6, "social_start_hour": 12, "social_end_hour": 14, "sleep_hour": 21},
-  "needs": {"high_hunger": 80, "rest_gain": 25, "hungry_rest_gain": 12}
+  "fiscal": {
+    "daily_surplus_rate": 0.05,
+    "protected_cash": 100
+  },
+  "simulation": {
+    "sample_interval_ticks": 6,
+    "history_limit": 240,
+    "retry_delay_ticks": 12
+  },
+  "npc": {
+    "wake_hour": 6,
+    "social_start_hour": 12,
+    "social_end_hour": 14,
+    "sleep_hour": 21
+  },
+  "needs": {
+    "high_hunger": 80,
+    "rest_gain": 25,
+    "hungry_rest_gain": 12
+  },
+  "flood": {
+    "goal": 30,
+    "deadline_ticks": 12,
+    "wood_per_contribution": 2,
+    "energy": 4,
+    "failure_bridge_multiplier": 2,
+    "market_loss_rate": 0.2
+  },
+  "homes": {
+    "upgrades": {
+      "1": {
+        "wood": 15,
+        "cash": 60
+      },
+      "2": {
+        "wood": 30,
+        "cash": 150
+      }
+    },
+    "capacity_per_level": 10,
+    "sleep_multipliers": [
+      1.0,
+      1.3,
+      1.6
+    ],
+    "bench_sleep_multiplier": 0.5,
+    "dawn_hunger_relief": 5
+  },
+  "leisure": {
+    "probability": 0.4,
+    "diligent_multiplier": 0.5,
+    "morning_hours": 1,
+    "afternoon_start": 15,
+    "afternoon_end": 17,
+    "evening_start": 19,
+    "evening_end": 21,
+    "stay_ticks": 2
+  }
 }

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures/live-test";
 import layout from "../../shared/world-map.json" with { type: "json" };
 import { pathDistance, traversedPath } from "../src/game/motion";
 

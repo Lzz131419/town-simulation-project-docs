@@ -7,7 +7,11 @@ CELL = LAYOUT["navigation"]["cell"]
 W, H = LAYOUT["navigation"]["width"] // CELL, LAYOUT["navigation"]["height"] // CELL
 
 
-def blocked(x, y):
+def bridge_closed(w):
+    return w is not None and w.get("bridge_closed_until", 0) > w["tick"]
+
+
+def blocked(x, y, bridges_closed=False):
     px, py = x * CELL + 8, y * CELL + 8
     river = LAYOUT["river"]
     water = river["x"] <= px < river["x"] + river["width"]
@@ -17,18 +21,21 @@ def blocked(x, y):
     )
     return (
         not (1 <= x < W - 1 and 1 <= y < H - 1)
-        or (water and not bridge)
+        or (water and (not bridge or bridges_closed))
         or any(a - 5 <= px <= a + w + 5 and b - 5 <= py <= b + h + 5 for a, b, w, h in OBSTACLES)
     )
 
 
-def route(x, y, tx, ty):
+def route(x, y, tx, ty, w=None):
     if not all(math.isfinite(v) for v in (x, y, tx, ty)):
         raise ValueError("坐标必须为有限数值")
     if not (CELL <= tx < (W - 1) * CELL and CELL <= ty < (H - 1) * CELL):
         raise ValueError("目的地超出地图边界")
     start = (max(1, min(W - 2, int(x // CELL))), max(1, min(H - 2, int(y // CELL))))
     end = (max(1, min(W - 2, int(tx // CELL))), max(1, min(H - 2, int(ty // CELL))))
+    closed = bridge_closed(w)
+    if closed and blocked(*end, bridges_closed=True) and not blocked(*end):
+        raise ValueError("河水上涨，桥暂时无法通行")
     if blocked(*end):
         raise ValueError("目的地不可通行")
     q = [(0, start)]
@@ -46,13 +53,15 @@ def route(x, y, tx, ty):
             return nodes
         for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
             nxt = (cur[0] + dx, cur[1] + dy)
-            if not (1 <= nxt[0] < W - 1 and 1 <= nxt[1] < H - 1) or blocked(*nxt):
+            if not (1 <= nxt[0] < W - 1 and 1 <= nxt[1] < H - 1) or blocked(*nxt, bridges_closed=closed):
                 continue
             cost = costs[cur] + 1
             if cost < costs.get(nxt, 1e9):
                 costs[nxt] = cost
                 came[nxt] = cur
                 heapq.heappush(q, (cost + abs(nxt[0] - end[0]) + abs(nxt[1] - end[1]), nxt))
+    if closed:
+        raise ValueError("河水上涨，桥暂时无法通行")
     raise ValueError("暂时找不到可达路线")
 
 

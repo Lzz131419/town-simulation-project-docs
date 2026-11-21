@@ -3,7 +3,7 @@ import { usePlanQueue } from "../composables/usePlanQueue";
 import { computed, ref } from "vue";
 import { ArrowRight, MapPin, Zap, Search } from "lucide-vue-next";
 import { useTown } from "../stores/town";
-import { itemNames } from "../types";
+import { invQty, itemNames } from "../types";
 const emit = defineEmits<{ close: [] }>();
 const { catalog, me, openPlace, action, pending } = useTown();
 const { append } = usePlanQueue();
@@ -89,10 +89,10 @@ function use(id: string) {
           <div
             v-for="(n, item) in r.inputs"
             :key="item"
-            :class="{ missing: (me?.inventory[item] ?? 0) < n }"
+            :class="{ missing: invQty(me?.inventory[item]) < n }"
           >
             <span>{{ itemNames[item] }}</span><strong
-              >{{ me?.inventory[item] ?? 0 }} / {{ n }}</strong
+              >{{ invQty(me?.inventory[item]) }} / {{ n }}</strong
             >
           </div>
         </div>
@@ -117,9 +117,9 @@ function use(id: string) {
           }}
         </p>
         <div v-for="(n, item) in r.inputs" :key="item" class="recipe-source">
-          <template v-if="(me?.inventory[item] ?? 0) < n"
+          <template v-if="invQty(me?.inventory[item]) < n"
             ><span
-              >缺 {{ n - (me?.inventory[item] ?? 0) }}
+              >缺 {{ n - invQty(me?.inventory[item]) }}
               {{ itemNames[item] }}</span
             ><button
               v-for="source in sources(String(item))"
@@ -139,7 +139,7 @@ function use(id: string) {
           :disabled="
             pending ||
             Object.entries(r.inputs ?? {}).some(
-              ([k, n]) => (me?.inventory[k] ?? 0) < n,
+              ([k, n]) => invQty(me?.inventory[k]) < n,
             )
           "
           @click="use(r.id)"

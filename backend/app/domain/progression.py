@@ -1,6 +1,8 @@
 """Durable personal progression; successful server actions are the only input."""
 
 from .rules import emit
+from ..balance import balance
+from .market_day import is_market_day
 
 MILESTONES = [
     {
@@ -90,6 +92,7 @@ def new_progress():
 
 
 def record_progress(w, a, kind, events, quantity=1, item=None):
+    multiplier = balance.market_day.progress_multiplier if is_market_day(w) else 1
     progress = a.setdefault("progress", new_progress())
     metrics = progress["metrics"]
     metric, amount = {
@@ -102,15 +105,15 @@ def record_progress(w, a, kind, events, quantity=1, item=None):
         "delivery": ("deliveries", 1),
         "contribute": ("contributed", quantity if item == "wood" else 0),
     }.get(kind, (kind, 1))
-    metrics[metric] = metrics.get(metric, 0) + amount
-    progress["xp"] += XP.get(kind, 0)
+    metrics[metric] = metrics.get(metric, 0) + amount * multiplier
+    progress["xp"] += XP.get(kind, 0) * multiplier
     for milestone in MILESTONES:
         if (
             milestone["id"] not in progress["badges"]
             and metrics.get(milestone["metric"], 0) >= milestone["target"]
         ):
             progress["badges"].append(milestone["id"])
-            progress["xp"] += 20
+            progress["xp"] += 20 * multiplier
             emit(
                 events,
                 w,
@@ -118,5 +121,5 @@ def record_progress(w, a, kind, events, quantity=1, item=None):
                 "milestone",
                 f"{a['name']}达成「{milestone['name']}」",
                 badge=milestone["id"],
-                xp=20,
+                xp=20 * multiplier,
             )

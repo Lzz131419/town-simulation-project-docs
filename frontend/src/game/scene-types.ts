@@ -1,6 +1,9 @@
 import type { Town, Catalog, TownEvent } from "../types";
 export interface SceneState {
-  world: Town;
+  world: Town & {
+    weather?: "sunny" | "cloudy" | "rain" | "storm";
+    season?: "spring" | "summer" | "autumn" | "winter";
+  };
   self: string;
   selected: string;
   names: boolean;

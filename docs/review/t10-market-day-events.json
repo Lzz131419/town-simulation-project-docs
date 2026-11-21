@@ -1,0 +1,83 @@
+[
+  {
+    "tick": 960,
+    "actor_id": "town",
+    "type": "fortune",
+    "text": "明日是集市日：交易免税，交付酬劳加倍，广场将摆出集市摊位",
+    "details": {
+      "card": "market_day_preview",
+      "day": 6
+    }
+  },
+  {
+    "tick": 1104,
+    "actor_id": "town",
+    "type": "fortune",
+    "text": "集市日开场！本镇无交易税，今日卖价上浮10%，公共交付酬劳与成长加倍，欢迎来广场赶集",
+    "details": {
+      "card": "market_day",
+      "day": 7,
+      "until_tick": 1248,
+      "market_day": true
+    }
+  },
+  {
+    "tick": 1104,
+    "actor_id": "wangjue",
+    "type": "delivery",
+    "text": "王崛完成「街坊早餐」，获得24镇币",
+    "details": {
+      "before": {
+        "cash": 80,
+        "inventory": {
+          "grain": 0,
+          "bread": 6,
+          "wood": 0,
+          "fruit": [],
+          "fish": [],
+          "ore": 0,
+          "herb": 0,
+          "spoiled": 0,
+          "vegetable": [],
+          "honey": 0,
+          "flax": 0,
+          "cloth": 0,
+          "furniture": 0,
+          "soup": [],
+          "meal": [],
+          "tool": 0
+        },
+        "energy": 85,
+        "hunger": 27
+      },
+      "amount": 24,
+      "item": "bread",
+      "quantity": 3,
+      "unit_price": 8.0,
+      "after": {
+        "cash": 104,
+        "inventory": {
+          "grain": 0,
+          "bread": 3,
+          "wood": 0,
+          "fruit": [],
+          "fish": [],
+          "ore": 0,
+          "herb": 0,
+          "spoiled": 0,
+          "vegetable": [],
+          "honey": 0,
+          "flax": 0,
+          "cloth": 0,
+          "furniture": 0,
+          "soup": [],
+          "meal": [],
+          "tool": 0
+        },
+        "energy": 83,
+        "hunger": 27
+      },
+      "market_day": true
+    }
+  }
+]

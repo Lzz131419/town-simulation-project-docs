@@ -111,6 +111,11 @@
   font-size: 11px;
   color: #395d4a;
 }
+.map-layer-menu input[type="range"] {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
 .map-minimap {
   position: absolute;
   width: 150px;
@@ -416,4 +421,42 @@
 .place-modal .place-actions > button {
   align-self: flex-start;
   min-height: 36px;
+}
+
+.flood-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 10px 0 0;
+  padding: 10px 14px;
+  border: 1px solid rgba(172, 89, 52, 0.45);
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 237, 215, 0.95),
+    rgba(250, 248, 235, 0.95)
+  );
+  color: #713d2a;
+  font-size: 0.82rem;
+}
+.flood-banner strong {
+  font-size: 0.9rem;
+}
+@media (max-width: 700px) {
+  .flood-banner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+}
+
+.market-day-chip {
+  color: #815526;
+  background: #fff0bf;
+  border: 1px solid #d8b979;
+  border-radius: 12px;
+  padding: 2px 7px;
+  font-weight: 700;
+  white-space: nowrap;
 }

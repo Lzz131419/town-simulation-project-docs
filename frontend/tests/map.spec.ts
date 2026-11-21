@@ -1,4 +1,5 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "./fixtures/live-test";
+import { invQty } from "../src/types";
 async function login(page: Page, id: string) {
   await page.goto("/");
   await page.locator("[name=username]").fill(id);
@@ -47,11 +48,14 @@ test("east bank navigation, action details, real fruit harvest and consumption",
   const dialog = page.getByRole("dialog", { name: "河畔果园", exact: true });
   await expect(dialog).toContainText("获得 2 水果");
   await expect(dialog.locator(".place-travel")).toContainText("步行约");
-  const before = (await state(page)).world.agents.yaofuen.inventory.fruit;
+  const before = invQty(
+    (await state(page)).world.agents.yaofuen.inventory.fruit,
+  );
   await dialog.getByRole("button", { name: "安排此行动", exact: true }).click();
   await expect
     .poll(
-      async () => (await state(page)).world.agents.yaofuen.inventory.fruit,
+      async () =>
+        invQty((await state(page)).world.agents.yaofuen.inventory.fruit),
       { timeout: 25000 },
     )
     .toBe(before + 2);
@@ -65,13 +69,15 @@ test("east bank navigation, action details, real fruit harvest and consumption",
     .getByRole("button", { name: "食用", exact: true })
     .click();
   await expect
-    .poll(async () => (await state(page)).world.agents.yaofuen.inventory.fruit)
+    .poll(async () =>
+      invQty((await state(page)).world.agents.yaofuen.inventory.fruit),
+    )
     .toBe(before + 1);
   await page
     .locator("nav")
     .getByRole("button", { name: "合作订单", exact: true })
     .click();
-  await expect(page.getByLabel("需要什么").locator("option")).toHaveCount(15);
+  await expect(page.getByLabel("需要什么").locator("option")).toHaveCount(16);
   await page.getByLabel("需要什么").selectOption("tool");
   await page
     .locator("nav")
@@ -99,8 +105,10 @@ test("live material chains produce tools, boosted ore and a cooked meal", async 
   await act(page, "sunxiang", { type: "fish" });
   await act(page, "sunxiang", { type: "grill" });
   a = (await state(page)).world.agents.sunxiang;
-  expect(a.inventory.meal).toBe(1);
-  expect(a.inventory.fish).toBe(0);
+  expect(invQty(a.inventory.meal)).toBe(1);
+  expect(invQty(a.inventory.fish)).toBe(0);
   await act(page, "sunxiang", { type: "eat_meal" });
-  expect((await state(page)).world.agents.sunxiang.inventory.meal).toBe(0);
+  expect(invQty((await state(page)).world.agents.sunxiang.inventory.meal)).toBe(
+    0,
+  );
 });

@@ -25,8 +25,24 @@ const { returnSummary, user } = useTown();
         {{ returnSummary.cash_change >= 0 ? "+" : ""
         }}{{ returnSummary.cash_change }} 镇币。
       </p>
-      <div class="card archive-summary">
-        <p v-for="line in returnSummary.recent">{{ line }}</p>
+      <template v-if="returnSummary.summary">
+        <p>
+          离开了 {{ returnSummary.away_ticks }} 个时刻，分身由小镇自动照料。
+        </p>
+        <p>
+          收入 {{ returnSummary.summary.earned }} 镇币， 支出
+          {{ returnSummary.summary.spent }} 镇币。
+        </p>
+        <div class="card archive-summary">
+          <p v-for="(line, index) in returnSummary.summary.events" :key="index">
+            {{ line }}
+          </p>
+        </div>
+      </template>
+      <div v-else class="card archive-summary">
+        <p v-for="(line, index) in returnSummary.recent" :key="index">
+          {{ line }}
+        </p>
       </div>
       <button class="primary" @click="returnSummary = null">
         继续我的生活<ArrowRight :size="16" />

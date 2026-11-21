@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch, toRef } from "vue";
 import type { Town, Catalog, TownEvent } from "../types";
 import type { TownSceneHandle } from "../game/TownScene";
+import { isMarketDay } from "../game/market-day";
+import { useTown } from "../stores/town";
 import MapMiniMap from "./MapMiniMap.vue";
 import { layout, type CameraArea } from "../game/world-layout";
 
@@ -43,8 +45,9 @@ function focusRegion(id: string) {
   if (id === "all") scene?.reset();
   else scene?.focusRegion(id);
 }
+const { audioSettings } = useTown();
+const ambience = toRef(audioSettings, "ambience");
 const routes = ref(true),
-  ambience = ref(true),
   follow = ref(false),
   layers = ref(false),
   guide = ref(false),
@@ -89,6 +92,7 @@ onMounted(async () => {
     render: { antialias: true, pixelArt: false },
     scale: { mode: Phaser.Scale.NONE, zoom: 1 / pixelRatio },
     scene: TownScene,
+    // Sound is owned by the store WebAudio engine, not Phaser.
     audio: { noAudio: true },
     banner: false,
   });
@@ -139,6 +143,11 @@ function zoom(delta: number) {
               ? "黄昏"
               : "白昼"
         }}<span
+          v-if="isMarketDay(world)"
+          class="market-day-chip"
+          title="卖价上浮10%，公共交付与成长加倍"
+          >集市日</span
+        ><span
           >{{
             Object.values(world.agents).filter((a) => !a.npc && a.online).length
           }}
@@ -221,6 +230,25 @@ function zoom(delta: number) {
     <div v-if="layers" class="map-layer-menu">
       <label><input v-model="routes" type="checkbox" />行动路线</label>
       <label><input v-model="ambience" type="checkbox" />昼夜与环境动态</label>
+      <label
+        ><input v-model="audioSettings.enabled" type="checkbox" />声音</label
+      >
+      <label
+        ><input
+          v-model="audioSettings.environment"
+          type="checkbox"
+        />环境音</label
+      >
+      <label
+        >音量
+        <input
+          v-model.number="audioSettings.volume"
+          aria-label="音量"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+      /></label>
       <label><input v-model="mini" type="checkbox" />小镇总览</label>
     </div>
     <MapMiniMap

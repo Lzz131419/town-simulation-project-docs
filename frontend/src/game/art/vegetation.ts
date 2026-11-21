@@ -1,4 +1,11 @@
 import { type Brush, box, ellipse, line, seeded } from "./brush";
+import type { Season } from "../visual-state";
+
+// Per-canvas settings reach every drawTree call, including orchard and border trees.
+const treeSeasons = new WeakMap<Brush, Season>();
+export function setTreeSeason(c: Brush, season: Season) {
+  treeSeasons.set(c, season);
+}
 export const TREES: [number, number, number][] = [
   [36, 80, 1.1],
   [87, 64, 1.05],
@@ -45,9 +52,17 @@ export function drawTree(c: Brush, x: number, y: number, s = 1, variant = 0) {
   box(c, -3, -8, 8, 30, "#795936", 2);
   line(c, [-1, 18, -1, -9, -10, -17], "#bf9a61", 1.5);
   line(c, [3, 10, 8, -6, 15, -15], "#674b32", 2);
-  const colors = variant
-    ? ["#a8bd63", "#74994e", "#426c49"]
-    : ["#93bb66", "#54894e", "#305f49"];
+  const season = treeSeasons.get(c);
+  const colors =
+    season === "autumn"
+      ? variant
+        ? ["#f0cf79", "#c79241", "#8b623b"]
+        : ["#efbd65", "#c27b3f", "#80553c"]
+      : season === "winter"
+        ? ["#eef0dc", "#c2cfbe", "#899f96"]
+        : variant
+          ? ["#a8bd63", "#74994e", "#426c49"]
+          : ["#93bb66", "#54894e", "#305f49"];
   const canopy = c.createLinearGradient(-20, -45, 22, 8);
   canopy.addColorStop(0, colors[0]);
   canopy.addColorStop(0.45, colors[1]);
@@ -79,7 +94,23 @@ export function drawTree(c: Brush, x: number, y: number, s = 1, variant = 0) {
       py,
       size,
       size * 0.65,
-      light < 0.4 ? "#c3d7854a" : light > 0.7 ? "#234e3d2b" : "#88b46244",
+      season === "autumn"
+        ? light < 0.4
+          ? "#ffe4a34a"
+          : light > 0.7
+            ? "#7049272b"
+            : "#e6a34d44"
+        : season === "winter"
+          ? light < 0.4
+            ? "#ffffff70"
+            : light > 0.7
+              ? "#6c85802b"
+              : "#e1e9df55"
+          : light < 0.4
+            ? "#c3d7854a"
+            : light > 0.7
+              ? "#234e3d2b"
+              : "#88b46244",
     );
     if (i % 4 === 0) line(c, [px - 2, py, px + 1, py - 1], "#dfdf9c50", 0.8);
   }

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { itemNames } from "../types";
+import { invQty, itemNames, type Inventory } from "../types";
 
 const props = defineProps<{ details?: Record<string, unknown> }>();
 interface Assets {
   cash: number;
   energy: number;
   hunger: number;
-  inventory: Record<string, number>;
+  inventory: Inventory;
 }
 const changes = computed(() => {
   const before = props.details?.before as Assets | undefined;
@@ -19,8 +19,8 @@ const changes = computed(() => {
     { label: "饥饿", from: before.hunger, to: after.hunger },
     ...Object.keys(before.inventory).map((key) => ({
       label: itemNames[key] ?? key,
-      from: before.inventory[key],
-      to: after.inventory[key],
+      from: invQty(before.inventory[key]),
+      to: invQty(after.inventory[key]),
     })),
   ].filter((change) => change.from !== change.to);
 });

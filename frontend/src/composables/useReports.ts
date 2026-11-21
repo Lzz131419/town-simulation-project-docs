@@ -3,6 +3,7 @@ import { api, ApiError } from "../api";
 import type { TownEvent } from "../types";
 export function useReports(notify: (text: string, isError?: boolean) => void) {
   const report = ref<any>(null),
+    economy = ref<any>(null),
     history = ref<TownEvent[]>([]),
     eventActor = ref(""),
     eventKind = ref("");
@@ -13,8 +14,14 @@ export function useReports(notify: (text: string, isError?: boolean) => void) {
   async function loadReport() {
     const epoch = ++reportVersion;
     try {
-      const data = await api("/report");
-      if (epoch === reportVersion) report.value = data;
+      const [data, economyData] = await Promise.all([
+        api("/report"),
+        api("/report/economy"),
+      ]);
+      if (epoch === reportVersion) {
+        report.value = data;
+        economy.value = economyData;
+      }
     } catch (e: any) {
       if (epoch === reportVersion) notify(e.message, true);
     }
@@ -66,12 +73,14 @@ export function useReports(notify: (text: string, isError?: boolean) => void) {
     controller?.abort();
     loadingMore = false;
     report.value = null;
+    economy.value = null;
     history.value = [];
     eventActor.value = "";
     eventKind.value = "";
   }
   return {
     report,
+    economy,
     history,
     eventActor,
     eventKind,

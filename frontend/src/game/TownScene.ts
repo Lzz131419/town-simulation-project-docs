@@ -3,8 +3,10 @@ import { canvasClick } from "./input";
 import { layout, type CameraArea } from "./world-layout";
 import { makeMapTexture, SCENE_BOUNDS, BUILDINGS } from "./art/map";
 import { ResidentLayer } from "./ResidentLayer";
+import { HomeLayer } from "./art/homes";
 import { Atmosphere } from "./Atmosphere";
 import type { SceneReader, SceneEmit } from "./scene-types";
+import type { Season } from "./visual-state";
 export interface TownSceneHandle extends Phaser.Scene {
   focusRegion: (id: string) => void;
   zoomBy: (delta: number) => void;
@@ -21,7 +23,11 @@ export function makeTownScene(
 ) {
   return class TownScene extends Phaser.Scene {
     private residents!: ResidentLayer;
+    private homes!: HomeLayer;
     private atmosphere!: Atmosphere;
+    private mapTexture!: Phaser.Textures.CanvasTexture;
+    private foliageSeason: Season = "summer";
+    private roofSnow!: Phaser.GameObjects.Graphics;
     private drag = false;
     private lastPointer = { x: 0, y: 0 };
     private down = { x: 0, y: 0 };
@@ -35,10 +41,32 @@ export function makeTownScene(
     private resizeAnchor: { x: number; y: number } | null = null;
     create() {
       const b = SCENE_BOUNDS;
-      this.textures.addCanvas("town-hd", makeMapTexture());
+      this.foliageSeason = state().world.season ?? "summer";
+      this.mapTexture = this.textures.addCanvas(
+        "town-hd",
+        makeMapTexture(3, this.foliageSeason),
+      )!;
       this.add
         .image(b.x + b.width / 2, b.y + b.height / 2, "town-hd")
         .setDisplaySize(b.width, b.height);
+      // Snow follows the existing narrow cutaway roof, never hiding interiors.
+      // This overlay is independent of the baked map and only toggles visibility.
+      this.roofSnow = this.add.graphics().setDepth(0.5).setName("roof-snow");
+      this.roofSnow.fillStyle(0xf7faf4, 0.62);
+      for (const { x, y, w } of BUILDINGS) {
+        this.roofSnow.fillPoints(
+          [
+            { x: x - 7, y: y + 3 },
+            { x: x + w / 2, y: y - 23 },
+            { x: x + w + 7, y: y + 3 },
+            { x: x + w + 7, y: y + 9 },
+            { x: x + w / 2, y: y - 16 },
+            { x: x - 7, y: y + 9 },
+          ],
+          true,
+        );
+      }
+      this.roofSnow.setVisible(this.foliageSeason === "winter");
       this.cameras.main.setBackgroundColor("#a4c88d");
       this.cameras.main.setBounds(b.x, b.y, b.width, b.height);
       for (const [id, place] of Object.entries(state().catalog.places)) {
@@ -105,6 +133,8 @@ export function makeTownScene(
           });
         this.tags.set(id, tag);
       }
+      this.homes = new HomeLayer(this, state, emit, () => this.drag);
+      this.homes.update(0);
       this.residents = new ResidentLayer(this, state, emit, () => this.drag);
       this.atmosphere = new Atmosphere(this, state);
       this.input.on("pointerdown", (p: Phaser.Input.Pointer) => {
@@ -207,6 +237,25 @@ export function makeTownScene(
     }
     update(time: number, delta: number) {
       if (!this.ready) return;
+      const season = state().world.season ?? "summer";
+      if (season !== this.foliageSeason) {
+        // All trees are baked into one map: replace its palette only on season
+        // changes, reuse the GPU texture, and leave the roof overlay separate.
+        const normal = (s: Season) => s === "spring" || s === "summer";
+        if (!(normal(season) && normal(this.foliageSeason))) {
+          const canvas = makeMapTexture(3, season);
+          // The source canvas retains its map scale/translation after baking.
+          // Copy in pixel coordinates rather than applying those transforms twice.
+          this.mapTexture.context.save();
+          this.mapTexture.context.resetTransform();
+          this.mapTexture.context.clearRect(0, 0, canvas.width, canvas.height);
+          this.mapTexture.context.drawImage(canvas, 0, 0);
+          this.mapTexture.context.restore();
+          this.mapTexture.refresh();
+        }
+        this.foliageSeason = season;
+        this.roofSnow.setVisible(season === "winter");
+      }
       if (time - this.lastViewport > 120) {
         const v = this.cameras.main.worldView;
         onViewport({ x: v.x, y: v.y, width: v.width, height: v.height });
@@ -218,6 +267,7 @@ export function makeTownScene(
         1.8,
       );
       for (const tag of this.tags.values()) tag.setScale(labelScale);
+      this.homes.update(time);
       this.residents.update(time, delta);
       this.atmosphere.update(time);
       const follow = state().follow;

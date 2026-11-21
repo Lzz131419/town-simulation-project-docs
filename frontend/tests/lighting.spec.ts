@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "./fixtures/live-test";
 import { daylight } from "../src/game/lighting";
 
 test("lighting is continuous across dawn, dusk and midnight", () => {

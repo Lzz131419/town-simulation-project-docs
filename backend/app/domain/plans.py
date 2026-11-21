@@ -26,7 +26,7 @@ def edit_plan(a, expected, actions):
 
 
 def finish_plan(w, a, events):
-    if a["mode"] == "plan" and not a["plan"] and not a["task"]:
+    if a["mode"] == "plan" and not a["plan"] and not a["task"] and not a.get("sleeping"):
         a["mode"] = "manual"
         a["activity"] = "本轮计划已完成"
         emit(events, w, a, "plan_done", a["name"] + "完成了本轮行动计划")

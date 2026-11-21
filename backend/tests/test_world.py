@@ -5,6 +5,7 @@ from app.engine import *
 from app.pathfinding import route, blocked, CELL
 from app.main import runtime
 from app.db import Session, World
+from app.domain.economy import price
 
 
 @pytest.mark.parametrize(
@@ -94,7 +95,7 @@ def test_policy_budget_and_bag_limits():
         execute(w, a, {"type": "buy", "item": "bread", "quantity": 1}, events, True)
     assert a["cash"] == 80
     a["policy"]["reserve"] = 0
-    a["policy"]["daily_budget"] = 3
+    a["policy"]["daily_budget"] = price(w, "bread", "buy") - 1
     with pytest.raises(ValueError):
         execute(w, a, {"type": "buy", "item": "bread", "quantity": 1}, events, True)
     a["inventory"]["wood"] = 30

@@ -1,0 +1,28 @@
+
+Running 21 tests using 1 worker
+
+(node:57548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/21] tests/audio.spec.ts:237:3 › pure timbres: harvest aliases and bounded envelopes
+[2/21] tests/audio.spec.ts:237:3 › pure timbres: make aliases and bounded envelopes
+[3/21] tests/audio.spec.ts:237:3 › pure timbres: coin aliases and bounded envelopes
+[4/21] tests/audio.spec.ts:237:3 › pure timbres: delivery aliases and bounded envelopes
+[5/21] tests/audio.spec.ts:237:3 › pure timbres: eat aliases and bounded envelopes
+[6/21] tests/audio.spec.ts:237:3 › pure timbres: social aliases and bounded envelopes
+[7/21] tests/audio.spec.ts:237:3 › pure timbres: sleep aliases and bounded envelopes
+[8/21] tests/audio.spec.ts:237:3 › pure timbres: blocked aliases and bounded envelopes
+[9/21] tests/audio.spec.ts:251:1 › orders only sound on settlement; environment follows weather and daylight
+[10/21] tests/audio.spec.ts:289:1 › real store packets: lazy context, history/dedupe/player filter and all sound families
+[11/21] tests/audio.spec.ts:347:1 › settings persist; mute suppresses sources; ambience only gates environmental audio
+[12/21] tests/audio.spec.ts:383:1 › weather changes ramp gains and filters, night chirps, reduced preference defaults off
+[13/21] tests/audio.spec.ts:433:1 › autoplay resume rejection retries, zero volume stays silent, controls fit the supported minimum width
+[14/21] tests/audio.spec.ts:470:1 › unavailable WebAudio does not break incoming events or the UI
+[15/21] tests/audio.spec.ts:490:1 › market ambience is daytime-only and uses the same mute/environment gates
+[16/21] tests/audio.spec.ts:504:1 › live market patches toggle chip, murmur and occasional chime, then expire
+[17/21] tests/family.spec.ts:79:1 › invitations survive incremental sync; malformed state is rejected atomically
+[18/21] tests/family.spec.ts:97:1 › family sounds differ and NPC events obey dedupe and history suppression
+[19/21] tests/family.spec.ts:122:1 › live invite schedules visit and inspector shows relatives and household residents
+[20/21] tests/homes.spec.ts:3:1 › three home levels render together, upgrades flash, and only an owner's sleeping home lights
+[21/21] tests/homes.spec.ts:50:1 › home upgrades arrive through world deltas and invalid levels reject atomically
+  21 passed (22.7s)

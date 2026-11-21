@@ -8,6 +8,7 @@ from app.domain.deliveries import REQUESTS, supply_day
 from app.domain.scheduler import tick_world, fallback_action
 from app.domain.migration import upgrade_world
 from app.domain.rules import check_invariants
+from app.domain.perishables import inv_qty
 
 NEW_ITEMS = {"vegetable", "honey", "flax", "cloth", "furniture", "soup"}
 NEW_PLACES = {
@@ -64,7 +65,7 @@ def test_v2_migration_adds_empty_goods_without_grants_and_is_idempotent():
         for field in ["cash", "energy", "hunger", "plan", "mode", "progress"]:
             assert new[field] == old[field]
         assert all(new["inventory"][item] == count for item, count in old["inventory"].items())
-        assert all(new["inventory"][item] == 0 for item in NEW_ITEMS)
+        assert all(inv_qty(new["inventory"], item) == 0 for item in NEW_ITEMS)
     assert not upgrade_world(w)
     check_invariants(w)
 
@@ -79,7 +80,7 @@ def test_delivery_transfers_budget_consumes_goods_and_never_repeats_same_day(ite
     execute(w, a, {"type": "delivery", "item": item}, [])
     assert a["cash"] == before["agents"][a["id"]]["cash"] + request["reward"]
     assert w["treasury"] == before["treasury"] - request["reward"]
-    assert a["inventory"][item] == 0
+    assert inv_qty(a["inventory"], item) == 0
     assert a["delivery_log"] == {"day": supply_day(w["tick"]), "items": [item]}
     assert w["supply"]["completed"] == 1
     assert a["progress"]["metrics"]["supply"] == 1 and "partner" not in a["progress"]["badges"]
@@ -155,7 +156,7 @@ def test_nested_furniture_prerequisites_and_new_orders(auth):
         assert response.status_code == 200
         assert auth.post(f"/api/orders/{response.json()['id']}/cancel").status_code == 200
     catalog = auth.get("/api/catalog").json()
-    assert len(catalog["items"]) == 15 and catalog["deliveries"] == REQUESTS
+    assert len(catalog["items"]) == 16 and catalog["deliveries"] == REQUESTS
     assert (
         auth.post(
             "/api/me/plan/append", json={"actions": [{"type": "delivery", "item": "bread"}]}

@@ -40,6 +40,7 @@ class Policy(Input):
         "weave",
         "assemble",
         "cook",
+        "reinforce",
     ] = "work"
     auto_eat: bool = True
 

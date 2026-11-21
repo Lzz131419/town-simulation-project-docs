@@ -1,0 +1,467 @@
+{
+  "healthy": {
+    "events": [
+      {
+        "tick": 78,
+        "actor_id": "wangjue",
+        "type": "sleep",
+        "text": "王崛回家躺下，入睡了",
+        "details": {
+          "phase": "light"
+        }
+      },
+      {
+        "tick": 78,
+        "actor_id": "wangjue",
+        "type": "rest",
+        "text": "王崛回家休息，躺下睡觉",
+        "details": {
+          "before": {
+            "cash": 80,
+            "inventory": {
+              "grain": 0,
+              "bread": 3,
+              "wood": 0,
+              "fruit": [],
+              "fish": [],
+              "ore": 0,
+              "herb": 0,
+              "spoiled": 0,
+              "vegetable": [],
+              "honey": 0,
+              "flax": 0,
+              "cloth": 0,
+              "furniture": 0,
+              "soup": [],
+              "meal": [],
+              "tool": 0
+            },
+            "energy": 0,
+            "hunger": 20
+          },
+          "after": {
+            "cash": 80,
+            "inventory": {
+              "grain": 0,
+              "bread": 3,
+              "wood": 0,
+              "fruit": [],
+              "fish": [],
+              "ore": 0,
+              "herb": 0,
+              "spoiled": 0,
+              "vegetable": [],
+              "honey": 0,
+              "flax": 0,
+              "cloth": 0,
+              "furniture": 0,
+              "soup": [],
+              "meal": [],
+              "tool": 0
+            },
+            "energy": 0,
+            "hunger": 20
+          }
+        }
+      },
+      {
+        "tick": 90,
+        "actor_id": "wangjue",
+        "type": "sleep_phase",
+        "text": "王崛进入深睡",
+        "details": {
+          "phase": "deep"
+        }
+      },
+      {
+        "tick": 92,
+        "actor_id": "wangjue",
+        "type": "wake",
+        "text": "王崛醒来了",
+        "details": {
+          "reason": "restored",
+          "duration_ticks": 14
+        }
+      }
+    ],
+    "frames": [
+      {
+        "tick": 78,
+        "energy": 0,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 79,
+        "energy": 7,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 80,
+        "energy": 14,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 81,
+        "energy": 21,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 82,
+        "energy": 28,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 83,
+        "energy": 35,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 84,
+        "energy": 42,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 85,
+        "energy": 49,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 86,
+        "energy": 56,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 87,
+        "energy": 63,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 88,
+        "energy": 70,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 89,
+        "energy": 77,
+        "fatigue": 0,
+        "phase": "light"
+      },
+      {
+        "tick": 90,
+        "energy": 84,
+        "fatigue": 0,
+        "phase": "deep"
+      },
+      {
+        "tick": 91,
+        "energy": 94,
+        "fatigue": 0,
+        "phase": "deep"
+      },
+      {
+        "tick": 92,
+        "energy": 100,
+        "fatigue": 0,
+        "phase": "awake"
+      }
+    ]
+  },
+  "fatigue_recovery": {
+    "events": [
+      {
+        "tick": 78,
+        "actor_id": "wangjue",
+        "type": "sleep",
+        "text": "王崛回家躺下，入睡了",
+        "details": {
+          "phase": "light"
+        }
+      },
+      {
+        "tick": 78,
+        "actor_id": "wangjue",
+        "type": "rest",
+        "text": "王崛回家休息，躺下睡觉",
+        "details": {
+          "before": {
+            "cash": 80,
+            "inventory": {
+              "grain": 0,
+              "bread": 3,
+              "wood": 0,
+              "fruit": [],
+              "fish": [],
+              "ore": 0,
+              "herb": 0,
+              "spoiled": 0,
+              "vegetable": [],
+              "honey": 0,
+              "flax": 0,
+              "cloth": 0,
+              "furniture": 0,
+              "soup": [],
+              "meal": [],
+              "tool": 0
+            },
+            "energy": 0,
+            "hunger": 20
+          },
+          "after": {
+            "cash": 80,
+            "inventory": {
+              "grain": 0,
+              "bread": 3,
+              "wood": 0,
+              "fruit": [],
+              "fish": [],
+              "ore": 0,
+              "herb": 0,
+              "spoiled": 0,
+              "vegetable": [],
+              "honey": 0,
+              "flax": 0,
+              "cloth": 0,
+              "furniture": 0,
+              "soup": [],
+              "meal": [],
+              "tool": 0
+            },
+            "energy": 0,
+            "hunger": 20
+          }
+        }
+      },
+      {
+        "tick": 90,
+        "actor_id": "wangjue",
+        "type": "sleep_phase",
+        "text": "王崛进入深睡",
+        "details": {
+          "phase": "deep"
+        }
+      },
+      {
+        "tick": 108,
+        "actor_id": "wangjue",
+        "type": "fatigue_recovered",
+        "text": "王崛睡足了，疲劳消除了",
+        "details": {}
+      },
+      {
+        "tick": 109,
+        "actor_id": "wangjue",
+        "type": "wake",
+        "text": "王崛醒来了",
+        "details": {
+          "reason": "restored",
+          "duration_ticks": 31
+        }
+      }
+    ],
+    "frames": [
+      {
+        "tick": 78,
+        "energy": 0,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 79,
+        "energy": 7,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 80,
+        "energy": 14,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 81,
+        "energy": 21,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 82,
+        "energy": 28,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 83,
+        "energy": 35,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 84,
+        "energy": 42,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 85,
+        "energy": 49,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 86,
+        "energy": 56,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 87,
+        "energy": 63,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 88,
+        "energy": 70,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 89,
+        "energy": 77,
+        "fatigue": 1,
+        "phase": "light"
+      },
+      {
+        "tick": 90,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 91,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 92,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 93,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 94,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 95,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 96,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 97,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 98,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 99,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 100,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 101,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 102,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 103,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 104,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 105,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 106,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 107,
+        "energy": 80,
+        "fatigue": 1,
+        "phase": "deep"
+      },
+      {
+        "tick": 108,
+        "energy": 90,
+        "fatigue": 0,
+        "phase": "deep"
+      },
+      {
+        "tick": 109,
+        "energy": 100,
+        "fatigue": 0,
+        "phase": "awake"
+      }
+    ]
+  }
+}

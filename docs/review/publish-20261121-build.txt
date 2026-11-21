@@ -1,0 +1,20 @@
+
+> mist-river-town@2.0.0 build
+> npm --prefix frontend run build
+
+
+> mist-river-town-client@2.0.0 build
+> vue-tsc -b && vite build
+
+vite v6.4.6 building for production...
+transforming...
+✓ 1666 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                        0.48 kB │ gzip:   0.35 kB
+dist/assets/index-sdGeeNwq.css        52.29 kB │ gzip:  11.04 kB
+dist/assets/phaser-CkuN5Vkn.js         0.47 kB │ gzip:   0.34 kB
+dist/assets/TownScene-WC3wlyCu.js     45.92 kB │ gzip:  18.51 kB
+dist/assets/index-CsjzCQfs.js        221.01 kB │ gzip:  79.26 kB
+dist/assets/phaser-Czz4FBZH.js     1,481.77 kB │ gzip: 339.84 kB
+✓ built in 3.43s

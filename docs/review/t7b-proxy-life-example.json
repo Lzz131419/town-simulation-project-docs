@@ -1,0 +1,38 @@
+{
+  "departure": {
+    "tick": 0,
+    "cash": 80,
+    "completed": 0,
+    "mode_at_departure": "manual",
+    "away": true,
+    "event_id": 2
+  },
+  "return_summary": {
+    "since_tick": 0,
+    "current_tick": 180,
+    "away_ticks": 180,
+    "completed": 20,
+    "cash_change": 82,
+    "recent": [
+      "王崛完成公共工作，获得6镇币",
+      "王崛完成公共工作，获得6镇币",
+      "王崛完成公共工作，获得6镇币",
+      "王崛完成公共工作，获得6镇币",
+      "王崛吃一份面包",
+      "王崛完成公共工作，获得6镇币",
+      "王崛回家休息，恢复精力",
+      "王崛回家休息，恢复精力"
+    ],
+    "summary": {
+      "earned": 84,
+      "spent": 2,
+      "gained_items": {},
+      "events": [
+        "你赚了84镇币，支出了2镇币"
+      ]
+    }
+  },
+  "restored_mode": "manual",
+  "economy_total_before": 2840,
+  "economy_total_after": 2840
+}

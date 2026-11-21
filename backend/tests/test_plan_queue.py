@@ -114,7 +114,7 @@ def test_queue_api_ownership_limits_and_conflict(auth):
     assert [x["type"] for x in state["agents"]["wangjue"]["plan"]] == ["bake", "farm"]
 
 
-def test_offline_plan_runs_to_completion_without_model_calls(auth, monkeypatch):
+def test_offline_plan_finishes_then_continues_proxy_life_without_model_calls(auth, monkeypatch):
     from app.database import Session
     from app.models import World, ModelCall
     from app.services.container import planner
@@ -130,9 +130,11 @@ def test_offline_plan_runs_to_completion_without_model_calls(auth, monkeypatch):
         row = db.get(World, 1)
         w = deepcopy(row.data)
         a = w["agents"]["wangjue"]
-        run_until_stopped(w, a, [])
+        for _ in range(100):
+            tick_world(w, [])
         row.data = w
-        assert a["completed"] == 2 and a["plan"] == []
+        assert a["completed"] > 2 and a["plan"] == []
+        assert a["mode"] == "rules" and a["proxy_life"]
         assert db.scalar(select(func.count()).select_from(ModelCall)) == 0
     auth.post("/api/auth/login", json={"username": "wangjue", "password": "wangjue"})
-    assert auth.get("/api/world").json()["world"]["agents"]["wangjue"]["mode"] == "manual"
+    assert auth.get("/api/world").json()["world"]["agents"]["wangjue"]["mode"] == "plan"

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { itemNames, type Town } from "../../types";
+import { invQty, itemNames, type Town } from "../../types";
 const props = defineProps<{ world: Town }>();
 const rows = computed(() =>
   Object.entries(props.world.market).map(([id, market]) => ({
     id,
     market,
     held: Object.values(props.world.agents).reduce(
-      (n, a) => n + (a.inventory[id] ?? 0),
+      (n, a) => n + invQty(a.inventory[id]),
       0,
     ),
   })),

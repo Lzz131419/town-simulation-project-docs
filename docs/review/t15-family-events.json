@@ -1,0 +1,467 @@
+{
+  "quarrel_to_reconciliation": {
+    "setup": "Controlled low relationship 30, fixed quarrel RNG 0 at tick 96; both physically home at evening tick 204.",
+    "before_meal": {
+      "tick": 96,
+      "relations": {
+        "npc-2": {
+          "npc-5": 30
+        },
+        "npc-5": {
+          "npc-2": 30
+        }
+      }
+    },
+    "events": [
+      {
+        "tick": 0,
+        "actor_id": "npc-2",
+        "type": "home_claimed",
+        "text": "陈禾 在南岸安了家",
+        "details": {
+          "home_id": "home-1",
+          "level": 1
+        }
+      },
+      {
+        "tick": 96,
+        "actor_id": "npc-2",
+        "type": "family",
+        "text": "陈禾和苏晴拌了嘴",
+        "details": {
+          "kind": "quarrel",
+          "participants": [
+            "npc-2",
+            "npc-5"
+          ]
+        }
+      },
+      {
+        "tick": 204,
+        "actor_id": "npc-2",
+        "type": "family",
+        "text": "陈禾、苏晴和家人一起吃了晚饭",
+        "details": {
+          "kind": "meal",
+          "home_id": "home-1",
+          "participants": [
+            "npc-2",
+            "npc-5"
+          ]
+        }
+      },
+      {
+        "tick": 204,
+        "actor_id": "npc-2",
+        "type": "family",
+        "text": "陈禾和苏晴两人又和好了",
+        "details": {
+          "kind": "reconcile",
+          "participants": [
+            "npc-2",
+            "npc-5"
+          ],
+          "relationship_change": 10
+        }
+      }
+    ],
+    "after": {
+      "tick": 204,
+      "relations": {
+        "npc-2": {
+          "npc-5": 42
+        },
+        "npc-5": {
+          "npc-2": 42
+        }
+      },
+      "family_state": {
+        "groups": {
+          "a": {
+            "dawn_day": 1,
+            "quarrel_day": 1,
+            "meal_days": [
+              1
+            ]
+          },
+          "b": {
+            "dawn_day": 1
+          }
+        },
+        "invitations": {}
+      }
+    }
+  },
+  "invitation_to_arrival": {
+    "setup": "Player and host start relation 60; fixed invitation RNG 0 during real social action at tick 10; player already at household door; real queued visit settles at tick 11.",
+    "issued_state": {
+      "groups": {},
+      "invitations": {
+        "a:wangjue": {
+          "group": "a",
+          "host_id": "npc-2",
+          "guest_id": "wangjue",
+          "home_id": "home-1",
+          "issued_tick": 10,
+          "expires_tick": 58,
+          "status": "pending"
+        }
+      }
+    },
+    "events": [
+      {
+        "tick": 0,
+        "actor_id": "npc-2",
+        "type": "home_claimed",
+        "text": "陈禾 在南岸安了家",
+        "details": {
+          "home_id": "home-1",
+          "level": 1
+        }
+      },
+      {
+        "tick": 10,
+        "actor_id": "npc-2",
+        "type": "invite",
+        "text": "陈禾邀请王崛到家里做客（48 tick 内）",
+        "details": {
+          "kind": "issued",
+          "group": "a",
+          "host_id": "npc-2",
+          "guest_id": "wangjue",
+          "home_id": "home-1",
+          "issued_tick": 10,
+          "expires_tick": 58,
+          "status": "pending"
+        }
+      },
+      {
+        "tick": 10,
+        "actor_id": "wangjue",
+        "type": "social",
+        "text": "王崛与陈禾进行了邻里交流，陈禾说：“第1天，陈禾 在南岸安了家”",
+        "details": {
+          "before": {
+            "cash": 80,
+            "inventory": {
+              "grain": 0,
+              "bread": 3,
+              "wood": 0,
+              "fruit": [],
+              "fish": [],
+              "ore": 0,
+              "herb": 0,
+              "spoiled": 0,
+              "vegetable": [],
+              "honey": 0,
+              "flax": 0,
+              "cloth": 0,
+              "furniture": 0,
+              "soup": [],
+              "meal": [],
+              "tool": 0
+            },
+            "energy": 85,
+            "hunger": 60
+          },
+          "partner_id": "npc-2",
+          "relationship": 65,
+          "relationship_change": 5,
+          "gossip": "第1天，陈禾 在南岸安了家",
+          "after": {
+            "cash": 80,
+            "inventory": {
+              "grain": 0,
+              "bread": 3,
+              "wood": 0,
+              "fruit": [],
+              "fish": [],
+              "ore": 0,
+              "herb": 0,
+              "spoiled": 0,
+              "vegetable": [],
+              "honey": 0,
+              "flax": 0,
+              "cloth": 0,
+              "furniture": 0,
+              "soup": [],
+              "meal": [],
+              "tool": 0
+            },
+            "energy": 81,
+            "hunger": 60
+          }
+        }
+      },
+      {
+        "tick": 11,
+        "actor_id": "wangjue",
+        "type": "invite",
+        "text": "王崛应邀到陈禾家做客，被招待了一顿饭",
+        "details": {
+          "kind": "accepted",
+          "participants": [
+            "wangjue",
+            "npc-2",
+            "npc-5"
+          ],
+          "group": "a",
+          "host_id": "npc-2",
+          "guest_id": "wangjue",
+          "home_id": "home-1",
+          "issued_tick": 10,
+          "expires_tick": 58,
+          "status": "accepted"
+        }
+      },
+      {
+        "tick": 11,
+        "actor_id": "wangjue",
+        "type": "leisure",
+        "text": "王崛应邀去陈禾家吃了饭",
+        "details": {
+          "before": {
+            "cash": 80,
+            "inventory": {
+              "grain": 0,
+              "bread": 3,
+              "wood": 0,
+              "fruit": [],
+              "fish": [],
+              "ore": 0,
+              "herb": 0,
+              "spoiled": 0,
+              "vegetable": [],
+              "honey": 0,
+              "flax": 0,
+              "cloth": 0,
+              "furniture": 0,
+              "soup": [],
+              "meal": [],
+              "tool": 0
+            },
+            "energy": 81,
+            "hunger": 60
+          },
+          "kind": "visit",
+          "target_id": "npc-2",
+          "at_home": true,
+          "invited": true,
+          "home_id": "home-1",
+          "relationship_change": 8,
+          "after": {
+            "cash": 80,
+            "inventory": {
+              "grain": 0,
+              "bread": 3,
+              "wood": 0,
+              "fruit": [],
+              "fish": [],
+              "ore": 0,
+              "herb": 0,
+              "spoiled": 0,
+              "vegetable": [],
+              "honey": 0,
+              "flax": 0,
+              "cloth": 0,
+              "furniture": 0,
+              "soup": [],
+              "meal": [],
+              "tool": 0
+            },
+            "energy": 81,
+            "hunger": 50
+          }
+        }
+      }
+    ],
+    "after": {
+      "tick": 11,
+      "family_state": {
+        "groups": {},
+        "invitations": {
+          "a:wangjue": {
+            "group": "a",
+            "host_id": "npc-2",
+            "guest_id": "wangjue",
+            "home_id": "home-1",
+            "issued_tick": 10,
+            "expires_tick": 58,
+            "status": "accepted"
+          }
+        }
+      },
+      "player_hunger": 50,
+      "relations": {
+        "wangjue": {
+          "npc-2": 73,
+          "npc-5": 38
+        },
+        "npc-2": {
+          "npc-5": 80,
+          "wangjue": 73
+        },
+        "npc-5": {
+          "npc-2": 80,
+          "wangjue": 38
+        }
+      }
+    }
+  },
+  "two_day_simulation": {
+    "source": "fresh initial_world, default NPC schedules, players manual/unhoused, no forced claims or events",
+    "ticks": 288,
+    "homes": [
+      {
+        "id": "home-1",
+        "x": 223.5,
+        "y": 103.5,
+        "level": 1,
+        "owner_id": "npc-1",
+        "owner_name": "林溪",
+        "residents": [
+          {
+            "id": "npc-1",
+            "name": "林溪",
+            "family": {
+              "group": null,
+              "kin": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "home-2",
+        "x": 424.0,
+        "y": 95.5,
+        "level": 1,
+        "owner_id": null,
+        "owner_name": null,
+        "residents": []
+      },
+      {
+        "id": "home-3",
+        "x": 587.5,
+        "y": 95.5,
+        "level": 1,
+        "owner_id": null,
+        "owner_name": null,
+        "residents": []
+      },
+      {
+        "id": "home-4",
+        "x": 214.5,
+        "y": 583.5,
+        "level": 1,
+        "owner_id": "npc-3",
+        "owner_name": "周木",
+        "residents": [
+          {
+            "id": "npc-3",
+            "name": "周木",
+            "family": {
+              "group": null,
+              "kin": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "home-5",
+        "x": 422.5,
+        "y": 583.5,
+        "level": 1,
+        "owner_id": "npc-4",
+        "owner_name": "许宁",
+        "residents": [
+          {
+            "id": "npc-4",
+            "name": "许宁",
+            "family": {
+              "group": "b",
+              "kin": "sibling"
+            }
+          },
+          {
+            "id": "npc-6",
+            "name": "陆川",
+            "family": {
+              "group": "b",
+              "kin": "sibling"
+            }
+          }
+        ]
+      },
+      {
+        "id": "home-6",
+        "x": 590.0,
+        "y": 583.5,
+        "level": 1,
+        "owner_id": null,
+        "owner_name": null,
+        "residents": []
+      },
+      {
+        "id": "home-7",
+        "x": 793.0,
+        "y": 580.0,
+        "level": 1,
+        "owner_id": "npc-2",
+        "owner_name": "陈禾",
+        "residents": [
+          {
+            "id": "npc-2",
+            "name": "陈禾",
+            "family": {
+              "group": "a",
+              "kin": "spouse"
+            }
+          },
+          {
+            "id": "npc-5",
+            "name": "苏晴",
+            "family": {
+              "group": "a",
+              "kin": "spouse"
+            }
+          }
+        ]
+      }
+    ],
+    "event_counts": {
+      "contribute": 3,
+      "harvest_veg": 3,
+      "forage": 2,
+      "gather": 2,
+      "mine": 11,
+      "gather_honey": 2,
+      "harvest_flax": 2,
+      "home_claimed": 4,
+      "sleep": 14,
+      "rest": 14,
+      "bake": 6,
+      "sell": 12,
+      "feast": 1,
+      "milestone": 4,
+      "work": 2,
+      "wake": 14,
+      "eat": 16,
+      "farm": 3,
+      "leisure": 9,
+      "weather": 2,
+      "fortune": 2,
+      "eat_fruit": 4,
+      "buy": 2,
+      "fatigue": 11
+    },
+    "family_events": [],
+    "unhoused": [
+      "张果",
+      "王崛",
+      "李展博",
+      "孙祥",
+      "钱俊昊",
+      "姚富恩"
+    ]
+  }
+}

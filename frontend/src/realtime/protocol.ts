@@ -14,6 +14,23 @@ const safeKey = (key: string) =>
 const integer = (v: unknown) => finite(v) && Number.isInteger(v) && v >= 0;
 const numericRecord = (v: unknown) =>
   object(v) && Object.entries(v).every(([k, n]) => safeKey(k) && integer(n));
+const inventoryRecord = (v: unknown) =>
+  object(v) &&
+  Object.entries(v).every(
+    ([k, value]) =>
+      safeKey(k) &&
+      (integer(value) ||
+        (["fish", "soup", "meal", "vegetable", "fruit"].includes(k) &&
+          Array.isArray(value) &&
+          value.every(
+            (batch) =>
+              object(batch) &&
+              integer(batch.qty) &&
+              batch.qty > 0 &&
+              integer(batch.fresh) &&
+              batch.fresh <= 100,
+          ))),
+  );
 const action = (a: unknown) => object(a) && typeof a.type === "string";
 function resident(a: unknown): a is Resident {
   if (
@@ -29,13 +46,17 @@ function resident(a: unknown): a is Resident {
   )
     return false;
   return (
+    (a.family === undefined ||
+      (object(a.family) &&
+        [null, "a", "b"].includes(a.family.group) &&
+        [null, "spouse", "sibling"].includes(a.family.kin))) &&
     typeof a.npc === "boolean" &&
     typeof a.online === "boolean" &&
     typeof a.mode === "string" &&
     typeof a.last_outcome === "string" &&
     integer(a.completed) &&
     integer(a.earned) &&
-    numericRecord(a.inventory) &&
+    inventoryRecord(a.inventory) &&
     (a.delivery_log === undefined ||
       (object(a.delivery_log) &&
         Number.isInteger(a.delivery_log.day) &&
@@ -75,7 +96,42 @@ function validEvents(v: unknown): v is TownEvent[] {
 function world(v: unknown): v is Town {
   return (
     object(v) &&
+    (v.homes === undefined ||
+      (Array.isArray(v.homes) &&
+        v.homes.every(
+          (h) =>
+            object(h) &&
+            typeof h.id === "string" &&
+            safeKey(h.id) &&
+            finite(h.x) &&
+            finite(h.y) &&
+            integer(h.level) &&
+            h.level >= 1 &&
+            h.level <= 3 &&
+            (h.owner_id === null ||
+              (typeof h.owner_id === "string" && safeKey(h.owner_id))),
+        ))) &&
     integer(v.tick) &&
+    (v.market_day === undefined ||
+      (object(v.market_day) &&
+        (v.market_day.until_tick === undefined ||
+          integer(v.market_day.until_tick)))) &&
+    (v.family_state === undefined ||
+      (object(v.family_state) &&
+        object(v.family_state.groups) &&
+        object(v.family_state.invitations) &&
+        Object.entries(v.family_state.invitations).every(
+          ([key, i]) =>
+            safeKey(key) &&
+            object(i) &&
+            ["a", "b"].includes(i.group) &&
+            ["pending", "accepted", "expired"].includes(i.status) &&
+            [i.host_id, i.guest_id, i.home_id].every(
+              (id) => typeof id === "string" && safeKey(id),
+            ) &&
+            integer(i.issued_tick) &&
+            integer(i.expires_tick),
+        ))) &&
     integer(v.schema_version) &&
     object(v.agents) &&
     Object.entries(v.agents).every(
@@ -111,7 +167,19 @@ function world(v: unknown): v is Town {
     object(v.activity_goal) &&
     typeof v.activity_goal.name === "string" &&
     integer(v.activity_goal.trades) &&
-    integer(v.activity_goal.target)
+    integer(v.activity_goal.target) &&
+    (v.flood_effort === undefined ||
+      v.flood_effort === null ||
+      (object(v.flood_effort) &&
+        integer(v.flood_effort.goal) &&
+        integer(v.flood_effort.donated) &&
+        integer(v.flood_effort.deadline_tick) &&
+        Array.isArray(v.flood_effort.participants) &&
+        v.flood_effort.participants.every(
+          (id: unknown) => typeof id === "string" && safeKey(id),
+        ) &&
+        (v.flood_effort.settled === undefined ||
+          typeof v.flood_effort.settled === "boolean")))
   );
 }
 export function applyPacket(
@@ -144,6 +212,8 @@ export function applyPacket(
   )
     throw Error("无效增量");
   const allowed = [
+    "homes",
+    "family_state",
     "schema_version",
     "map_version",
     "supply",
@@ -157,6 +227,8 @@ export function applyPacket(
     "economy_total",
     "weather",
     "season",
+    "market_day",
+    "flood_effort",
   ];
   if (
     !Object.keys(packet.set).every((k) => allowed.includes(k)) ||

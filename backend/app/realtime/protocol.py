@@ -1,12 +1,18 @@
 """Versioned, explicit deltas. Baselines are per connection, never per user."""
 
 from copy import deepcopy
+from ..domain.reputation import reputation_title
 
 
 def personalize(snapshot, uid, online):
     packet = deepcopy(snapshot)
+    packet["world"]["orders"] = [
+        order for order in packet["world"].get("orders", [])
+        if order.get("private_to") in (None, uid)
+    ]
     for key, agent in packet["world"]["agents"].items():
         agent["online"] = key in online
+        agent["title"] = reputation_title(agent.get("reputation", 0))
         if key != uid:
             for field in ("plan", "policy", "spent_today"):
                 agent.pop(field, None)

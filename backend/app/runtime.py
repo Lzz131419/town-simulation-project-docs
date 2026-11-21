@@ -5,12 +5,13 @@ import time
 from copy import deepcopy
 from sqlalchemy import select
 from .database import Session
-from .models import World, Event, LoginSession, Departure
+from .models import World, Event, LoginSession
 from .engine import tick_world, check_invariants
 from .security import digest
 from .realtime.protocol import personalize, delta
 from .telemetry import metrics, log
 from .services.history import sample_world
+from .domain.migration import upgrade_world
 
 
 class TownRuntime:
@@ -68,20 +69,46 @@ class TownRuntime:
         if task and task is not asyncio.current_task():
             task.cancel()
 
-    def record_departure(self, uid):
-        if self.online(uid):
-            return
+    def _presence_commit(self, uid, leaving, only_active=False):
+        from .services.proxy_life import depart, return_home
+
         with Session.begin() as db:
-            w = db.get(World, 1)
-            if not w:
-                return
-            a = w.data["agents"][uid]
-            point = {"tick": w.data["tick"], "cash": a["cash"], "completed": a["completed"]}
-            row = db.get(Departure, uid)
-            if row:
-                row.checkpoint = point
+            row = db.get(World, 1)
+            if not row:
+                return None, None
+            w = deepcopy(row.data)
+            if leaving:
+                result, changed = None, depart(db, w, uid)
             else:
-                db.add(Departure(user_id=uid, checkpoint=point))
+                result, changed = return_home(db, w, uid, only_active)
+            if changed:
+                check_invariants(w)
+                row.data = w
+                row.revision += 1
+                db.flush()
+                packet = self._read(db, row)
+            else:
+                packet = None
+        return result, packet
+
+    async def _presence(self, uid, leaving, only_active=False):
+        async with self.lock:
+            if leaving and self.online(uid):
+                return None
+            (result, packet), cancelled = await settled_thread(
+                self._presence_commit, uid, leaving, only_active
+            )
+            if packet:
+                self._publish(packet)
+            if cancelled:
+                raise asyncio.CancelledError
+            return result
+
+    async def record_departure(self, uid):
+        return await self._presence(uid, True)
+
+    async def return_summary(self, uid, only_active=False):
+        return await self._presence(uid, False, only_active)
 
     async def disconnect_session(self, sid):
         for ws, v in list(self.clients.items()):
@@ -124,6 +151,8 @@ class TownRuntime:
             with Session.begin() as db:
                 row = db.get(World, 1)
                 w = deepcopy(row.data)
+                # Upgrade inside the same transaction as every mutation, including ticks.
+                upgrade_world(w)
                 events = []
                 result = fn(w, events)
                 check_invariants(w)
@@ -188,7 +217,7 @@ class TownRuntime:
         except Exception:
             metrics.add("ws_send_failures_total")
             self.disconnect(ws)
-            await asyncio.to_thread(self.record_departure, client["uid"])
+            await self.record_departure(client["uid"])
             try:
                 await asyncio.wait_for(ws.close(code=4002), self.send_timeout)
             except Exception:
@@ -221,7 +250,7 @@ class TownRuntime:
                         self.valid_connection, ws
                     ):
                         self.disconnect(ws)
-                        await run_blocking(self.record_departure, v["uid"])
+                        await self.record_departure(v["uid"])
                         try:
                             await asyncio.wait_for(ws.close(code=4001), self.send_timeout)
                         except Exception:

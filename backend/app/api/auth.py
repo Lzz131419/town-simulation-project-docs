@@ -12,13 +12,18 @@ router = APIRouter()
 
 
 @router.post("/api/auth/login")
-def login(data: Login, response: Response):
-    with Session.begin() as db:
-        u = db.get(User, data.username)
-        if not u or not passwords.verify(data.password, u.password_hash):
-            raise HTTPException(401, "用户名或密码不正确")
-        issue_session(db, u, response)
-        return user_view(u)
+async def login(data: Login, response: Response):
+    def authenticate():
+        with Session.begin() as db:
+            u = db.get(User, data.username)
+            if not u or not passwords.verify(data.password, u.password_hash):
+                raise HTTPException(401, "用户名或密码不正确")
+            issue_session(db, u, response)
+            return user_view(u)
+
+    result = await run_blocking(authenticate)
+    await runtime.return_summary(result["id"])
+    return result
 
 
 @router.post("/api/auth/logout")
@@ -31,6 +36,6 @@ async def logout(request: Request, response: Response, u: U):
 
     await run_blocking(revoke)
     await runtime.disconnect_session(sid)
-    await run_blocking(runtime.record_departure, u.id)
+    await runtime.record_departure(u.id)
     response.delete_cookie(COOKIE, path="/")
     return {"ok": True}

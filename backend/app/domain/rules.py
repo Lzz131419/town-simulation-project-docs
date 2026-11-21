@@ -1,22 +1,33 @@
+from .perishables import valid_inventory
+from .market_day import is_market_day
+
+
 def need(condition, message):
     if not condition:
         raise ValueError(message)
 
 
-def emit(events, w, a, kind, text, **details):
+def emit(events, w, a, event_type, text, **details):
+    if is_market_day(w):
+        details["market_day"] = True
     events.append(
         {
             "tick": w["tick"],
             "actor_id": a["id"] if isinstance(a, dict) else a,
-            "type": kind,
+            "type": event_type,
             "text": text,
             "details": details,
         }
     )
 
 
-def capacity(w):
-    return 60 if w["project"]["completed"] else 30
+def capacity(w, a=None):
+    from .homes import owned_home
+    from ..balance import balance
+    home = owned_home(w, a) if a is not None else None
+    return (60 if w["project"]["completed"] else 30) + (
+        home['level'] * balance.homes.capacity_per_level if home else 0
+    )
 
 
 def check_invariants(w):
@@ -29,7 +40,7 @@ def check_invariants(w):
     need(w["treasury"] >= 0, "公库不足")
     for a in w["agents"].values():
         need(
-            a["cash"] >= 0 and all(isinstance(n, int) and n >= 0 for n in a["inventory"].values()),
+            a["cash"] >= 0 and valid_inventory(a["inventory"]),
             "资产数据错误",
         )
         need(0 <= a["energy"] <= 100 and 0 <= a["hunger"] <= 100, "居民状态错误")

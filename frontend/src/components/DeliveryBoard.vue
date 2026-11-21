@@ -3,7 +3,8 @@ import { computed } from "vue";
 import { Truck, Check, Coins } from "lucide-vue-next";
 import { useTown } from "../stores/town";
 import { usePlanQueue } from "../composables/usePlanQueue";
-import { itemNames } from "../types";
+import { isMarketDay } from "../game/market-day";
+import { invQty, itemNames } from "../types";
 const { world, me, catalog, action, pending } = useTown();
 const { append } = usePlanQueue();
 const today = computed(
@@ -15,9 +16,17 @@ const completed = computed(() =>
     : [],
 );
 const limit = computed(() => catalog.value.delivery_daily_limit ?? 3);
+function reward(base: number) {
+  return (
+    base *
+    (world.value && isMarketDay(world.value)
+      ? (catalog.value.rules?.market_day?.delivery_multiplier ?? 2)
+      : 1)
+  );
+}
 function shortage(inputs: Record<string, number>) {
   return Object.entries(inputs).some(
-    ([k, n]) => (me.value?.inventory[k] ?? 0) < n,
+    ([k, n]) => invQty(me.value?.inventory[k]) < n,
   );
 }
 </script>
@@ -35,12 +44,12 @@ function shortage(inputs: Record<string, number>) {
     >
       <div class="delivery-title">
         <h3>{{ request.name }}</h3>
-        <strong><Coins :size="13" />{{ request.reward }} 镇币</strong>
+        <strong><Coins :size="13" />{{ reward(request.reward) }} 镇币</strong>
       </div>
       <p v-for="(n, item) in request.inputs" :key="item">
         {{ itemNames[item] }}
-        <span :class="{ missing: (me?.inventory[item] ?? 0) < n }"
-          >{{ me?.inventory[item] ?? 0 }} / {{ n }}</span
+        <span :class="{ missing: invQty(me?.inventory[item]) < n }"
+          >{{ invQty(me?.inventory[item]) }} / {{ n }}</span
         >
       </p>
       <div v-if="completed.includes(String(id))" class="delivery-done">
@@ -50,7 +59,7 @@ function shortage(inputs: Record<string, number>) {
         今日额度已用完
       </p>
       <p
-        v-else-if="(world?.treasury ?? 0) < request.reward"
+        v-else-if="(world?.treasury ?? 0) < reward(request.reward)"
         class="delivery-note"
       >
         公共预算不足

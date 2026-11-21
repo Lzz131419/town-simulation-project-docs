@@ -1,4 +1,5 @@
 import asyncio
+from anyio import CancelScope
 import time
 from urllib.parse import urlsplit
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
@@ -40,6 +41,9 @@ async def socket(ws: WebSocket):
     protocol = 2 if ws.query_params.get("protocol") == "2" else 1
     runtime.connect(ws, u.id, token, protocol)
     try:
+        summary = await runtime.return_summary(u.id, only_active=True)
+        if summary:
+            await runtime.send(ws, {"type": "return_summary", "summary": summary})
         if protocol == 1:
             await runtime.send(ws, await asyncio.to_thread(runtime.snapshot, u.id))
         await runtime.broadcast()
@@ -58,7 +62,9 @@ async def socket(ws: WebSocket):
         pass
     finally:
         runtime.disconnect(ws)
-        await asyncio.to_thread(runtime.record_departure, u.id)
+        # Socket teardown must finish the durable checkpoint even if cancelled.
+        with CancelScope(shield=True):
+            await runtime.record_departure(u.id)
         try:
             await ws.close()
         except (RuntimeError, WebSocketDisconnect):

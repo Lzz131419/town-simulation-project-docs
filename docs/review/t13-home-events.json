@@ -1,0 +1,183 @@
+{
+  "source": "isolated initial_world fixture; no running database mutated",
+  "homes": [
+    {
+      "id": "home-1",
+      "x": 223.5,
+      "y": 103.5,
+      "level": 1,
+      "owner_id": null
+    },
+    {
+      "id": "home-2",
+      "x": 424.0,
+      "y": 95.5,
+      "level": 1,
+      "owner_id": null
+    },
+    {
+      "id": "home-3",
+      "x": 587.5,
+      "y": 95.5,
+      "level": 1,
+      "owner_id": null
+    },
+    {
+      "id": "home-4",
+      "x": 214.5,
+      "y": 583.5,
+      "level": 1,
+      "owner_id": null
+    },
+    {
+      "id": "home-5",
+      "x": 422.5,
+      "y": 583.5,
+      "level": 3,
+      "owner_id": "wangjue"
+    },
+    {
+      "id": "home-6",
+      "x": 590.0,
+      "y": 583.5,
+      "level": 1,
+      "owner_id": null
+    },
+    {
+      "id": "home-7",
+      "x": 793.0,
+      "y": 580.0,
+      "level": 1,
+      "owner_id": null
+    }
+  ],
+  "capacity": 60,
+  "events": [
+    {
+      "tick": 0,
+      "actor_id": "wangjue",
+      "type": "home_claimed",
+      "text": "王崛 在南岸安了家",
+      "details": {
+        "home_id": "home-5",
+        "level": 1
+      }
+    },
+    {
+      "tick": 0,
+      "actor_id": "wangjue",
+      "type": "upgrade_home",
+      "text": "王崛 的家升到了 2 级",
+      "details": {
+        "before": {
+          "cash": 380,
+          "inventory": {
+            "grain": 0,
+            "bread": 3,
+            "wood": 45,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0
+          },
+          "energy": 85,
+          "hunger": 20
+        },
+        "home_id": "home-5",
+        "level": 2,
+        "wood": 15,
+        "amount": 60,
+        "after": {
+          "cash": 320,
+          "inventory": {
+            "grain": 0,
+            "bread": 3,
+            "wood": 30,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0
+          },
+          "energy": 85,
+          "hunger": 20
+        }
+      }
+    },
+    {
+      "tick": 0,
+      "actor_id": "wangjue",
+      "type": "upgrade_home",
+      "text": "王崛 的家升到了 3 级",
+      "details": {
+        "before": {
+          "cash": 320,
+          "inventory": {
+            "grain": 0,
+            "bread": 3,
+            "wood": 30,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0
+          },
+          "energy": 85,
+          "hunger": 20
+        },
+        "home_id": "home-5",
+        "level": 3,
+        "wood": 30,
+        "amount": 150,
+        "after": {
+          "cash": 170,
+          "inventory": {
+            "grain": 0,
+            "bread": 3,
+            "wood": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0
+          },
+          "energy": 85,
+          "hunger": 20
+        }
+      }
+    }
+  ]
+}

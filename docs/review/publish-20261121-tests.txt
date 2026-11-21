@@ -1,0 +1,87 @@
+
+> mist-river-town@2.0.0 test:coverage
+> .venv/bin/python -m pytest backend/tests -q --cov=backend/app --cov-report=term-missing --cov-report=xml:.local/backend-coverage.xml --cov-fail-under=90
+
+........................................................................ [ 15%]
+........................................................................ [ 31%]
+........................................................................ [ 47%]
+........................................................................ [ 63%]
+........................................................................ [ 79%]
+........................................................................ [ 95%]
+......................                                                   [100%]
+================================ tests coverage ================================
+______________ coverage: platform darwin, python 3.12.10-final-0 _______________
+
+Name                                       Stmts   Miss  Cover   Missing
+------------------------------------------------------------------------
+backend/app/__init__.py                        0      0   100%
+backend/app/ai/__init__.py                     0      0   100%
+backend/app/ai/planner.py                     87      1    99%   89
+backend/app/ai/provider.py                    51      4    92%   29-30, 35, 101
+backend/app/ai/records.py                     23      0   100%
+backend/app/ai/response.py                    21      3    86%   11, 13, 19
+backend/app/api/__init__.py                    0      0   100%
+backend/app/api/ai.py                         60     31    48%   49-65, 70-77, 82-85, 90-93, 98-99
+backend/app/api/archives.py                   59      6    90%   16-20, 100-102
+backend/app/api/auth.py                       33      0   100%
+backend/app/api/dependencies.py                7      0   100%
+backend/app/api/health.py                     32      0   100%
+backend/app/api/messages.py                   20      0   100%
+backend/app/api/orders.py                     17      1    94%   20
+backend/app/api/profile.py                    16      0   100%
+backend/app/api/realtime.py                   54      7    87%   26-27, 33-34, 38-39, 55
+backend/app/api/world.py                     127      2    98%   84, 191
+backend/app/balance.py                       165      0   100%
+backend/app/bootstrap.py                      21      0   100%
+backend/app/catalog.py                        41      0   100%
+backend/app/config.py                         27      5    81%   27, 30-34
+backend/app/database.py                       17      0   100%
+backend/app/db.py                              3      0   100%
+backend/app/domain/__init__.py                 0      0   100%
+backend/app/domain/actions.py                280      4    99%   60, 310-311, 381
+backend/app/domain/deliveries.py              35      0   100%
+backend/app/domain/economy.py                 40      1    98%   13
+backend/app/domain/family.py                 149      2    99%   160, 181
+backend/app/domain/fortune.py                104      4    96%   16, 37, 58, 150
+backend/app/domain/homes.py                   68      0   100%
+backend/app/domain/initiatives.py             63      1    98%   46
+backend/app/domain/leisure.py                 71      0   100%
+backend/app/domain/market_day.py              13      0   100%
+backend/app/domain/memories.py                 6      0   100%
+backend/app/domain/migration.py              119      7    94%   20-21, 25-26, 85, 90-91
+backend/app/domain/orders.py                  68      0   100%
+backend/app/domain/perishables.py             65      1    98%   25
+backend/app/domain/plans.py                   25      0   100%
+backend/app/domain/progression.py             19      0   100%
+backend/app/domain/recipes.py                  3      0   100%
+backend/app/domain/reputation.py              20      0   100%
+backend/app/domain/rules.py                   22      0   100%
+backend/app/domain/scheduler.py              336     12    96%   85, 228, 234, 242-248, 253, 325, 330, 434-436
+backend/app/domain/sleep.py                   80      0   100%
+backend/app/domain/social.py                  10      0   100%
+backend/app/domain/weather.py                 60      0   100%
+backend/app/engine.py                          5      0   100%
+backend/app/infrastructure/__init__.py         0      0   100%
+backend/app/infrastructure/async_io.py        19      0   100%
+backend/app/infrastructure/http.py            50      4    92%   36, 56-65, 79
+backend/app/infrastructure/migrations.py      10      0   100%
+backend/app/main.py                           54      2    96%   36, 70
+backend/app/models.py                         73      0   100%
+backend/app/pathfinding.py                    80      3    96%   38, 65, 101
+backend/app/realtime/__init__.py               0      0   100%
+backend/app/realtime/protocol.py              17      0   100%
+backend/app/runtime.py                       205     20    90%   38, 78, 119-120, 206, 217-224, 252-257, 265
+backend/app/schemas.py                        43      0   100%
+backend/app/security.py                       28      0   100%
+backend/app/services/__init__.py               0      0   100%
+backend/app/services/commands.py              51      0   100%
+backend/app/services/container.py              4      0   100%
+backend/app/services/history.py               20      0   100%
+backend/app/services/proxy_life.py            90      0   100%
+backend/app/telemetry.py                      35      0   100%
+backend/app/world_map.py                       4      0   100%
+------------------------------------------------------------------------
+TOTAL                                       3325    121    96%
+Coverage XML written to file .local/backend-coverage.xml
+Required test coverage of 90% reached. Total coverage: 96.36%
+454 passed in 37.89s

@@ -2,7 +2,7 @@ from ..services import commands
 from fastapi import APIRouter, Query
 from sqlalchemy import select
 from ..database import Session
-from ..models import World, Event, Departure, WorldSample
+from ..models import World, Event, WorldSample
 from ..catalog import MEMBERS, ITEMS, PLACES, ACTIONS
 from ..config import settings
 from ..balance import balance
@@ -10,6 +10,8 @@ from ..pathfinding import route, MOVEMENT_PER_TICK
 import math
 from ..domain.progression import MILESTONES
 from ..domain.deliveries import REQUESTS, DAILY_LIMIT
+from ..domain.homes import home_destination
+from ..domain.reputation import project_agent, reputation_title
 from ..schemas import Policy, Control, Action, Plan, PlanEdit
 from ..services.container import runtime
 from .dependencies import U
@@ -97,27 +99,8 @@ def events(
 
 
 @router.get("/api/return-summary")
-def return_summary(u: U):
-    with Session() as db:
-        point = db.get(Departure, u.id)
-        if not point:
-            return None
-        w = db.get(World, 1).data
-        a = w["agents"][u.id]
-        p = point.checkpoint
-        rows = db.scalars(
-            select(Event)
-            .where(Event.actor_id == u.id, Event.tick > p["tick"])
-            .order_by(Event.id.desc())
-            .limit(8)
-        ).all()
-        return {
-            "since_tick": p["tick"],
-            "current_tick": w["tick"],
-            "completed": a["completed"] - p["completed"],
-            "cash_change": a["cash"] - p["cash"],
-            "recent": [r.text for r in rows],
-        }
+async def return_summary(u: U):
+    return await runtime.return_summary(u.id)
 
 
 @router.get("/api/report")
@@ -135,12 +118,14 @@ def report(u: U):
         return {
             "series": [{"tick": s.tick, **s.data} for s in reversed(samples)],
             "fiscal": balance.fiscal.model_dump(),
-            "me": w["agents"][u.id],
+            "me": project_agent(w["agents"][u.id]),
             "recent": [{"id": e.id, "tick": e.tick, "type": e.type, "text": e.text} for e in rows],
             "ranking": [
                 {
                     "id": a["id"],
                     "name": a["name"],
+                    "reputation": a.get("reputation", 0),
+                    "title": reputation_title(a.get("reputation", 0)),
                     "completed": a["completed"],
                     "earned": a["earned"],
                     "contribution": w["project"]["contributors"].get(a["id"], 0),
@@ -151,13 +136,103 @@ def report(u: U):
         }
 
 
+def _economy_bucket(day):
+    """Create a stable daily shape for the economy report and its empty days."""
+    return {
+        "day": day,
+        "trade_amount": 0,
+        "trade_count": 0,
+        "production": {},
+        "levy_total": 0,
+        "spoilage_loss": 0,
+    }
+
+
+@router.get("/api/report/economy")
+def economy_report(u: U, days: int = Query(default=7, ge=1, le=31)):
+    """Aggregate structured economic events over the most recent simulation days."""
+    del u  # The dependency is intentionally retained to keep report auth identical.
+    ticks_per_day = balance.weather.ticks_per_day
+    with Session() as db:
+        world_row = db.get(World, 1)
+        world_data = world_row.data if world_row else {}
+        end_tick = int(world_data.get("tick", 0))
+        start_tick = max(0, end_tick - days * ticks_per_day + 1)
+        rows = db.scalars(
+            select(Event)
+            .where(Event.tick >= start_tick, Event.tick <= end_tick)
+            .order_by(Event.tick, Event.id)
+        ).all()
+
+    # Keep only days that are in the requested range.  Days containing only
+    # non-economic events still expose explicit zero metrics for charting.
+    buckets = {}
+    for event in rows:
+        day = event.tick // ticks_per_day
+        bucket = buckets.setdefault(day, _economy_bucket(day))
+        details = event.details or {}
+        event_type = event.type
+        if event_type == "leisure":
+            continue
+
+        # Market buys/sells and filled orders are transactions.  Posted,
+        # cancelled, and expired orders carry amount for auditability but are
+        # excluded from turnover.
+        is_trade = event_type in {"buy", "sell", "trade"}
+        if event_type == "order":
+            transaction_type = details.get("transaction_type")
+            is_trade = transaction_type in {"filled", "fill"} or (
+                transaction_type not in {"posted", "cancelled", "expired"}
+                and ("amount" in details or "buyer" in details)
+            )
+        if is_trade:
+            amount = details.get("amount")
+            if amount is None:
+                amount = details.get("unit_price", 0) * details.get("quantity", 0)
+            if isinstance(amount, (int, float)):
+                bucket["trade_amount"] += amount
+                bucket["trade_count"] += 1
+
+        outputs = details.get("outputs")
+        if isinstance(outputs, dict):
+            for item, quantity in outputs.items():
+                if isinstance(quantity, (int, float)):
+                    bucket["production"][item] = bucket["production"].get(item, 0) + quantity
+
+        if event_type == "levy" and isinstance(details.get("amount"), (int, float)):
+            bucket["levy_total"] += details["amount"]
+        if event_type == "spoilage" and isinstance(details.get("quantity"), (int, float)):
+            bucket["spoilage_loss"] += details["quantity"]
+
+    daily = [buckets[day] for day in sorted(buckets)]
+    totals = _economy_bucket(-1)
+    totals.pop("day")
+    for bucket in daily:
+        totals["trade_amount"] += bucket["trade_amount"]
+        totals["trade_count"] += bucket["trade_count"]
+        totals["levy_total"] += bucket["levy_total"]
+        totals["spoilage_loss"] += bucket["spoilage_loss"]
+        for item, quantity in bucket["production"].items():
+            totals["production"][item] = totals["production"].get(item, 0) + quantity
+    return {
+        "days": days,
+        "start_tick": start_tick,
+        "end_tick": end_tick,
+        "daily": daily,
+        "series": daily,
+        "totals": totals,
+    }
+
+
 @router.get("/api/me/route")
 def preview_route(place: str, u: U):
     if place not in PLACES:
         raise ValueError("地点不存在")
     with Session() as db:
-        a = db.get(World, 1).data["agents"][u.id]
-        points = route(a["x"], a["y"], PLACES[place]["x"], PLACES[place]["y"])
+        w = db.get(World, 1).data
+        a = w["agents"][u.id]
+        target = home_destination(w, a) if place == "home" else PLACES[place]
+        points = route(a["x"], a["y"], target["x"], target["y"], w)
         x, y, distance = a["x"], a["y"], 0
         for point in points:
             distance += math.hypot(point["x"] - x, point["y"] - y)

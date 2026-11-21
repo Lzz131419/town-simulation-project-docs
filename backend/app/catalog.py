@@ -1,6 +1,8 @@
+from .domain.perishables import PERISHABLES, inv_add
 from .domain.recipes import RECIPES, CONSUMABLES, TOOL_BONUS
 from .world_map import LAYOUT, OBSTACLES as OBSTACLES
 from .domain.progression import new_progress
+from .balance import balance
 
 MEMBERS = [
     ("zhangguo", "张果"),
@@ -10,7 +12,20 @@ MEMBERS = [
     ("qianjunhao", "钱俊昊"),
     ("yaofuen", "姚富恩"),
 ]
+NPC_PERSONALITIES = dict(
+    zip(
+        [f"npc-{i}" for i in range(1, 7)],
+        ["introvert", "diligent", "merchant", "generous", "sociable", "quiet"],
+    )
+)
+NPC_FAMILIES = {
+    "npc-2": {"group": "a", "kin": "spouse"},
+    "npc-5": {"group": "a", "kin": "spouse"},
+    "npc-4": {"group": "b", "kin": "sibling"},
+    "npc-6": {"group": "b", "kin": "sibling"},
+}
 ITEMS = {
+    "spoiled": {"name": "变质食物", "buy": 1, "sell": 1},
     "vegetable": {"name": "蔬菜", "buy": 3, "sell": 2},
     "honey": {"name": "蜂蜜", "buy": 5, "sell": 3},
     "flax": {"name": "亚麻", "buy": 3, "sell": 2},
@@ -48,12 +63,23 @@ ACTIONS = {
     "craft": {"name": "制作木材", "place": "workshop", "energy": 10},
     "bake": {"name": "烘焙面包", "place": "bakery", "energy": 6},
     "work": {"name": "承接公共工作", "place": "hall", "energy": 8},
+    "upgrade_home": {"name": "升级家园", "place": "home", "energy": 0},
     "rest": {"name": "回家休息", "place": "home", "energy": 0},
     "eat": {"name": "吃一份面包", "place": None, "energy": 0},
     "buy": {"name": "购买物资", "place": "market", "energy": 0},
     "sell": {"name": "出售物资", "place": "market", "energy": 0},
     "social": {"name": "参加邻里活动", "place": "plaza", "energy": 4},
+    "stroll": {"name": "在河边散步", "place": "meadow", "energy": 2},
+    "visit": {"name": "串门", "place": "home", "energy": 0},
+    # The map's fishery is the existing riverside fishing platform, so it is also
+    # the closest available place for quiet daydreaming.
+    "daydream": {"name": "看着河水发呆", "place": "fishery", "energy": 0},
+    "play": {"name": "在广场玩耍", "place": "plaza", "energy": 3},
+    "shop_browse": {"name": "在集市闲逛", "place": "market", "energy": 2},
+    "gift": {"name": "赠送面包", "place": "plaza", "energy": 0},
     "contribute": {"name": "捐建共享仓库", "place": "hall", "energy": 0},
+    "reinforce": {"name": "加固河堤", "place": "hall", "energy": 4,
+                  "inputs": {"wood": 2}},
     "move": {"name": "前往地点", "place": None, "energy": 0},
     "gather": {"name": "采集水果", "place": "orchard", "energy": 7},
     "fish": {"name": "河边钓鱼", "place": "fishery", "energy": 8},
@@ -69,6 +95,7 @@ for action, bonus in TOOL_BONUS.items():
 
 
 def initial_world():
+    from .domain.homes import new_homes
     agents = {}
     for i, (uid, name) in enumerate(MEMBERS):
         agents[uid] = {
@@ -107,6 +134,7 @@ def initial_world():
             "id": uid,
             "name": name,
             "npc": True,
+            "personality": NPC_PERSONALITIES[uid],
             "x": 360 + i * 45,
             "y": 480,
             "cash": 60,
@@ -131,14 +159,34 @@ def initial_world():
             "last_outcome": "",
         }
     for agent in agents.values():
+        agent.update(reputation=0, reputation_day=-1, reputation_changed_today=0)
+        if agent["npc"]:
+            agent.update(next_private_order_tick=0, next_gift_tick=0, next_interaction_tick=0)
+        agent.update(home_id=None, sleeping=None, fatigue=0, sleep_history=[], sleep_tracking_since=0)
+        agent["family"] = dict(NPC_FAMILIES.get(agent["id"], {"group": None, "kin": None}))
+        agent["memories"] = []
         agent["progress"] = new_progress()
         agent["delivery_log"] = {"day": -1, "items": []}
         for item in ITEMS:
             agent["inventory"].setdefault(item, 0)
+            if item in PERISHABLES:
+                inv_add(agent["inventory"], item, 0)
+    for agent in agents.values():
+        for other in agents.values():
+            if agent["id"] != other["id"] and agent["family"]["group"] and agent["family"]["group"] == other["family"]["group"]:
+                agent["relations"][other["id"]] = balance.family.baseline
     return {
+        "family_state": {"groups": {}, "invitations": {}},
+        "homes": new_homes(),
         "schema_version": 2,
         "map_version": LAYOUT["version"],
         "tick": 0,
+        "market_day": {},
+        "market_modifiers": {},
+        "action_modifiers": {},
+        "bridge_closed_until": 0,
+        "flood_effort": None,
+        "feast_day": -1,
         "agents": agents,
         "supply": {"completed": 0, "goods": {}},
         "market": {
@@ -169,4 +217,5 @@ def initial_world():
         "economy_total": 2840,
         "weather": "sunny",
         "season": "spring",
+        "rng_seed": balance.weather.initial_seed,
     }

@@ -4,22 +4,74 @@ import { useTown } from "../stores/town";
 import TrendChart from "./charts/TrendChart.vue";
 import ResourceChart from "./charts/ResourceChart.vue";
 import RelationshipGraph from "./charts/RelationshipGraph.vue";
-const { report, world, me, loadReport } = useTown();
-const metric = ref<"treasury" | "resident_cash" | "trades">("treasury");
+const { report, economy, world, me, loadReport } = useTown();
+const metric = ref<
+  "trade_amount" | "production" | "treasury" | "resident_cash" | "trades"
+>("trade_amount");
 const labels = {
+  trade_amount: "每日交易额",
+  production: "每日产量",
   treasury: "公共资金",
   resident_cash: "居民持有镇币",
   trades: "累计成交次数",
 };
 const points = computed(() =>
-  (report.value?.series ?? []).map((s: any) => ({
-    tick: s.tick,
-    value: s[metric.value],
-  })),
+  ["trade_amount", "production"].includes(metric.value)
+    ? (economy.value?.daily ?? []).map((s: any) => ({
+        tick: s.day * 144,
+        value:
+          metric.value === "production"
+            ? Object.values(s.production ?? {}).reduce(
+                (sum: number, value: any) => sum + Number(value || 0),
+                0,
+              )
+            : (s[metric.value] ?? 0),
+      }))
+    : (report.value?.series ?? []).map((s: any) => ({
+        tick: s.tick,
+        value: s[metric.value] ?? 0,
+      })),
 );
+const latest = computed(() => report.value?.series?.at(-1) ?? world.value);
+const weatherNames: Record<string, string> = {
+  sunny: "晴天",
+  cloudy: "多云",
+  rain: "雨天",
+  storm: "暴雨",
+};
+const seasonNames: Record<string, string> = {
+  spring: "春季",
+  summer: "夏季",
+  autumn: "秋季",
+  winter: "冬季",
+};
 </script>
 <template>
   <section v-if="world && me" class="report-dashboard">
+    <div class="report-overview">
+      <article class="card report-chip">
+        <span>当前国库</span
+        ><strong>{{ latest?.treasury ?? world.treasury }}</strong
+        ><small>镇币</small>
+      </article>
+      <article class="card report-chip">
+        <span>居民总现金</span
+        ><strong>{{ latest?.resident_cash ?? "—" }}</strong
+        ><small>镇币</small>
+      </article>
+      <article class="card report-chip">
+        <span>今日天气</span
+        ><strong>{{
+          weatherNames[latest?.weather ?? world.weather] ?? "—"
+        }}</strong>
+      </article>
+      <article class="card report-chip">
+        <span>当前季节</span
+        ><strong>{{
+          seasonNames[latest?.season ?? world.season] ?? "—"
+        }}</strong>
+      </article>
+    </div>
     <article class="card economy-chart">
       <div class="section-heading">
         <h2>小镇经济走势</h2>
@@ -33,7 +85,9 @@ const points = computed(() =>
       <TrendChart
         :points="points"
         :label="labels[metric]"
-        :unit="metric === 'trades' ? '笔' : '镇币'"
+        :unit="
+          metric === 'production' ? '份' : metric === 'trades' ? '笔' : '镇币'
+        "
       />
       <p class="fiscal-note" v-if="report?.fiscal">
         每日午夜，对超过

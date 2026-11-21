@@ -1,0 +1,1067 @@
+{
+  "method": "initial_world(), default seed 42, 432 consecutive tick_world calls (3 x 144 ticks), six NPCs unchanged; no teleport, injected relations, home claims or forced probabilities in natural run",
+  "start_tick": 0,
+  "end_tick": 432,
+  "invariants": "passed each tick and at end",
+  "npc_distribution": [
+    {
+      "id": "npc-1",
+      "name": "林溪",
+      "personality": "introvert",
+      "counts": {
+        "stroll": 0,
+        "visit": 0,
+        "daydream": 1,
+        "play": 0,
+        "shop_browse": 0
+      },
+      "total": 1
+    },
+    {
+      "id": "npc-2",
+      "name": "陈禾",
+      "personality": "diligent",
+      "counts": {
+        "stroll": 1,
+        "visit": 0,
+        "daydream": 0,
+        "play": 0,
+        "shop_browse": 0
+      },
+      "total": 1
+    },
+    {
+      "id": "npc-3",
+      "name": "周木",
+      "personality": "merchant",
+      "counts": {
+        "stroll": 1,
+        "visit": 0,
+        "daydream": 0,
+        "play": 0,
+        "shop_browse": 3
+      },
+      "total": 4
+    },
+    {
+      "id": "npc-4",
+      "name": "许宁",
+      "personality": "generous",
+      "counts": {
+        "stroll": 0,
+        "visit": 0,
+        "daydream": 0,
+        "play": 3,
+        "shop_browse": 0
+      },
+      "total": 3
+    },
+    {
+      "id": "npc-5",
+      "name": "苏晴",
+      "personality": "sociable",
+      "counts": {
+        "stroll": 0,
+        "visit": 0,
+        "daydream": 0,
+        "play": 1,
+        "shop_browse": 2
+      },
+      "total": 3
+    },
+    {
+      "id": "npc-6",
+      "name": "陆川",
+      "personality": "quiet",
+      "counts": {
+        "stroll": 0,
+        "visit": 0,
+        "daydream": 2,
+        "play": 0,
+        "shop_browse": 1
+      },
+      "total": 3
+    }
+  ],
+  "events": [
+    {
+      "tick": 78,
+      "actor_id": "npc-5",
+      "type": "leisure",
+      "text": "苏晴在集市闲逛",
+      "details": {
+        "before": {
+          "cash": 60,
+          "inventory": {
+            "grain": 3,
+            "bread": 3,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 2,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 72,
+          "hunger": 59
+        },
+        "kind": "shop_browse",
+        "item": "fish",
+        "price": 3,
+        "base": 4,
+        "after": {
+          "cash": 60,
+          "inventory": {
+            "grain": 3,
+            "bread": 3,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 2,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 70,
+          "hunger": 59
+        }
+      }
+    },
+    {
+      "tick": 79,
+      "actor_id": "npc-4",
+      "type": "leisure",
+      "text": "许宁和邻居们在广场玩耍",
+      "details": {
+        "before": {
+          "cash": 50,
+          "inventory": {
+            "grain": 3,
+            "bread": 3,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 3,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 64,
+          "hunger": 59
+        },
+        "kind": "play",
+        "participants": [
+          "sunxiang",
+          "qianjunhao",
+          "yaofuen",
+          "npc-4",
+          "npc-5"
+        ],
+        "group": true,
+        "after": {
+          "cash": 50,
+          "inventory": {
+            "grain": 3,
+            "bread": 3,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 3,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 61,
+          "hunger": 62
+        }
+      }
+    },
+    {
+      "tick": 162,
+      "actor_id": "npc-6",
+      "type": "leisure",
+      "text": "陆川看着河水发呆",
+      "details": {
+        "before": {
+          "cash": 70,
+          "inventory": {
+            "grain": 4,
+            "bread": 0,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 4
+          },
+          "energy": 100,
+          "hunger": 66
+        },
+        "kind": "daydream",
+        "energy_gain": 2,
+        "after": {
+          "cash": 70,
+          "inventory": {
+            "grain": 4,
+            "bread": 0,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 4
+          },
+          "energy": 100,
+          "hunger": 66
+        }
+      }
+    },
+    {
+      "tick": 197,
+      "actor_id": "npc-1",
+      "type": "leisure",
+      "text": "林溪看着河水发呆",
+      "details": {
+        "before": {
+          "cash": 70,
+          "inventory": {
+            "grain": 4,
+            "bread": 1,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [
+              {
+                "qty": 2,
+                "fresh": 100
+              }
+            ],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 93,
+          "hunger": 56
+        },
+        "kind": "daydream",
+        "energy_gain": 2,
+        "after": {
+          "cash": 70,
+          "inventory": {
+            "grain": 4,
+            "bread": 1,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [
+              {
+                "qty": 2,
+                "fresh": 100
+              }
+            ],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 95,
+          "hunger": 56
+        }
+      }
+    },
+    {
+      "tick": 203,
+      "actor_id": "npc-3",
+      "type": "leisure",
+      "text": "周木在河边散步",
+      "details": {
+        "before": {
+          "cash": 91,
+          "inventory": {
+            "grain": 1,
+            "bread": 1,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [
+              {
+                "qty": 3,
+                "fresh": 100
+              }
+            ],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 83.0,
+          "hunger": 29
+        },
+        "kind": "stroll",
+        "after": {
+          "cash": 91,
+          "inventory": {
+            "grain": 1,
+            "bread": 1,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [
+              {
+                "qty": 3,
+                "fresh": 100
+              }
+            ],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 81.0,
+          "hunger": 29
+        }
+      }
+    },
+    {
+      "tick": 216,
+      "actor_id": "npc-6",
+      "type": "leisure",
+      "text": "陆川看着河水发呆",
+      "details": {
+        "before": {
+          "cash": 70,
+          "inventory": {
+            "grain": 0,
+            "bread": 5,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 4
+          },
+          "energy": 88,
+          "hunger": 58
+        },
+        "kind": "daydream",
+        "energy_gain": 2,
+        "after": {
+          "cash": 70,
+          "inventory": {
+            "grain": 0,
+            "bread": 5,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 4
+          },
+          "energy": 90,
+          "hunger": 58
+        }
+      }
+    },
+    {
+      "tick": 219,
+      "actor_id": "npc-3",
+      "type": "leisure",
+      "text": "周木在集市闲逛",
+      "details": {
+        "before": {
+          "cash": 93,
+          "inventory": {
+            "grain": 1,
+            "bread": 0,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [
+              {
+                "qty": 3,
+                "fresh": 100
+              }
+            ],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 81.0,
+          "hunger": 38
+        },
+        "kind": "shop_browse",
+        "item": "bread",
+        "price": 3,
+        "base": 4,
+        "after": {
+          "cash": 93,
+          "inventory": {
+            "grain": 1,
+            "bread": 0,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [
+              {
+                "qty": 3,
+                "fresh": 100
+              }
+            ],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 79.0,
+          "hunger": 38
+        }
+      }
+    },
+    {
+      "tick": 240,
+      "actor_id": "npc-6",
+      "type": "leisure",
+      "text": "陆川在集市闲逛",
+      "details": {
+        "before": {
+          "cash": 70,
+          "inventory": {
+            "grain": 0,
+            "bread": 4,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 4
+          },
+          "energy": 90,
+          "hunger": 35
+        },
+        "kind": "shop_browse",
+        "item": "bread",
+        "price": 3,
+        "base": 4,
+        "after": {
+          "cash": 70,
+          "inventory": {
+            "grain": 0,
+            "bread": 4,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 4
+          },
+          "energy": 88,
+          "hunger": 35
+        }
+      }
+    },
+    {
+      "tick": 246,
+      "actor_id": "npc-2",
+      "type": "leisure",
+      "text": "陈禾在河边散步",
+      "details": {
+        "before": {
+          "cash": 60,
+          "inventory": {
+            "grain": 3,
+            "bread": 0,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 22,
+            "herb": 0
+          },
+          "energy": 87,
+          "hunger": 38
+        },
+        "kind": "stroll",
+        "after": {
+          "cash": 60,
+          "inventory": {
+            "grain": 3,
+            "bread": 0,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 22,
+            "herb": 0
+          },
+          "energy": 85,
+          "hunger": 38
+        }
+      }
+    },
+    {
+      "tick": 249,
+      "actor_id": "npc-5",
+      "type": "leisure",
+      "text": "苏晴和邻居们在广场玩耍",
+      "details": {
+        "before": {
+          "cash": 68,
+          "inventory": {
+            "grain": 3,
+            "bread": 0,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 2,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 90.0,
+          "hunger": 41
+        },
+        "kind": "play",
+        "participants": [
+          "sunxiang",
+          "qianjunhao",
+          "yaofuen",
+          "npc-5"
+        ],
+        "group": true,
+        "after": {
+          "cash": 68,
+          "inventory": {
+            "grain": 3,
+            "bread": 0,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 2,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 87.0,
+          "hunger": 44
+        }
+      }
+    },
+    {
+      "tick": 351,
+      "actor_id": "npc-4",
+      "type": "leisure",
+      "text": "许宁和邻居们在广场玩耍",
+      "details": {
+        "before": {
+          "cash": 51,
+          "inventory": {
+            "grain": 1,
+            "bread": 2,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 1,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 54,
+          "hunger": 37
+        },
+        "kind": "play",
+        "participants": [
+          "sunxiang",
+          "qianjunhao",
+          "yaofuen",
+          "npc-3",
+          "npc-4",
+          "npc-6"
+        ],
+        "group": true,
+        "after": {
+          "cash": 51,
+          "inventory": {
+            "grain": 1,
+            "bread": 2,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 1,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 49,
+          "hunger": 40
+        }
+      }
+    },
+    {
+      "tick": 358,
+      "actor_id": "npc-3",
+      "type": "leisure",
+      "text": "周木在集市闲逛",
+      "details": {
+        "before": {
+          "cash": 99,
+          "inventory": {
+            "grain": 1,
+            "bread": 0,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 60,
+          "hunger": 20
+        },
+        "kind": "shop_browse",
+        "item": "wood",
+        "price": 3,
+        "base": 5,
+        "after": {
+          "cash": 99,
+          "inventory": {
+            "grain": 1,
+            "bread": 0,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 56,
+          "hunger": 20
+        }
+      }
+    },
+    {
+      "tick": 362,
+      "actor_id": "npc-3",
+      "type": "leisure",
+      "text": "周木在集市闲逛",
+      "details": {
+        "before": {
+          "cash": 99,
+          "inventory": {
+            "grain": 1,
+            "bread": 0,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 56,
+          "hunger": 23
+        },
+        "kind": "shop_browse",
+        "item": "bread",
+        "price": 3,
+        "base": 4,
+        "after": {
+          "cash": 99,
+          "inventory": {
+            "grain": 1,
+            "bread": 0,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 52,
+          "hunger": 23
+        }
+      }
+    },
+    {
+      "tick": 374,
+      "actor_id": "npc-5",
+      "type": "leisure",
+      "text": "苏晴在集市闲逛",
+      "details": {
+        "before": {
+          "cash": 68,
+          "inventory": {
+            "grain": 1,
+            "bread": 2,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 4,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 60,
+          "hunger": 72
+        },
+        "kind": "shop_browse",
+        "item": "herb",
+        "price": 4,
+        "base": 6,
+        "after": {
+          "cash": 68,
+          "inventory": {
+            "grain": 1,
+            "bread": 2,
+            "wood": 2,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 4,
+            "flax": 0,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 56,
+          "hunger": 72
+        }
+      }
+    },
+    {
+      "tick": 375,
+      "actor_id": "npc-4",
+      "type": "leisure",
+      "text": "许宁和邻居们在广场玩耍",
+      "details": {
+        "before": {
+          "cash": 57,
+          "inventory": {
+            "grain": 1,
+            "bread": 2,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 1,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 39,
+          "hunger": 52
+        },
+        "kind": "play",
+        "participants": [
+          "sunxiang",
+          "qianjunhao",
+          "yaofuen",
+          "npc-4",
+          "npc-5"
+        ],
+        "group": true,
+        "after": {
+          "cash": 57,
+          "inventory": {
+            "grain": 1,
+            "bread": 2,
+            "wood": 0,
+            "spoiled": 0,
+            "vegetable": [],
+            "honey": 0,
+            "flax": 1,
+            "cloth": 0,
+            "furniture": 0,
+            "soup": [],
+            "meal": [],
+            "tool": 0,
+            "fruit": [],
+            "fish": [],
+            "ore": 0,
+            "herb": 0
+          },
+          "energy": 34,
+          "hunger": 55
+        }
+      }
+    }
+  ],
+  "controlled_decision_samples": {
+    "method": "3000 decisions per personality at 15:00, Random(1414), one eligible owned-home host at relationship 40; probability is default 0.4 / diligent 0.2; not a world simulation",
+    "rows": [
+      {
+        "personality": "introvert",
+        "counts": {
+          "none": 1806,
+          "stroll": 471,
+          "daydream": 495,
+          "shop_browse": 95,
+          "visit": 69,
+          "play": 64
+        }
+      },
+      {
+        "personality": "diligent",
+        "counts": {
+          "none": 2378,
+          "stroll": 180,
+          "daydream": 182,
+          "visit": 89,
+          "shop_browse": 92,
+          "play": 79
+        }
+      },
+      {
+        "personality": "merchant",
+        "counts": {
+          "none": 1794,
+          "daydream": 68,
+          "shop_browse": 863,
+          "stroll": 104,
+          "visit": 81,
+          "play": 90
+        }
+      },
+      {
+        "personality": "generous",
+        "counts": {
+          "none": 1802,
+          "daydream": 71,
+          "play": 496,
+          "stroll": 85,
+          "visit": 458,
+          "shop_browse": 88
+        }
+      },
+      {
+        "personality": "sociable",
+        "counts": {
+          "none": 1802,
+          "daydream": 71,
+          "play": 496,
+          "stroll": 85,
+          "visit": 458,
+          "shop_browse": 88
+        }
+      },
+      {
+        "personality": "quiet",
+        "counts": {
+          "none": 1829,
+          "stroll": 132,
+          "daydream": 849,
+          "shop_browse": 66,
+          "visit": 66,
+          "play": 58
+        }
+      }
+    ]
+  }
+}

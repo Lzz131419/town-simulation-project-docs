@@ -8,6 +8,7 @@ from app.domain.actions import execute, start_action
 from app.domain.recipes import RECIPES, CONSUMABLES
 from app.domain.migration import upgrade_world
 from app.domain.rules import check_invariants
+from app.domain.perishables import inv_qty, inv_total
 from app.domain.scheduler import fallback_action
 
 
@@ -70,7 +71,9 @@ def test_recipes_match_catalog_and_actual_inventory(kind):
     a["inventory"] = {k: 0 for k in ITEMS}
     a["inventory"].update(RECIPES[kind]["inputs"])
     execute(w, a, {"type": kind}, [])
-    assert {k: n for k, n in a["inventory"].items() if n} == RECIPES[kind]["outputs"]
+    assert {
+        k: inv_qty(a["inventory"], k) for k in a["inventory"] if inv_qty(a["inventory"], k)
+    } == RECIPES[kind]["outputs"]
     assert ACTIONS[kind]["outputs"] == RECIPES[kind]["outputs"]
     assert a["energy"] == 100 - ACTIONS[kind]["energy"]
     check_invariants(w)
@@ -95,7 +98,7 @@ def test_tool_chain_bonus_and_failed_work_do_not_consume_assets():
     a["inventory"] = {k: 0 for k in ITEMS}
     a["inventory"].update(ore=28, wood=2)
     execute(w, a, {"type": "forge"}, [])
-    assert sum(a["inventory"].values()) == 27
+    assert inv_total(a["inventory"]) == 27
     a["inventory"].update(tool=1, ore=29, wood=0)
     before = deepcopy(a)
     with pytest.raises(ValueError):
@@ -113,7 +116,7 @@ def test_food_tea_and_picnic_have_real_bounded_effects(kind):
     execute(w, a, {"type": kind}, [])
     assert a["energy"] == min(100, 90 + CONSUMABLES[kind]["energy_gain"])
     assert a["hunger"] == max(0, 10 - CONSUMABLES[kind]["hunger_relief"])
-    assert sum(a["inventory"].values()) == 0
+    assert inv_total(a["inventory"]) == 0
     before = deepcopy(a)
     with pytest.raises(ValueError):
         execute(w, a, {"type": kind}, [])
@@ -125,7 +128,7 @@ def test_arrival_required_and_rule_fallback_gathers_missing_ingredients():
     a = w["agents"]["wangjue"]
     events = []
     start_action(w, a, {"type": "gather"}, events)
-    assert a["inventory"]["fruit"] == 0 and a["path"] and a["task"]["type"] == "gather"
+    assert inv_qty(a["inventory"], "fruit") == 0 and a["path"] and a["task"]["type"] == "gather"
     a["policy"]["fallback"] = "grill"
     assert fallback_action(w, a)["type"] == "fish"
     a["inventory"]["fish"] = 1
