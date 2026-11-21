@@ -88,7 +88,7 @@ Running 10 tests using 1 worker
   10 passed (11.1s)
 ```
 
-截图：[三级住宅同框](../../.local/t13-homes/three-level-homes.png)。**已实际打开并查看截图**：左侧一级保留原外观，中间二级砖墙与加高烟囱清晰，右侧三级宽屋檐、花坛、院篱清晰，文字无遮挡。截图来自真实 TownScene 的独立 SceneReader fixture，不调用 API、不修改运行中的存档；视觉 fixture 给三栋指定等级，用于确定性验收，不代表现有玩家存档已经升级。
+截图：[三级住宅同框](../v2/evidence/three-level-homes.png)。**已实际打开并查看截图**：左侧一级保留原外观，中间二级砖墙与加高烟囱清晰，右侧三级宽屋檐、花坛、院篱清晰，文字无遮挡。截图来自真实 TownScene 的独立 SceneReader fixture，不调用 API、不修改运行中的存档；视觉 fixture 给三栋指定等级，用于确定性验收，不代表现有玩家存档已经升级。
 
 ## 认领/升级事件
 

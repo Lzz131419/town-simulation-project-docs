@@ -19,6 +19,9 @@ for p in mds:
         dest = unquote(dest.split('#')[0].strip('<>'))
         if not dest or re.match(r'[a-z]+://|mailto:', dest): continue
         target = ROOT/dest.lstrip('/') if dest.startswith('/') else p.parent/dest
+        resolved = target.resolve()
+        relative_parts = resolved.relative_to(ROOT).parts if resolved.is_relative_to(ROOT) else Path(dest).parts
+        check(not any(part in {'.local', '.venv', 'node_modules'} for part in relative_parts), f'local-only link cannot be published: {p.relative_to(ROOT)} -> {dest}')
         check(target.exists(), f'broken link: {p.relative_to(ROOT)} -> {dest}')
         link_count += 1
     # Governance templates and historical records are intentionally exempt.
